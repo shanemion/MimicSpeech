@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { BothRecordAndTTS } from "./BothRecordAndTTS.js";
+import { BothRecordAndTTS } from "./RecorderAndTTS.js";
 
 const AudioRecorder = ({ sendToTTS }) => {
   const [isRecording, setIsRecording] = useState(false);

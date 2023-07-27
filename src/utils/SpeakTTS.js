@@ -1,12 +1,15 @@
-import { SPEECH_KEY, SPEECH_REGION }from "../apikeys.js";
+import { SPEECH_KEY, SPEECH_REGION } from "../apikeys.js";
+import SelectedVoice from "../services/language/LanguageString";
 
 const sdk = require("microsoft-cognitiveservices-speech-sdk");
 
-const speechConfig = sdk.SpeechConfig.fromSubscription(SPEECH_KEY, SPEECH_REGION);
-speechConfig.speechSynthesisVoiceName = "zh-CN-YunxiNeural";
-const synthesizer = new sdk.SpeechSynthesizer(speechConfig);
+const SpeakText = async (text, selectedLanguage, selectedGender) => {
+  const selectedVoice = SelectedVoice(selectedLanguage, selectedGender);
 
-async function speakText(text) {
+  const speechConfig = sdk.SpeechConfig.fromSubscription(SPEECH_KEY, SPEECH_REGION);
+  speechConfig.speechSynthesisVoiceName = selectedVoice;
+  const synthesizer = new sdk.SpeechSynthesizer(speechConfig);
+
   return new Promise((resolve, reject) => {
     synthesizer.speakTextAsync(
       text,
@@ -26,6 +29,6 @@ async function speakText(text) {
       }
     );
   });
-}
+};
 
-export default speakText;
+export default SpeakText;

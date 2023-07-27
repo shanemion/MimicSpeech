@@ -1,20 +1,23 @@
-import React, { useEffect, useState } from "react";
-import ResponseRenderer from "./ResponseRenderer";
-import { ResponseCleaner } from "../utils/ResponseCleaner";
-import AudioRecorder from "./AudioRecorder";
-import { OPENAI_KEY } from "../apikeys";
+import React, { useEffect, useState, useContext } from "react";
+import ResponseRenderer from "../ResponseRenderer";
+import { ResponseCleaner } from "../../utils/ResponseCleaner";
+import AudioRecorder from "../AudioRecorder";
+import { OPENAI_KEY } from "../../apikeys";
+import LanguageContext from "../../services/language/LanguageContext";
 
-import speakText from "../utils/TestTTS";
+import SpeakText from "../../utils/SpeakTTS";
 
-const PromptGenerator = () => {
+const VietnameseResponseGenerator = () => {
+  const { selectedLanguage, selectedGender } = useContext(LanguageContext);
+
   const [userPrompt, setUserPrompt] = useState("A reporter giving daily news.");
   const [responseLength, setResponseLength] = useState(3); // Default response length in sentences
   const [generatedResponse, setGeneratedResponse] = useState(""); // State variable for the generated response
   const [selectedPage, setSelectedPage] = useState(
-    "Chinese, Pinyin, and English"
+    "Three"
   );
   const [audioURL, setAudioURL] = useState(null); // State variable to store the TTS audio URL
-  const [chineseString, setChineseString] = useState("");
+  const [mainString, setMainString] = useState("");
   const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(true);
 
   const handlePromptChange = (event) => {
@@ -27,9 +30,9 @@ const PromptGenerator = () => {
 
   const handleGenerateResponse = async () => {
     const prompt = `
-        You will receive a topic in English and will return a translated text output in simplified Mandarin Chinese, pinyin, and english on the topic. 
-        In your response, make the sentences humanlike, use common grammar patterns and sentence structure in Chinese, and proper punctuation. 
-        The completion should be ${responseLength} sentences for each mode of output (Chinese, Pinyin, and English).
+        You will receive a topic in English and will return a translated text output in Vietnamese and english on the topic. 
+        In your response, make the sentences humanlike, use common grammar patterns and sentence structure in Vietnamese, and proper punctuation. 
+        The completion should be ${responseLength} sentences for each mode of output (Vietnamese and English).
         Here is the prompt: ${userPrompt}`;
 
     console.log(prompt);
@@ -66,21 +69,23 @@ const PromptGenerator = () => {
   };
 
   async function sendToTTS() {
-    const textToRead = chineseString;
-    console.log("chineseString", textToRead);
+    const textToRead = mainString;
+    console.log("mainString", textToRead);
     try {
-      const audioURL = await speakText(textToRead);
+      console.log("selectedLanguage", selectedLanguage);
+      const audioURL = await SpeakText(textToRead, selectedLanguage, selectedGender);
       console.log("TTS Audio URL:", audioURL);
     } catch (error) {
       console.error("Error generating TTS:", error);
     }
   }
 
+
   useEffect(() => {
     const sentences = ResponseCleaner(generatedResponse, responseLength);
-    const chineseSentences = sentences[0];
-    const newChineseString = chineseSentences.join(" ");
-    setChineseString(newChineseString);
+    const mainLanguage = sentences[0];
+    const newReadString = mainLanguage.join(" ");
+    setMainString(newReadString);
     setAudioURL(null); // Reset the audio URL when the TTS text changes
   }, [generatedResponse, responseLength]);
 
@@ -88,7 +93,6 @@ const PromptGenerator = () => {
 
   return (
     <div>
-      {/* Prompt input */}
       <div>
         <label>
           Enter Your Prompt:
@@ -107,12 +111,9 @@ const PromptGenerator = () => {
       </div>
       <button onClick={handleGenerateResponse}>Generate Response</button>
       <div>
-        <button onClick={() => setSelectedPage("Chinese")}>Chinese</button>
-        <button onClick={() => setSelectedPage("Chinese and Pinyin")}>
-          Chinese and Pinyin
-        </button>
-        <button onClick={() => setSelectedPage("Chinese, Pinyin, and English")}>
-          Chinese, Pinyin, and English
+        <button onClick={() => setSelectedPage("One")}>Vietnamese</button>
+        <button onClick={() => setSelectedPage("Two")}>
+          Vietnamese and English
         </button>
       </div>
       <ResponseRenderer sentences={sentences} selectedPage={selectedPage} />
@@ -124,4 +125,4 @@ const PromptGenerator = () => {
   );
 };
 
-export default PromptGenerator;
+export default VietnameseResponseGenerator;

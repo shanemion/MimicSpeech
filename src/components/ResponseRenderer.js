@@ -3,11 +3,11 @@ import React from "react";
 const ResponseRenderer = ({ sentences, selectedPage }) => {
   const renderSentences = () => {
     switch (selectedPage) {
-      case "Chinese":
+      case "One":
         // sentences[0] is the list that needs to be read by TTS
         console.log("sentences[0]", sentences[0])
         return <div>{sentences[0].map((sentence) => <p>{sentence}</p>)}</div>;
-      case "Chinese and Pinyin":
+      case "Two":
         return (
           <div>
             {sentences[0].map((sentence, index) => (
@@ -18,7 +18,7 @@ const ResponseRenderer = ({ sentences, selectedPage }) => {
             ))}
           </div>
         );
-      case "Chinese, Pinyin, and English":
+      case "Three":
         return (
           <div>
             {sentences[0].map((sentence, index) => (
