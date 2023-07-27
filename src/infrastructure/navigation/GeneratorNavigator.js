@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 import ChineseResponseGenerator from "../../components/generators/ChineseResponseGenerator";
-import SpanishResponseGenerator from "../../components/generators/JapaneseResponseGenerator";
+import EnglishResponseGenerator from "../../components/generators/EnglishResponseGenerator";
 import BurmeseResponseGenerator from "../../components/generators/BurmeseResponseGenerator";
 import JapaneseResponseGenerator from "../../components/generators/JapaneseResponseGenerator";
 import VietnameseResponseGenerator from "../../components/generators/VietnameseResponseGenerator";
@@ -19,7 +19,7 @@ export const Navigator = () => {
     return (
         <>
             {(language === "Chinese" || language === null) && <ChineseResponseGenerator />}
-            {language === "Spanish" && <SpanishResponseGenerator />}
+            {language === "English" && <EnglishResponseGenerator />}
             {language === "Burmese" && <BurmeseResponseGenerator />}
             {language === "Japanese" && <JapaneseResponseGenerator />}
             {language === "Vietnamese" && <VietnameseResponseGenerator />}

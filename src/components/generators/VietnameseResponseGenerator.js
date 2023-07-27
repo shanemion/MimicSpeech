@@ -14,7 +14,7 @@ const VietnameseResponseGenerator = () => {
   const [responseLength, setResponseLength] = useState(3); // Default response length in sentences
   const [generatedResponse, setGeneratedResponse] = useState(""); // State variable for the generated response
   const [selectedPage, setSelectedPage] = useState(
-    "Three"
+    "Two"
   );
   const [audioURL, setAudioURL] = useState(null); // State variable to store the TTS audio URL
   const [mainString, setMainString] = useState("");

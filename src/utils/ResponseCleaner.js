@@ -3,9 +3,7 @@ export const ResponseCleaner = (response, numSentences) => {
   response = response.replaceAll("。", ".");
   response = response.replaceAll("!", ".");
   response = response.replaceAll("?", ".");
-  response = response.replaceAll("။", ".");
-  response = response.replaceAll("၏", ".");
-  response = response.replaceAll("း။", ".");
+
 
   const sentences = response.split(/[.！?]/);
 

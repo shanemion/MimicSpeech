@@ -13,7 +13,7 @@ export const LangAndGenderSelector = () => {
       { value: "English", label: "English" },
       { value: "Japanese", label: "Japanese" },
       { value: "Vietnamese", label: "Vietnamese"},
-      { value: "Burmese", label: "Burmese"}
+      // { value: "Burmese", label: "Burmese"}
     ];
 
     const handleChange = (selectedOption) => {
