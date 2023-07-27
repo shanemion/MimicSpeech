@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
+import { useAuth } from "../../services/firebase/FirebaseAuth";
 import ResponseRenderer from "../ResponseRenderer";
 import { ResponseCleaner } from "../../utils/ResponseCleaner";
 import AudioRecorder from "../AudioRecorder";
@@ -8,8 +9,8 @@ import LanguageContext from "../../services/language/LanguageContext";
 import SpeakText from "../../utils/SpeakTTS";
 
 const ChineseResponseGenerator = () => {
+  const { currentUser, saveResponse } = useAuth();  // Use the saveResponse function from AuthContext
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
-
   const [userPrompt, setUserPrompt] = useState("A reporter giving daily news.");
   const [responseLength, setResponseLength] = useState(3); // Default response length in sentences
   const [generatedResponse, setGeneratedResponse] = useState(""); // State variable for the generated response
@@ -55,7 +56,7 @@ const ChineseResponseGenerator = () => {
       // Update the state with the generated response
       setGeneratedResponse(response.data.choices[0].text);
       console.log("Response from API:", response.data.choices[0].text);
-
+      saveResponse(currentUser.uid, { text: response.data.choices[0].text, audioUrl: "fake.test/url" }, "Chinese");
       setIsPlayButtonDisabled(false);
     } catch (error) {
       console.error("Error generating response:", error);
