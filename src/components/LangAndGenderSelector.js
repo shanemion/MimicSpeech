@@ -2,6 +2,8 @@ import React, { useContext } from "react";
 import Select from "react-select";
 import LanguageContext from "../services/language/LanguageContext";
 
+import "../styles.css"; // Adjust the path according to your project structure
+
 export const LangAndGenderSelector = () => {
   const { selectedLanguage, setSelectedLanguage, selectedGender, setSelectedGender } = useContext(
     LanguageContext
@@ -26,7 +28,7 @@ export const LangAndGenderSelector = () => {
         value={selectedLanguage}
         onChange={handleChange}
         options={languageOptions}
-        placeholder="Select a language..."
+        placeholder="Choose a Language"
       />
     );
   };
@@ -47,16 +49,14 @@ export const LangAndGenderSelector = () => {
         value={selectedGender}
         onChange={handleChange}
         options={genderOptions}
-        placeholder="Select a gender..."
+        placeholder="Choose a Voice"
       />
     );
   };
 
   return (
-    <div>
-      <h1>Choose a Language:</h1>
+    <div className="selectorContainer">
       <LanguageSelector />
-      <h1>Choose a Gender:</h1>
       <GenderSelector />
     </div>
   );

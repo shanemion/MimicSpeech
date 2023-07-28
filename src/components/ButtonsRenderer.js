@@ -1,7 +1,7 @@
 import React from "react";
-import { Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../services/firebase/FirebaseAuth';
+import "../styles.css"
 
 export default function AuthButtons() {
   const navigate = useNavigate();
@@ -22,13 +22,13 @@ export default function AuthButtons() {
     <div className="auth-buttons">
       {currentUser ? (
         <>
-          <Button variant="contained" onClick={handleLogout}>Logout</Button>
-          <Button variant="contained" onClick={() => navigate("/saved")}>View Saved</Button>
+          <button className="authButton" onClick={handleLogout}>Logout</button>
+          <button className="authButton" onClick={() => navigate("/saved")}>View Saved</button>
         </>
       ) : (
         <>
-          <Button variant="contained" onClick={() => navigate("/login")}>Login</Button>
-          <Button variant="contained" onClick={() => navigate("/register")}>Register</Button>
+          <button className="authButton" onClick={() => navigate("/login")}>Login</button>
+          <button className="authButton" onClick={() => navigate("/register")}>Register</button>
         </>
       )}
     </div>

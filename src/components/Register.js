@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../services/firebase/FirebaseAuth';
 
 const Register = () => {
     const { register } = useAuth();
     const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false);
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -17,8 +19,11 @@ const Register = () => {
         }
     };
 
+    const closeMenu = () => setIsOpen(false); // This function will close the menu
+    const handleStateChange = (state) => setIsOpen(state.isOpen);
+
     return (
-        <div>
+        <div isOpen={isOpen} onStateChange={handleStateChange}>
             <h1>Register</h1>
             <form onSubmit={handleSubmit}>
                 <label>Email
@@ -27,7 +32,7 @@ const Register = () => {
                 <label>Password
                     <input name="password" type="password" placeholder="Password" required />
                 </label>
-                <button type="submit">Register</button>
+                <button type="submit" onClick={closeMenu} >Register</button>
             </form>
         </div>
     );

@@ -4,28 +4,37 @@ import { LangAndGenderSelector } from "./components/LangAndGenderSelector";
 import { Navigator } from "./infrastructure/navigation/GeneratorNavigator";
 import LanguageProvider from "./services/language/LanguageProvider";
 import Login from "./components/Login";
-import Register from './components/Register';
-import AuthButtons from './components/ButtonsRenderer';
-import { AuthProvider } from './services/firebase/FirebaseAuth';
-import SavedResponses from './components/SavedResponses'; 
+import Register from "./components/Register";
+import AuthButtons from "./components/ButtonsRenderer";
+import { AuthProvider } from "./services/firebase/FirebaseAuth";
+import SavedResponses from "./components/SavedResponses";
+import { Title } from "./components/Title";
+import useWindowSize from "./utils/WindowSize";
+import { Burger } from "./components/Burger";
 
 function App() {
+  const { width } = useWindowSize();
   return (
     <Router>
       <div className="App">
         <AuthProvider>
-          <AuthButtons />
+          <div className="titleContainer">
+            <Title />
+            {width > 768 ? <AuthButtons /> : <Burger />}
+          </div>
           <Routes>
-          <Route path="/*" element={
-              <LanguageProvider>
-                <LangAndGenderSelector />
-                <Navigator />
-              </LanguageProvider>
-            }/>
+            <Route
+              path="/*"
+              element={
+                <LanguageProvider>
+                  <LangAndGenderSelector />
+                  <Navigator />
+                </LanguageProvider>
+              }
+            />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/saved" element={<SavedResponses />} />
-            
           </Routes>
         </AuthProvider>
       </div>
