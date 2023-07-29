@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { BothRecordAndTTS } from "./RecorderAndTTS.js";
+import "../styles.css";
 
 const AudioRecorder = ({ sendToTTS }) => {
   const [isRecording, setIsRecording] = useState(false);
@@ -65,12 +66,12 @@ const AudioRecorder = ({ sendToTTS }) => {
 
   return (
     <div>
-      <div>
+      <div className="response-options">
         {/* UI for recording and playback */}
-        <button onClick={isRecording ? stopRecording : startRecording}>
+        <button className={isRecording ? "recording" : "not-recording" } onClick={isRecording ? stopRecording : startRecording}>
           {isRecording ? "Stop Recording" : "Start Recording"}
         </button>
-        <button onClick={playRecordedAudio} disabled={!recordedChunks.length}>
+        <button className={!recordedChunks.length ? "disabled" : "response-option" } onClick={playRecordedAudio} disabled={!recordedChunks.length}>
           Play Recorded Audio
         </button>
       </div>

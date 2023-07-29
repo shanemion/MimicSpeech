@@ -4,17 +4,44 @@ import LanguageContext from "../services/language/LanguageContext";
 
 import "../styles.css"; // Adjust the path according to your project structure
 
-export const LangAndGenderSelector = () => {
-  const { selectedLanguage, setSelectedLanguage, selectedGender, setSelectedGender } = useContext(
-    LanguageContext
-  );
+export const Selectors = ({typeResponse, setTypeResponse}) => {
+  const {
+    selectedLanguage,
+    setSelectedLanguage,
+    selectedGender,
+    setSelectedGender,
+  } = useContext(LanguageContext);
+
+  const AiAndTypeSelector = () => {
+
+    const modeOptions = [
+      { value: false, label: "AI Response" },
+      { value: true, label: "Type Own Response" },
+    ];
+  
+    const handleChange = (selectedOption) => {
+      setTypeResponse(selectedOption.value);
+      console.log("Selected Mode:", selectedOption);
+    };
+  
+    const selectedMode = modeOptions.find(option => option.value === typeResponse);
+  
+    return (
+      <Select
+      className="selectorWidth"        value={selectedMode}
+        onChange={handleChange}
+        options={modeOptions}
+        placeholder="Choose Response Type"
+      />
+    );
+  };
 
   const LanguageSelector = () => {
     const languageOptions = [
       { value: "Chinese", label: "Chinese" },
       { value: "English", label: "English" },
       { value: "Japanese", label: "Japanese" },
-      { value: "Vietnamese", label: "Vietnamese"},
+      { value: "Vietnamese", label: "Vietnamese" },
       // { value: "Burmese", label: "Burmese"}
     ];
 
@@ -25,6 +52,7 @@ export const LangAndGenderSelector = () => {
 
     return (
       <Select
+      className="selectorWidth"
         value={selectedLanguage}
         onChange={handleChange}
         options={languageOptions}
@@ -46,6 +74,7 @@ export const LangAndGenderSelector = () => {
 
     return (
       <Select
+      className="selectorWidth"
         value={selectedGender}
         onChange={handleChange}
         options={genderOptions}
@@ -56,8 +85,12 @@ export const LangAndGenderSelector = () => {
 
   return (
     <div className="selectorContainer">
-      <LanguageSelector />
-      <GenderSelector />
+      <AiAndTypeSelector     
+/>
+      <LanguageSelector    
+/>
+      <GenderSelector     
+/>
     </div>
   );
 };

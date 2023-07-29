@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "../styles.css"
 
 const Countdown = ({ seconds, setSeconds }) => {
   useEffect(() => {
@@ -8,10 +9,13 @@ const Countdown = ({ seconds, setSeconds }) => {
       // Cleanup function to clear the timer when the component unmounts or the seconds change.
       return () => clearTimeout(timer);
     }
+    if (seconds === 0) {
+      setSeconds(3  );
+    }
   }, [seconds, setSeconds]); 
 
   return (
-    <div>
+    <div className="countdown">
       <h1>{seconds}</h1>
     </div>
   );

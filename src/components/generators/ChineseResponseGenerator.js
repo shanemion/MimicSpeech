@@ -5,23 +5,24 @@ import { ResponseCleaner } from "../../utils/ResponseCleaner";
 import AudioRecorder from "../AudioRecorder";
 import { OPENAI_KEY } from "../../apikeys";
 import LanguageContext from "../../services/language/LanguageContext";
+import "../../styles.css";
 
 import SpeakText from "../../utils/SpeakTTS";
 
-const ChineseResponseGenerator = () => {
+const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const { currentUser, saveResponse } = useAuth(); // Use the saveResponse function from AuthContext
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
   const [userPrompt, setUserPrompt] = useState("A reporter giving daily news.");
   const [responseLength, setResponseLength] = useState(3); // Default response length in sentences
   const [generatedResponse, setGeneratedResponse] = useState(""); // State variable for the generated response
-  const [selectedPage, setSelectedPage] = useState("Three");
+  const [selectedPage, setSelectedPage] = useState("One");
   const [audioURL, setAudioURL] = useState(null); // State variable to store the TTS audio URL
   const [mainString, setMainString] = useState("");
   const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(true);
   const [isGenerateDisabled, setIsGenerateDisabled] = useState(false);
-  const [typeResponse, setTypeResponse] = useState(false);
   const [typedResponse, setTypedResponse] = useState("");
   const [isMounted, setIsMounted] = useState(false);
+  const [buttonSelected, setButtonSelected] = useState("One");
 
   useEffect(() => {
     setIsMounted(true);
@@ -36,11 +37,8 @@ const ChineseResponseGenerator = () => {
   };
 
   const handleGenerateResponse = async () => {
-    const prompt = `
-        You will receive a topic in English and will return a translated text output in simplified Mandarin Chinese, pinyin, and english on the topic. 
-        In your response, make the sentences humanlike, use common grammar patterns and sentence structure in Chinese, and proper punctuation. 
-        The completion should be ${responseLength} sentences for each mode of output (Chinese, Pinyin, and English).
-        Here is the prompt: ${userPrompt}`;
+const prompt = `Construct a typical scene based on "${userPrompt}". The response should contain ${responseLength} sentences each of Mandarin Chinese, Pinyin, and English, for a total of ${responseLength*3} sentences. The scene should be experiential and the language humanlike, adhering to common Chinese grammar and proper punctuation.`;
+
 
     console.log(prompt);
 
@@ -114,68 +112,100 @@ const ChineseResponseGenerator = () => {
   return (
     <div>
       <div>
-        <div>
-          <label>
-            Enter Your Prompt:
-            <input
-              type="text"
-              value={userPrompt}
-              onChange={handlePromptChange}
-            />
-          </label>
-        </div>
-        <div>
-          <label>
-            Response Length (in Sentences):
-            <input
-              type="number"
-              value={responseLength}
-              onChange={handleResponseLengthChange}
-            />
-          </label>
-        </div>
-        {!generatedResponse && (
-          <button
-            onClick={() => {
-              handleGenerateResponse();
-              setTypeResponse(true);
-            }}
-            disabled={isGenerateDisabled}
-          >
-            Generate Response
-          </button>
+        {!typeResponse && (
+          <div>
+            <div className="prompt-input">
+              <label htmlFor="prompt">Enter Your Prompt:</label>
+              <input
+                type="text"
+                id="prompt"
+                value={userPrompt}
+                onChange={handlePromptChange}
+              />
+            </div>
+            <div className="response-length-input">
+              <label htmlFor="responseLength">
+                Response Length (in Sentences):
+              </label>
+              <input
+                type="number"
+                id="responseLength"
+                value={responseLength}
+                onChange={handleResponseLengthChange}
+              />
+            </div>
+          </div>
         )}
-        <button
-          onClick={() => {
-            setTypeResponse(!typeResponse);
-            setIsGenerateDisabled(!isGenerateDisabled);
-          }}
-        >
-          {typeResponse ? "Back to Generated Response" : "Type Custom Response"}
-        </button>
+        <div className="center">
+          {!typeResponse && (
+            <button
+              className="generate"
+              onClick={() => {
+                handleGenerateResponse();
+              }}
+              disabled={isGenerateDisabled}
+            >
+              Generate Response
+            </button>
+          )}
+        </div>
       </div>
       {generatedResponse && !typeResponse && (
         <div>
-          <div>
-            <button onClick={() => setSelectedPage("One")}>Chinese</button>
-            <button onClick={() => setSelectedPage("Two")}>
-              Chinese and Pinyin
-            </button>
-            <button onClick={() => setSelectedPage("Three")}>
+          <div className="response-options">
+            <button
+              className={
+                selectedPage === "One"
+                  ? "response-option-selected"
+                  : "response-option"
+              }
+              onClick={() => setSelectedPage("One")}
+            >
               Chinese, Pinyin, and English
             </button>
+            <button
+              className={
+                selectedPage === "Two"
+                  ? "response-option-selected"
+                  : "response-option"
+              }
+              onClick={() => setSelectedPage("Two")}
+            >
+              Chinese and Pinyin
+            </button>
+            <button
+              className={
+                selectedPage === "Three"
+                  ? "response-option-selected"
+                  : "response-option"
+              }
+              onClick={() => setSelectedPage("Three")}
+            >
+              Chinese
+            </button>
           </div>
-          <ResponseRenderer sentences={sentences} selectedPage={selectedPage} />
+          <ResponseRenderer
+            sentences={sentences}
+            selectedPage={selectedPage}
+            newResponse={generatedResponse}
+          />
+          <div className="center">
+            <button
+              className="response-option"
+              onClick={sendToTTS}
+              disabled={isPlayButtonDisabled}
+            >
+              Play Text to Speech
+            </button>
+          </div>
           <AudioRecorder sendToTTS={sendToTTS} />
-          <button onClick={sendToTTS} disabled={isPlayButtonDisabled}>
-            Play Most Recent TTS
-          </button>
         </div>
       )}
       {typeResponse && (
         <div>
           <div>
             <textarea
+              placeholder="Type your response in chosen language here..."
               value={typedResponse}
               onChange={(event) => {
                 const newText = event.target.value;
@@ -183,10 +213,16 @@ const ChineseResponseGenerator = () => {
                 setIsPlayButtonDisabled(newText.trim() === "");
               }}
             />
+            <div className="center">
+              <button
+                className="bottom-options"
+                onClick={sendToTTS}
+                disabled={isPlayButtonDisabled}
+              >
+                Play Text to Speech
+              </button>
+            </div>
             <AudioRecorder sendToTTS={sendToTTS} />
-            <button onClick={sendToTTS} disabled={isPlayButtonDisabled}>
-              Play Most Recent TTS
-            </button>
           </div>
         </div>
       )}

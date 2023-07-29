@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { LangAndGenderSelector } from "./components/LangAndGenderSelector";
 import { Navigator } from "./infrastructure/navigation/GeneratorNavigator";
 import LanguageProvider from "./services/language/LanguageProvider";
 import Login from "./components/Login";
@@ -11,31 +10,47 @@ import SavedResponses from "./components/SavedResponses";
 import { Title } from "./components/Title";
 import useWindowSize from "./utils/WindowSize";
 import { Burger } from "./components/Burger";
+import { Selectors } from "./components/Selectors";
+import { Footer } from "./components/Footer";
 
 function App() {
   const { width } = useWindowSize();
+  const [typeResponse, setTypeResponse] = useState(false);
+
   return (
     <Router>
-      <div className="App">
+      <div className="page-container">
         <AuthProvider>
-          <div className="titleContainer">
-            <Title />
-            {width > 768 ? <AuthButtons /> : <Burger />}
+          <div className="App">
+            <div className="titleContainer">
+              <Title />
+              {width > 768 ? <AuthButtons /> : <Burger />}
+            </div>
+            <div className="content">
+              <Routes>
+                <Route
+                  path="/*"
+                  element={
+                    <LanguageProvider>
+                      <Selectors
+                        className="selectors"
+                        typeResponse={typeResponse}
+                        setTypeResponse={setTypeResponse}
+                      />
+                      <Navigator
+                        typeResponse={typeResponse}
+                        setTypeResponse={setTypeResponse}
+                      />
+                    </LanguageProvider>
+                  }
+                />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route path="/saved" element={<SavedResponses />} />
+              </Routes>
+            </div>
+            {/* <Footer /> */}
           </div>
-          <Routes>
-            <Route
-              path="/*"
-              element={
-                <LanguageProvider>
-                  <LangAndGenderSelector />
-                  <Navigator />
-                </LanguageProvider>
-              }
-            />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            <Route path="/saved" element={<SavedResponses />} />
-          </Routes>
         </AuthProvider>
       </div>
     </Router>

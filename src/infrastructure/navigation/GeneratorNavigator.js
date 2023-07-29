@@ -8,7 +8,7 @@ import VietnameseResponseGenerator from "../../components/generators/VietnameseR
 import LanguageContext from "../../services/language/LanguageContext";
 
 
-export const Navigator = () => {
+export const Navigator = ({ typeResponse, setTypeResponse }) => {
     const { selectedLanguage } = useContext(LanguageContext);
 
     if (!selectedLanguage) {
@@ -18,7 +18,8 @@ export const Navigator = () => {
 
     return (
         <>
-            {(language === "Chinese" || language === null) && <ChineseResponseGenerator />}
+            {(language === "Chinese" || language === null) && <ChineseResponseGenerator typeResponse={typeResponse} setTypeResponse={setTypeResponse}/>
+}
             {language === "English" && <EnglishResponseGenerator />}
             {language === "Burmese" && <BurmeseResponseGenerator />}
             {language === "Japanese" && <JapaneseResponseGenerator />}

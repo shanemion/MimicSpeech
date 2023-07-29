@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Countdown from "./Countdown";
+import "../styles.css";
+
 
 export const BothRecordAndTTS = ({
   sendToTTS,
@@ -47,14 +49,14 @@ export const BothRecordAndTTS = ({
   };
 
   return (
-    <div>
+    <div className="response-options">
       {/* UI for recording and playback */}
-      <button onClick={handleButtonClick}>
+      <button className={isRecording ? "recording" : "not-recording" } onClick={handleButtonClick}>
         {isRecording
           ? "Stop Recording"
           : "Start Recording alongside Text to Speech!"}
       </button>
-      <button onClick={() => playBackBoth()}>
+      <button className="response-option" onClick={() => playBackBoth()}>
         Listen to your voice alongside Text to Speech!
       </button>
       {showCountdown && <Countdown seconds={seconds} setSeconds={setSeconds} />}

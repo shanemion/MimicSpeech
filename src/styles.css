@@ -1,14 +1,12 @@
+.content { 
+  margin-bottom: 20px;
+}
+
 .selectorContainer {
-    display: flex;
-    justify-content: center;
-    gap: 20px; /* starting gap size */
-  }
-  
-  @media screen and (min-width: 768px) {
-    .selectorContainer {
-      gap: 40px; /* maximum gap size */
-    }
-  }
+  display: flex;
+  justify-content: center;
+  gap: 20px; /* starting gap size */
+}
 
 .titleContainer {
   display: flex;
@@ -23,6 +21,226 @@
   margin: 0 auto;
 }
 
+.languageSelected {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.prompt-input,
+.response-length-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.prompt-input label,
+.response-length-input label {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.prompt-input input {
+  height: 40px;
+  width: 30%;
+  max-width: 90%; /* to ensure it does not exceed screen width on mobile */
+}
+
+.response-length-input input {
+  width: 50px; /* adjust as needed */
+}
+
+.selectorWidth {
+  width: 220px;
+}
+
+.selectors {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.generate {
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+  border-radius: 8px;
+  font-size: 14px;
+  padding: 12px 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
+.generate:hover {
+  background-color: black;
+  color: white;
+}
+
+.generate:active {
+  background-color: #333; /* darker version of black */
+  color: #eee; /* darker version of white */
+}
+
+.response-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+  margin-bottom: 5px;  
+} 
+
+.response-option {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.response-option-selected {
+  background-color: lightgray;
+  color: black;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+
+.response-option:hover {
+  background-color: black;
+  color: white;
+}
+
+.response-option:active {
+  background-color: #333; /* darker version of black */
+  color: #eee; /* darker version of white */
+}
+
+.primary-language {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  font-weight: 500;
+  text-align: center; 
+}
+
+.secondary-language {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+  text-align: center; 
+}
+
+.third-language {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 35px;
+  text-align: center; 
+}
+
+.bottom-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+} 
+
+.recording {
+  background-color: rgb(249, 103, 103);
+  color: white;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.not-recording {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 4px 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-left: 4px;
+  margin-right: 4px;
+}
+
+.countdown {
+  position: fixed; /* This makes the positioning relative to the viewport */
+  top: 50%; /* Centers the element vertically */
+  left: 50%; /* Centers the element horizontally */
+  transform: translate(-50%, -50%); /* Offsets the element by half of its own size to perfectly center it */
+  z-index: 999; /* To render above all text */
+  color: rgba(139, 0, 0, 0.6); /* Darkish red with 60% opacity */
+  border: 2px solid rgba(139, 0, 0, 0.8); /* Border that is 80% opacity of the same red */
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 2em; /* You can adjust this to suit your needs */
+  text-align: center; /* To center the text within the countdown */
+}
+
+.app {
+  flex: 1 0 auto;
+}
+
+
+
+.page-container { 
+  position: relative;
+  min-height: 100vh;
+}
+
+.footer {
+  background: #333;
+  color: white;
+  padding: 3em;
+  grid-column: 1 / -1;
+  margin-top: auto;
+}
+
+
+
+
+
 @media screen and (max-width: 768px) {
   .titleContainer {
     flex-direction: column;
@@ -30,6 +248,22 @@
   }
   .titleContainer > h1 {
     margin-bottom: 20px;
+  }
+  .selectorContainer {
+    gap: 40px; /* maximum gap size */
+  }
+  .prompt-input input {
+    width: 90%; /* nearly full screen width */
+  }
+  .selectorWidth {
+    width: 25%;
+  }
+  .secondary-language {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    text-align: center; 
   }
 }
 
@@ -40,9 +274,13 @@
   padding: 10px;
   text-decoration: underline;
   cursor: pointer;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 16px;
 }
 
-
-  
+.languageSelected {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}

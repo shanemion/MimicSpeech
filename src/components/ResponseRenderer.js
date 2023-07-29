@@ -1,19 +1,30 @@
-import React from "react";
+import React, { useEffect, useState } from "react"; 
+import "../styles.css";
 
-const ResponseRenderer = ({ sentences, selectedPage }) => {
-  const renderSentences = () => {
+const ResponseRenderer = ({ sentences, selectedPage, newResponse }) => {
+  const [renderedSentences, setRenderedSentences] = useState(null);
+
+  const renderSentences = (sentences, selectedPage) => {
     switch (selectedPage) {
       case "One":
-        // sentences[0] is the list that needs to be read by TTS
-        console.log("sentences[0]", sentences[0])
-        return <div>{sentences[0].map((sentence) => <p>{sentence}</p>)}</div>;
+        return (
+          <div>
+            {sentences[0].map((sentence, index) => (
+              <div>
+                <p className="primary-language">{sentence}</p>
+                <p className="secondary-language">{sentences[1][index]}</p>
+                <p className="third-language">{sentences[2][index]}</p>
+              </div>
+            ))}
+          </div>
+        );
       case "Two":
         return (
           <div>
             {sentences[0].map((sentence, index) => (
               <div>
-                <p>{sentence}</p>
-                <p>{sentences[1][index]}</p>
+                <p className="primary-language">{sentence}</p>
+                <p className="secondary-language">{sentences[1][index]}</p>
               </div>
             ))}
           </div>
@@ -21,12 +32,8 @@ const ResponseRenderer = ({ sentences, selectedPage }) => {
       case "Three":
         return (
           <div>
-            {sentences[0].map((sentence, index) => (
-              <div>
-                <p>{sentence}</p>
-                <p>{sentences[1][index]}</p>
-                <p>{sentences[2][index]}</p>
-              </div>
+            {sentences[0].map((sentence) => (
+              <p className="primary-language">{sentence}</p>
             ))}
           </div>
         );
@@ -35,10 +42,13 @@ const ResponseRenderer = ({ sentences, selectedPage }) => {
     }
   };
 
+  useEffect(() => {
+    setRenderedSentences(renderSentences(sentences, selectedPage));
+  }, [newResponse, selectedPage]);
+
   return (
-    <div>
-      {/* Render the sentences based on the selected page */}
-      {renderSentences()}
+    <div className="center">
+      {renderedSentences}
     </div>
   );
 };
