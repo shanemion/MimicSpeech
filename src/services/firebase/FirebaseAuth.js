@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
-
 import {
   getAuth,
   onAuthStateChanged,
@@ -12,8 +11,13 @@ import {
   getFirestore,
   doc,
   setDoc,
+  getDoc,
   collection,
   addDoc,
+  getDocs,
+  query,
+  where,
+  deleteDoc,
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
@@ -78,9 +82,33 @@ export const AuthProvider = ({ children }) => {
   const saveResponse = async (userId, response, language) => {
     try {
       const responsesRef = collection(db, "users", userId, "responses");
-      await addDoc(responsesRef, { ...response, language });
+      const docRef = await addDoc(responsesRef, { ...response, language });
+      return docRef.id;
     } catch (error) {
       console.error("Error saving response:", error);
+    }
+  };
+
+  const fetchSavedResponses = async (userId) => {
+    const responsesRef = collection(db, "users", userId, "responses");
+    const responseSnapshot = await getDocs(responsesRef);
+    return responseSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  };
+
+
+  const deleteSavedResponse = async (userId, docId) => {
+    const docRef = doc(db, "users", userId, "responses", docId);
+    await deleteDoc(docRef);
+  };
+
+  const getResponseById = async (userId, responseId) => {
+    const responseRef = doc(db, 'users', userId, 'responses', responseId);
+    const responseDoc = await getDoc(responseRef);
+    
+    if (responseDoc.exists()) {
+      return { id: responseDoc.id, ...responseDoc.data() };
+    } else {
+      return null;
     }
   };
 
@@ -91,6 +119,9 @@ export const AuthProvider = ({ children }) => {
     logout,
     db,
     saveResponse,
+    fetchSavedResponses,
+    deleteSavedResponse,
+    getResponseById,
   };
 
   return (

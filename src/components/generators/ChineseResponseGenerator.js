@@ -5,40 +5,48 @@ import { ResponseCleaner } from "../../utils/ResponseCleaner";
 import AudioRecorder from "../AudioRecorder";
 import { OPENAI_KEY } from "../../apikeys";
 import LanguageContext from "../../services/language/LanguageContext";
+import Bookmark from "../Bookmark";
+
 import "../../styles.css";
 
 import SpeakText from "../../utils/SpeakTTS";
 
 const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
-  const { currentUser, saveResponse } = useAuth(); // Use the saveResponse function from AuthContext
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
-  const [userPrompt, setUserPrompt] = useState("A reporter giving daily news.");
-  const [responseLength, setResponseLength] = useState(3); // Default response length in sentences
-  const [generatedResponse, setGeneratedResponse] = useState(""); // State variable for the generated response
-  const [selectedPage, setSelectedPage] = useState("One");
-  const [audioURL, setAudioURL] = useState(null); // State variable to store the TTS audio URL
-  const [mainString, setMainString] = useState("");
-  const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(true);
-  const [isGenerateDisabled, setIsGenerateDisabled] = useState(false);
-  const [typedResponse, setTypedResponse] = useState("");
+  const [userPrompt, setUserPrompt] = useState(localStorage.getItem("userPrompt") || "A reporter giving daily news.");
+  const [responseLength, setResponseLength] = useState(parseInt(localStorage.getItem("responseLength"), 10) || 3); 
+  const [generatedResponse, setGeneratedResponse] = useState(localStorage.getItem("generatedResponse") || ""); 
+  const [selectedPage, setSelectedPage] = useState(localStorage.getItem("selectedPage") || "One");
+  const [audioURL, setAudioURL] = useState(localStorage.getItem("audioURL") || null); 
+  const [mainString, setMainString] = useState(localStorage.getItem("mainString") || "");
+  const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(localStorage.getItem("isPlayButtonDisabled") === "true");
+  const [isGenerateDisabled, setIsGenerateDisabled] = useState(localStorage.getItem("isGenerateDisabled") === "true");
+  const [typedResponse, setTypedResponse] = useState(localStorage.getItem("typedResponse") || "");
   const [isMounted, setIsMounted] = useState(false);
-  const [buttonSelected, setButtonSelected] = useState("One");
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   const handlePromptChange = (event) => {
-    setUserPrompt(event.target.value);
+    const newValue = event.target.value;
+    setUserPrompt(newValue);
+    localStorage.setItem("userPrompt", newValue);
   };
 
   const handleResponseLengthChange = (event) => {
-    setResponseLength(parseInt(event.target.value, 10));
+    const newValue = parseInt(event.target.value, 10);
+    setResponseLength(newValue);
+    localStorage.setItem("responseLength", newValue.toString());
   };
 
-  const handleGenerateResponse = async () => {
-const prompt = `Construct a typical scene based on "${userPrompt}". The response should contain ${responseLength} sentences each of Mandarin Chinese, Pinyin, and English, for a total of ${responseLength*3} sentences. The scene should be experiential and the language humanlike, adhering to common Chinese grammar and proper punctuation.`;
 
+  const handleGenerateResponse = async () => {
+    const prompt = `
+    You will receive a topic in English and will return a real-world, individual dialogue in simplified Mandarin Chinese, pinyin, and english on the topic. 
+    In your response, make the sentences fluid and humanlike. Avoid using overly complex grammar patterns and semicolons. 
+    The completion should be ${responseLength} sentences in Chinese, then ${responseLength} sentences Pinyin, then ${responseLength} English.
+    Here is the prompt: ${userPrompt};`;
 
     console.log(prompt);
 
@@ -54,17 +62,14 @@ const prompt = `Construct a typical scene based on "${userPrompt}". The response
         model: "text-davinci-003",
         prompt: prompt,
         max_tokens: 4000,
-        temperature: 0,
+        temperature: 0.2,
       });
 
-      // Update the state with the generated response
-      setGeneratedResponse(response.data.choices[0].text);
+      const responseText = response.data.choices[0].text;
+      setGeneratedResponse(responseText);
+      localStorage.setItem("generatedResponse", responseText);
       console.log("Response from API:", response.data.choices[0].text);
-      saveResponse(
-        currentUser.uid,
-        { text: response.data.choices[0].text, audioUrl: "fake.test/url" },
-        "Chinese"
-      );
+
       setIsPlayButtonDisabled(false);
     } catch (error) {
       console.error("Error generating response:", error);
@@ -88,12 +93,14 @@ const prompt = `Construct a typical scene based on "${userPrompt}". The response
     console.log("textToRead:", textToRead);
     try {
       console.log("selectedLanguage", selectedLanguage);
-      const audioURL = await SpeakText(
+      const audioUrlFromTTS = await SpeakText(
         textToRead,
         selectedLanguage,
         selectedGender
       );
-      console.log("TTS Audio URL:", audioURL);
+      setAudioURL(audioUrlFromTTS);
+      localStorage.setItem("audioURL", audioUrlFromTTS);
+      console.log("TTS Audio URL:", audioUrlFromTTS);
     } catch (error) {
       console.error("Error generating TTS:", error);
     }
@@ -104,7 +111,9 @@ const prompt = `Construct a typical scene based on "${userPrompt}". The response
     const mainLanguage = sentences[0];
     const newReadString = mainLanguage.join(" ");
     setMainString(newReadString);
+    localStorage.setItem("mainString", newReadString);
     setAudioURL(null); // Reset the audio URL when the TTS text changes
+    localStorage.setItem("audioURL", null);
   }, [generatedResponse, responseLength]);
 
   const sentences = ResponseCleaner(generatedResponse, responseLength);
@@ -137,17 +146,20 @@ const prompt = `Construct a typical scene based on "${userPrompt}". The response
           </div>
         )}
         <div className="center">
-          {!typeResponse && (
-            <button
-              className="generate"
-              onClick={() => {
-                handleGenerateResponse();
-              }}
-              disabled={isGenerateDisabled}
-            >
-              Generate Response
-            </button>
-          )}
+          <div className="button-container">
+            {!typeResponse && (
+              <button
+                className="generate"
+                onClick={handleGenerateResponse}
+                disabled={isGenerateDisabled}
+              >
+                Generate Response
+              </button>
+            )}
+            {generatedResponse && (
+              <Bookmark generatedResponse={generatedResponse} language="Chinese"/>
+            )}
+          </div>
         </div>
       </div>
       {generatedResponse && !typeResponse && (
@@ -159,7 +171,7 @@ const prompt = `Construct a typical scene based on "${userPrompt}". The response
                   ? "response-option-selected"
                   : "response-option"
               }
-              onClick={() => setSelectedPage("One")}
+              onClick={() => { setSelectedPage("One"); localStorage.setItem("selectedPage", "One"); }}
             >
               Chinese, Pinyin, and English
             </button>
@@ -169,7 +181,7 @@ const prompt = `Construct a typical scene based on "${userPrompt}". The response
                   ? "response-option-selected"
                   : "response-option"
               }
-              onClick={() => setSelectedPage("Two")}
+              onClick={() => { setSelectedPage("Two"); localStorage.setItem("selectedPage", "Two"); }}
             >
               Chinese and Pinyin
             </button>
@@ -179,7 +191,7 @@ const prompt = `Construct a typical scene based on "${userPrompt}". The response
                   ? "response-option-selected"
                   : "response-option"
               }
-              onClick={() => setSelectedPage("Three")}
+              onClick={() => { setSelectedPage("Three"); localStorage.setItem("selectedPage", "Three"); }}
             >
               Chinese
             </button>
@@ -210,20 +222,22 @@ const prompt = `Construct a typical scene based on "${userPrompt}". The response
               onChange={(event) => {
                 const newText = event.target.value;
                 setTypedResponse(newText);
+                localStorage.setItem("typedResponse", newText);
                 setIsPlayButtonDisabled(newText.trim() === "");
+                localStorage.setItem("isPlayButtonDisabled", (newText.trim() === "").toString());
               }}
             />
-            <div className="center">
-              <button
-                className="bottom-options"
-                onClick={sendToTTS}
-                disabled={isPlayButtonDisabled}
-              >
-                Play Text to Speech
-              </button>
-            </div>
-            <AudioRecorder sendToTTS={sendToTTS} />
           </div>
+          <div className="center">
+            <button
+              className="response-option"
+              onClick={sendToTTS}
+              disabled={isPlayButtonDisabled}
+            >
+              Play Text to Speech
+            </button>
+          </div>
+          <AudioRecorder sendToTTS={sendToTTS} />
         </div>
       )}
     </div>

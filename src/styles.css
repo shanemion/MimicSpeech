@@ -211,10 +211,9 @@
   transform: translate(-50%, -50%); /* Offsets the element by half of its own size to perfectly center it */
   z-index: 999; /* To render above all text */
   color: rgba(139, 0, 0, 0.6); /* Darkish red with 60% opacity */
-  border: 2px solid rgba(139, 0, 0, 0.8); /* Border that is 80% opacity of the same red */
   padding: 20px;
   border-radius: 10px;
-  font-size: 2em; /* You can adjust this to suit your needs */
+  font-size: 6em; /* You can adjust this to suit your needs */
   text-align: center; /* To center the text within the countdown */
 }
 
@@ -283,4 +282,41 @@
   justify-content: center;
   align-items: center;
   display: flex;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem; /* This creates a gap between the buttons */
+}
+
+.login-message {
+  position: absolute;
+  top: 35%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(255, 0, 0, 0.6);
+  color: white;
+  padding: 20px;
+  width: 360px;
+  text-align: center;
+  border-radius: 4px;
+  border: 2px solid red;
+  z-index: 1000;
+}
+
+.bookmark-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bookmark-container button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  outline: none;
+  font-size: 2em; /* Adjust this value to make the icon bigger or smaller */
 }
