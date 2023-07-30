@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { firebaseConfig } from "../../apikeys";
 import { initializeApp } from "firebase/app";
 import {
   getAuth,
@@ -21,15 +22,7 @@ import {
 } from "firebase/firestore";
 
 // Your web app's Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyAnKNYzLM0Dj_EeU5zyzzqssEYsugrY00w",
-  authDomain: "mimicspeech.firebaseapp.com",
-  projectId: "mimicspeech",
-  storageBucket: "mimicspeech.appspot.com",
-  messagingSenderId: "408207858237",
-  appId: "1:408207858237:web:492c88ff5bf45b8f746854",
-  measurementId: "G-369LQQ8NZQ",
-};
+
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
