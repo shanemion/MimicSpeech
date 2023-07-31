@@ -18,8 +18,9 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     localStorage.getItem("userPrompt") || "A reporter giving daily news."
   );
   const [responseLength, setResponseLength] = useState(
-    parseInt(localStorage.getItem("responseLength"), 10) || 3
+    parseInt(localStorage.getItem("numSentences"), 10) || 3
   );
+  
   const [generatedResponse, setGeneratedResponse] = useState(
     localStorage.getItem("generatedResponse") || ""
   );
@@ -44,6 +45,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const [speed, setSpeed] = useState(2); // default speed at medium
+  
 
   const rates = ['x-slow', 'slow', 'medium', 'fast', 'x-fast'];
 
@@ -60,8 +62,9 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const handleResponseLengthChange = (event) => {
     const newValue = parseInt(event.target.value, 10);
     setResponseLength(newValue);
-    localStorage.setItem("responseLength", newValue.toString());
+    localStorage.setItem("numSentences", newValue.toString());
   };
+  
 
   const handleGenerateResponse = async () => {
     const prompt = `

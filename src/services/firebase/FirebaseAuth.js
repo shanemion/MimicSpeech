@@ -75,18 +75,25 @@ export const AuthProvider = ({ children }) => {
   const saveResponse = async (userId, response, language) => {
     try {
       const responsesRef = collection(db, "users", userId, "responses");
-      const docRef = await addDoc(responsesRef, { ...response, language });
+      const numSentences = parseInt(localStorage.getItem("numSentences"), 10) || 3; // Use the updated localStorage key
+      const docRef = await addDoc(responsesRef, { ...response, language, numSentences }); // Save numSentences as part of the response data
       return docRef.id;
     } catch (error) {
       console.error("Error saving response:", error);
     }
   };
-
+  
   const fetchSavedResponses = async (userId) => {
     const responsesRef = collection(db, "users", userId, "responses");
     const responseSnapshot = await getDocs(responsesRef);
-    return responseSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return responseSnapshot.docs.map(doc => {
+      const responseData = doc.data();
+      const numSentences = responseData.numSentences; // Retrieve the numSentences value from the response data
+      localStorage.setItem("numSentences", numSentences.toString()); // Update the localStorage with this value
+      return { id: doc.id, ...responseData };
+    });
   };
+  
 
 
   const deleteSavedResponse = async (userId, docId) => {

@@ -30,6 +30,7 @@ const SavedResponses = () => {
     // Store the response text and language in localStorage
     localStorage.setItem('generatedResponse', response.text);
     localStorage.setItem('responseLanguage', response.language);
+    localStorage.setItem('numSentences', response.numSentences);
     // Navigate back to the main page
     navigate('/');
   };
