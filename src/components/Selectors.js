@@ -4,7 +4,7 @@ import LanguageContext from "../services/language/LanguageContext";
 
 import "../styles.css"; // Adjust the path according to your project structure
 
-export const Selectors = ({typeResponse, setTypeResponse}) => {
+export const Selectors = ({ typeResponse, setTypeResponse }) => {
   const {
     selectedLanguage,
     setSelectedLanguage,
@@ -13,22 +13,24 @@ export const Selectors = ({typeResponse, setTypeResponse}) => {
   } = useContext(LanguageContext);
 
   const AiAndTypeSelector = () => {
-
     const modeOptions = [
       { value: false, label: "AI Response" },
       { value: true, label: "Type Own Response" },
     ];
-  
+
     const handleChange = (selectedOption) => {
       setTypeResponse(selectedOption.value);
       console.log("Selected Mode:", selectedOption);
     };
-  
-    const selectedMode = modeOptions.find(option => option.value === typeResponse);
-  
+
+    const selectedMode = modeOptions.find(
+      (option) => option.value === typeResponse
+    );
+
     return (
       <Select
-      className="selectorWidth"        value={selectedMode}
+        className="selectorWidth"
+        value={selectedMode}
         onChange={handleChange}
         options={modeOptions}
         placeholder="Choose Response Type"
@@ -52,7 +54,7 @@ export const Selectors = ({typeResponse, setTypeResponse}) => {
 
     return (
       <Select
-      className="selectorWidth"
+        className="selectorWidth"
         value={selectedLanguage}
         onChange={handleChange}
         options={languageOptions}
@@ -74,7 +76,7 @@ export const Selectors = ({typeResponse, setTypeResponse}) => {
 
     return (
       <Select
-      className="selectorWidth"
+        className="selectorWidth"
         value={selectedGender}
         onChange={handleChange}
         options={genderOptions}
@@ -85,12 +87,9 @@ export const Selectors = ({typeResponse, setTypeResponse}) => {
 
   return (
     <div className="selectorContainer">
-      <AiAndTypeSelector     
-/>
-      <LanguageSelector    
-/>
-      <GenderSelector     
-/>
+      <AiAndTypeSelector />
+      <LanguageSelector />
+      <GenderSelector />
     </div>
   );
 };

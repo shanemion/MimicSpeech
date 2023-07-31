@@ -6,6 +6,7 @@ import AudioRecorder from "../AudioRecorder";
 import { OPENAI_KEY } from "../../apikeys";
 import LanguageContext from "../../services/language/LanguageContext";
 import Bookmark from "../Bookmark";
+import SpeedSlider from "../SpeedSlider";
 
 import "../../styles.css";
 
@@ -13,16 +14,38 @@ import SpeakText from "../../utils/SpeakTTS";
 
 const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
-  const [userPrompt, setUserPrompt] = useState(localStorage.getItem("userPrompt") || "A reporter giving daily news.");
-  const [responseLength, setResponseLength] = useState(parseInt(localStorage.getItem("responseLength"), 10) || 3); 
-  const [generatedResponse, setGeneratedResponse] = useState(localStorage.getItem("generatedResponse") || ""); 
-  const [selectedPage, setSelectedPage] = useState(localStorage.getItem("selectedPage") || "One");
-  const [audioURL, setAudioURL] = useState(localStorage.getItem("audioURL") || null); 
-  const [mainString, setMainString] = useState(localStorage.getItem("mainString") || "");
-  const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(localStorage.getItem("isPlayButtonDisabled") === "true");
-  const [isGenerateDisabled, setIsGenerateDisabled] = useState(localStorage.getItem("isGenerateDisabled") === "true");
-  const [typedResponse, setTypedResponse] = useState(localStorage.getItem("typedResponse") || "");
+  const [userPrompt, setUserPrompt] = useState(
+    localStorage.getItem("userPrompt") || "A reporter giving daily news."
+  );
+  const [responseLength, setResponseLength] = useState(
+    parseInt(localStorage.getItem("responseLength"), 10) || 3
+  );
+  const [generatedResponse, setGeneratedResponse] = useState(
+    localStorage.getItem("generatedResponse") || ""
+  );
+  const [selectedPage, setSelectedPage] = useState(
+    localStorage.getItem("selectedPage") || "One"
+  );
+  const [audioURL, setAudioURL] = useState(
+    localStorage.getItem("audioURL") || null
+  );
+  const [mainString, setMainString] = useState(
+    localStorage.getItem("mainString") || ""
+  );
+  const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(
+    localStorage.getItem("isPlayButtonDisabled") === "true"
+  );
+  const [isGenerateDisabled, setIsGenerateDisabled] = useState(
+    localStorage.getItem("isGenerateDisabled") === "true"
+  );
+  const [typedResponse, setTypedResponse] = useState(
+    localStorage.getItem("typedResponse") || ""
+  );
   const [isMounted, setIsMounted] = useState(false);
+
+  const [speed, setSpeed] = useState(2); // default speed at medium
+
+  const rates = ['x-slow', 'slow', 'medium', 'fast', 'x-fast'];
 
   useEffect(() => {
     setIsMounted(true);
@@ -39,7 +62,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     setResponseLength(newValue);
     localStorage.setItem("responseLength", newValue.toString());
   };
-
 
   const handleGenerateResponse = async () => {
     const prompt = `
@@ -96,7 +118,8 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
       const audioUrlFromTTS = await SpeakText(
         textToRead,
         selectedLanguage,
-        selectedGender
+        selectedGender,
+        rates[speed] 
       );
       setAudioURL(audioUrlFromTTS);
       localStorage.setItem("audioURL", audioUrlFromTTS);
@@ -122,7 +145,8 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     <div>
       <div>
         {!typeResponse && (
-          <div>
+          <div className="center">
+          <div className="inputs">
             <div className="prompt-input">
               <label htmlFor="prompt">Enter Your Prompt:</label>
               <input
@@ -133,8 +157,8 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
               />
             </div>
             <div className="response-length-input">
-              <label htmlFor="responseLength">
-                Response Length (in Sentences):
+              <label htmlFor="respone-length">
+                # Sentences:
               </label>
               <input
                 type="number"
@@ -143,6 +167,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                 onChange={handleResponseLengthChange}
               />
             </div>
+          </div>
           </div>
         )}
         <div className="center">
@@ -156,11 +181,17 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                 Generate Response
               </button>
             )}
-            {generatedResponse && (
-              <Bookmark generatedResponse={generatedResponse} language="Chinese"/>
+            {generatedResponse && !typeResponse && (
+              <Bookmark
+                typeResponse={typeResponse}
+                typedResponse={typedResponse}
+                generatedResponse={generatedResponse}
+                language="Chinese"
+              />
             )}
           </div>
         </div>
+        <SpeedSlider speed={speed} setSpeed={setSpeed} />
       </div>
       {generatedResponse && !typeResponse && (
         <div>
@@ -171,7 +202,10 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   ? "response-option-selected"
                   : "response-option"
               }
-              onClick={() => { setSelectedPage("One"); localStorage.setItem("selectedPage", "One"); }}
+              onClick={() => {
+                setSelectedPage("One");
+                localStorage.setItem("selectedPage", "One");
+              }}
             >
               Chinese, Pinyin, and English
             </button>
@@ -181,7 +215,10 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   ? "response-option-selected"
                   : "response-option"
               }
-              onClick={() => { setSelectedPage("Two"); localStorage.setItem("selectedPage", "Two"); }}
+              onClick={() => {
+                setSelectedPage("Two");
+                localStorage.setItem("selectedPage", "Two");
+              }}
             >
               Chinese and Pinyin
             </button>
@@ -191,7 +228,10 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   ? "response-option-selected"
                   : "response-option"
               }
-              onClick={() => { setSelectedPage("Three"); localStorage.setItem("selectedPage", "Three"); }}
+              onClick={() => {
+                setSelectedPage("Three");
+                localStorage.setItem("selectedPage", "Three");
+              }}
             >
               Chinese
             </button>
@@ -224,8 +264,17 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                 setTypedResponse(newText);
                 localStorage.setItem("typedResponse", newText);
                 setIsPlayButtonDisabled(newText.trim() === "");
-                localStorage.setItem("isPlayButtonDisabled", (newText.trim() === "").toString());
+                localStorage.setItem(
+                  "isPlayButtonDisabled",
+                  (newText.trim() === "").toString()
+                );
               }}
+            />
+            <Bookmark
+              typeResponse={typeResponse}
+              typedResponse={typedResponse}
+              generatedResponse={typedResponse}
+              language="Chinese"
             />
           </div>
           <div className="center">

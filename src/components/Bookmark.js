@@ -3,7 +3,7 @@ import { useAuth } from "../services/firebase/FirebaseAuth";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import "../styles.css";
 
-const Bookmark = ({ generatedResponse, language }) => {
+const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language }) => {
   const { currentUser, saveResponse, deleteSavedResponse, getResponseById } =
     useAuth();
   const initialResponseId = localStorage.getItem("responseId");

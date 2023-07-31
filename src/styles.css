@@ -1,4 +1,4 @@
-.content { 
+.content {
   margin-bottom: 20px;
 }
 
@@ -28,28 +28,38 @@
   width: 100%;
 }
 
+.inputs {
+  display: flex;
+  justify-content: space-between;
+  width: 500px;
+}
+
 .prompt-input,
 .response-length-input {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   width: 100%;
+}
+
+.prompt-input {
+  width: 70%;
+}
+
+.response-length-input {
+  width: 22%;
 }
 
 .prompt-input label,
 .response-length-input label {
-  margin-top: 10px;
-  margin-bottom: 10px;
+  padding-top: 20px;
+  align-self: flex-start;
 }
 
-.prompt-input input {
-  height: 40px;
-  width: 30%;
-  max-width: 90%; /* to ensure it does not exceed screen width on mobile */
-}
-
+.prompt-input input,
 .response-length-input input {
-  width: 50px; /* adjust as needed */
+  width: 100%;
+  height: 40px;
 }
 
 .selectorWidth {
@@ -95,8 +105,8 @@
   align-items: center;
   justify-content: center;
   margin-top: 20px;
-  margin-bottom: 5px;  
-} 
+  margin-bottom: 5px;
+}
 
 .response-option {
   background-color: white;
@@ -122,7 +132,6 @@
   margin-right: 4px;
 }
 
-
 .response-option:hover {
   background-color: black;
   color: white;
@@ -139,7 +148,7 @@
   align-items: center;
   font-size: 18px;
   font-weight: 500;
-  text-align: center; 
+  text-align: center;
 }
 
 .secondary-language {
@@ -147,7 +156,7 @@
   justify-content: center;
   align-items: center;
   font-size: 18px;
-  text-align: center; 
+  text-align: center;
 }
 
 .third-language {
@@ -156,7 +165,7 @@
   align-items: center;
   font-size: 14px;
   margin-bottom: 35px;
-  text-align: center; 
+  text-align: center;
 }
 
 .bottom-options {
@@ -164,7 +173,7 @@
   align-items: center;
   justify-content: center;
   margin-top: 20px;
-} 
+}
 
 .recording {
   background-color: rgb(249, 103, 103);
@@ -208,7 +217,10 @@
   position: fixed; /* This makes the positioning relative to the viewport */
   top: 50%; /* Centers the element vertically */
   left: 50%; /* Centers the element horizontally */
-  transform: translate(-50%, -50%); /* Offsets the element by half of its own size to perfectly center it */
+  transform: translate(
+    -50%,
+    -50%
+  ); /* Offsets the element by half of its own size to perfectly center it */
   z-index: 999; /* To render above all text */
   color: rgba(139, 0, 0, 0.6); /* Darkish red with 60% opacity */
   padding: 20px;
@@ -221,9 +233,7 @@
   flex: 1 0 auto;
 }
 
-
-
-.page-container { 
+.page-container {
   position: relative;
   min-height: 100vh;
 }
@@ -235,10 +245,6 @@
   grid-column: 1 / -1;
   margin-top: auto;
 }
-
-
-
-
 
 @media screen and (max-width: 768px) {
   .titleContainer {
@@ -262,7 +268,12 @@
     justify-content: center;
     align-items: center;
     font-size: 14px;
-    text-align: center; 
+    text-align: center;
+  }
+  .inputs {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
   }
 }
 

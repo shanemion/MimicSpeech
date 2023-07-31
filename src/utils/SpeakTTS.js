@@ -3,22 +3,21 @@ import SelectedVoice from "../services/language/LanguageString";
 
 const sdk = require("microsoft-cognitiveservices-speech-sdk");
 
-const SpeakText = async (text, selectedLanguage, selectedGender) => {
+const SpeakText = async (text, selectedLanguage, selectedGender, rate) => {
   const selectedVoice = SelectedVoice(selectedLanguage, selectedGender);
 
   const speechConfig = sdk.SpeechConfig.fromSubscription(SPEECH_KEY, SPEECH_REGION);
   speechConfig.speechSynthesisVoiceName = selectedVoice;
   const synthesizer = new sdk.SpeechSynthesizer(speechConfig);
 
-  // Regular expression that matches any character that is not a Chinese character
-  const nonChineseCharactersRegex = /[^\u4e00-\u9FFF]/g;
+  let processedText = text;
 
-  // Remove any non-Chinese characters from the text
-  const chineseOnlyText = text.replace(nonChineseCharactersRegex, '');
+  // Wrap text with SSML tags and adjust the rate
+  const ssmlText = `<speak version='1.0' xml:lang='en-US'><voice name='${selectedVoice}'><prosody rate='${rate}'>${processedText}</prosody></voice></speak>`;
 
   return new Promise((resolve, reject) => {
-    synthesizer.speakTextAsync(
-      chineseOnlyText,
+    synthesizer.speakSsmlAsync(
+      ssmlText,
       (result) => {
         if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
           resolve(result.audioData); // Return the audio data (URL or binary data) to the caller
@@ -38,4 +37,3 @@ const SpeakText = async (text, selectedLanguage, selectedGender) => {
 };
 
 export default SpeakText;
-
