@@ -1,9 +1,13 @@
 import { SPEECH_KEY, SPEECH_REGION } from "../apikeys.js";
 import SelectedVoice from "../services/language/LanguageString";
+import { blobToBase64 } from "./BlobTo64";
+
 
 const sdk = require("microsoft-cognitiveservices-speech-sdk");
 
-const SpeakText = async (text, selectedLanguage, selectedGender, rate) => {
+const SpeakText = async (text, selectedLanguage, selectedGender, rate, userId, updateTTSwav) => {
+  const responseId = localStorage.getItem("responseId");
+
   const selectedVoice = SelectedVoice(selectedLanguage, selectedGender);
 
   const speechConfig = sdk.SpeechConfig.fromSubscription(SPEECH_KEY, SPEECH_REGION);
@@ -20,7 +24,11 @@ const SpeakText = async (text, selectedLanguage, selectedGender, rate) => {
       ssmlText,
       (result) => {
         if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
-          resolve(result.audioData); // Return the audio data (URL or binary data) to the caller
+          const blob = new Blob([result.audioData], { type: 'audio/wav' }); // Assuming the audio data is in WAV format
+          blobToBase64(blob).then(base64 => {
+            localStorage.setItem("TTS_audio", base64);
+          });
+          resolve(blob);
         } else {
           reject(
             "Speech synthesis canceled, " +

@@ -7,12 +7,15 @@ import { OPENAI_KEY } from "../../apikeys";
 import LanguageContext from "../../services/language/LanguageContext";
 import Bookmark from "../Bookmark";
 import SpeedSlider from "../SpeedSlider";
-
+import { blobToBase64 } from "../../utils/BlobTo64";
+import { useSavedAudio } from "../../services/saved/SavedAudioContext";
 import "../../styles.css";
 
 import SpeakText from "../../utils/SpeakTTS";
 
 const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
+  const { saveAudio } = useSavedAudio();
+
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
   const [userPrompt, setUserPrompt] = useState(
     localStorage.getItem("userPrompt") || "A reporter giving daily news."
@@ -45,9 +48,13 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const [speed, setSpeed] = useState(2); // default speed at medium
-  
 
   const rates = ['x-slow', 'slow', 'medium', 'fast', 'x-fast'];
+
+  const { updateTTSwav} = useAuth();
+
+  const { currentUser } = useAuth();
+  
 
   useEffect(() => {
     setIsMounted(true);
@@ -67,11 +74,12 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   
 
   const handleGenerateResponse = async () => {
+    localStorage.removeItem("TTS_audio"); // Correct key
+    localStorage.removeItem("USER_wavs"); // Correct key
     const prompt = `
-    You will receive a topic in English and will return a real-world, individual dialogue in simplified Mandarin Chinese, pinyin, and english on the topic. 
+    Return a real-world, individual dialogue in simplified Mandarin Chinese, pinyin, and english on ${userPrompt}. 
     In your response, make the sentences fluid and humanlike. Avoid using overly complex grammar patterns and semicolons. 
-    The completion should be ${responseLength} sentences in Chinese, then ${responseLength} sentences Pinyin, then ${responseLength} English.
-    Here is the prompt: ${userPrompt};`;
+    The completion should have the following structure: ${responseLength} sentences in Chinese, then ${responseLength} sentences Pinyin, then ${responseLength} in English.`
 
     console.log(prompt);
 
@@ -88,6 +96,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
         prompt: prompt,
         max_tokens: 4000,
         temperature: 0.2,
+        top_p: 0.1,
       });
 
       const responseText = response.data.choices[0].text;
@@ -107,6 +116,33 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     }
   };
 
+  const handleTTS = async (textToRead, selectedLanguage, selectedGender, rate) => {
+    try {
+      const audioUrlFromTTS = await SpeakText(
+        textToRead,
+        selectedLanguage,
+        selectedGender,
+        rates[speed]
+      );
+      let base64 = localStorage.getItem("TTS_audio");
+  
+      base64 = encodeURIComponent(base64); // Encode the base64 string
+      const responseId = localStorage.getItem("responseId");
+      if (responseId !== null) {
+        updateTTSwav(currentUser.uid, responseId, base64); // Update Firestore
+      } else {
+        // Save to local storage only
+        localStorage.setItem("TTS_audio", base64);
+      }
+      setAudioURL(audioUrlFromTTS);
+      localStorage.setItem("audioURL", audioUrlFromTTS);
+      console.log("TTS Audio URL:", audioUrlFromTTS);
+    } catch (error) {
+      console.error("Error generating TTS:", error);
+    }
+  };
+  
+
   async function sendToTTS() {
     let textToRead = "";
     if (!typeResponse) {
@@ -114,22 +150,9 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     } else {
       textToRead = typedResponse;
     }
-
+  
     console.log("textToRead:", textToRead);
-    try {
-      console.log("selectedLanguage", selectedLanguage);
-      const audioUrlFromTTS = await SpeakText(
-        textToRead,
-        selectedLanguage,
-        selectedGender,
-        rates[speed] 
-      );
-      setAudioURL(audioUrlFromTTS);
-      localStorage.setItem("audioURL", audioUrlFromTTS);
-      console.log("TTS Audio URL:", audioUrlFromTTS);
-    } catch (error) {
-      console.error("Error generating TTS:", error);
-    }
+    await handleTTS(textToRead, selectedLanguage, selectedGender, rates[speed]);
   }
 
   useEffect(() => {

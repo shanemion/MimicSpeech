@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useAuth } from "../services/firebase/FirebaseAuth";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
+import { useSavedResponse } from "../services/saved/SavedContext";
 import "../styles.css";
 
 const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language }) => {
   const { currentUser, saveResponse, deleteSavedResponse, getResponseById } =
     useAuth();
+    const { isSaved, setIsSaved } = useSavedResponse(); // Get isSaved and setIsSaved from context
+
   const initialResponseId = localStorage.getItem("responseId");
 
   // isSaved is initially false if currentUser is null
-  const [isSaved, setIsSaved] = useState(
-    currentUser ? localStorage.getItem("isSaved") === "true" : false
-  );
+
   const [responseId, setResponseId] = useState(
     localStorage.getItem("responseId")
   ); // Store response ID
@@ -54,10 +55,7 @@ const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language }) 
         if (response) {
           setIsSaved(true);
         } else {
-          // If the saved response ID doesn't exist, reset it
-          localStorage.removeItem("isSaved");
-          localStorage.removeItem("responseId");
-          setResponseId(null);
+          setIsSaved(false);
         }
       }
     };
@@ -66,6 +64,8 @@ const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language }) 
   }, [currentUser, initialResponseId, getResponseById]);
 
   const handleClick = async () => {
+    console.log("isSaved:", isSaved, "setIsSaved:", setIsSaved);
+
     if (currentUser) {
       if (isSaved) {
         if (responseId) {
@@ -75,7 +75,7 @@ const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language }) 
       } else {
         const responseId = await saveResponse(
           currentUser.uid,
-          { text: generatedResponse, audioUrl: "fake.test/url" },
+          { text: generatedResponse },
           language
         );
         setResponseId(responseId); // Save response ID

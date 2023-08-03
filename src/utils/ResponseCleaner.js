@@ -7,6 +7,9 @@ export const ResponseCleaner = (response, numSentences) => {
   response = response.replace(/!/g, ".");
   response = response.replace(/！/g, ".");
   response = response.replace(/！/g, ".");
+  response = response.replace(/；/g, ".");
+  response = response.replace(/;/g, ".");
+  response = response.replace(/：/g, ":");
 
 
   let lines = response.split('\n');
@@ -28,7 +31,7 @@ export const ResponseCleaner = (response, numSentences) => {
   // remove trailing newline
   partial = partial.trim();
 
-  // Replace newline characters with periods to join sentences properly
+  // // Replace newline characters with periods to join sentences properly
   partial = partial.replace(/\n/g, ".");
 
   // Remove leading numbers from lines using a regular expression

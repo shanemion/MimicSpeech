@@ -75,13 +75,32 @@ export const AuthProvider = ({ children }) => {
   const saveResponse = async (userId, response, language) => {
     try {
       const responsesRef = collection(db, "users", userId, "responses");
-      const numSentences = parseInt(localStorage.getItem("numSentences"), 10) || 3; // Use the updated localStorage key
-      const docRef = await addDoc(responsesRef, { ...response, language, numSentences }); // Save numSentences as part of the response data
+      const numSentences = parseInt(localStorage.getItem("numSentences"), 10) || 3;
+      const responseId = localStorage.getItem("responseId");
+  
+      // Only add TTS and USER wav files if the response has been saved
+      let ttsAudioBase64 = null;
+      let userWavsBase64 = null;
+      if (responseId !== null) {
+        ttsAudioBase64 = localStorage.getItem("TTS_audio");
+        userWavsBase64 = JSON.parse(localStorage.getItem("USER_wavs") || "[]");
+      }
+  
+      const docRef = await addDoc(responsesRef, {
+        ...response,
+        TTSwav: ttsAudioBase64,
+        USERwav: userWavsBase64,
+        language,
+        numSentences,
+      });
+  
       return docRef.id;
     } catch (error) {
       console.error("Error saving response:", error);
     }
   };
+  
+  
   
   const fetchSavedResponses = async (userId) => {
     const responsesRef = collection(db, "users", userId, "responses");
@@ -95,11 +114,31 @@ export const AuthProvider = ({ children }) => {
   };
   
 
-
   const deleteSavedResponse = async (userId, docId) => {
     const docRef = doc(db, "users", userId, "responses", docId);
     await deleteDoc(docRef);
   };
+
+  const updateTTSwav = async (userId, responseId, ttsAudioBase64) => {
+    const responseRef = doc(db, "users", userId, "responses", responseId);
+    await setDoc(responseRef, { TTSwav: ttsAudioBase64 }, { merge: true });
+  };
+  
+  
+  const updateUserWav = async (userId, responseId, newRecording) => {
+    const responseRef = doc(db, "users", userId, "responses", responseId);
+    const responseDoc = await getDoc(responseRef);
+  
+    if (responseDoc.exists()) {
+      const existingRecordings = responseDoc.data().USERwav || [];
+      existingRecordings.push(newRecording);
+      await setDoc(responseRef, { USERwav: existingRecordings }, { merge: true });
+    } else {
+      // Handle the case where the response doesn't exist (e.g., initialize as a new response)
+      await setDoc(responseRef, { USERwav: [newRecording] }, { merge: true });
+    }
+  };
+  
 
   const getResponseById = async (userId, responseId) => {
     const responseRef = doc(db, 'users', userId, 'responses', responseId);
@@ -122,6 +161,8 @@ export const AuthProvider = ({ children }) => {
     fetchSavedResponses,
     deleteSavedResponse,
     getResponseById,
+    updateTTSwav,
+    updateUserWav,
   };
 
   return (

@@ -12,6 +12,9 @@ import useWindowSize from "./utils/WindowSize";
 import { Burger } from "./components/Burger";
 import { Selectors } from "./components/Selectors";
 import { Footer } from "./components/Footer";
+import { SavedResponseProvider } from "./services/saved/SavedContext";
+import { Save } from "@mui/icons-material";
+import { SavedAudioProvider } from "./services/saved/SavedAudioContext";
 
 function App() {
   const { width } = useWindowSize();
@@ -21,6 +24,9 @@ function App() {
     <Router>
       <div className="page-container">
         <AuthProvider>
+          <SavedResponseProvider>
+          <SavedAudioProvider>
+
           <div className="App">
             <div className="titleContainer">
               <Title />
@@ -51,6 +57,9 @@ function App() {
             </div>
             {/* <Footer /> */}
           </div>
+          </SavedAudioProvider>
+          </SavedResponseProvider>
+                
         </AuthProvider>
       </div>
     </Router>
