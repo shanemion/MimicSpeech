@@ -1,3 +1,8 @@
+const isChinese = (str) => {
+  const re = /^[\u4e00-\u9fa5。.，:.]+$/;  // Added the English period (.) and colon (:)
+  return re.test(str);
+};
+
 export const ResponseCleaner = (response, numSentences) => {
   response = response.trim();
   response = response.replace(/。/g, ".");
@@ -7,10 +12,10 @@ export const ResponseCleaner = (response, numSentences) => {
   response = response.replace(/!/g, ".");
   response = response.replace(/！/g, ".");
   response = response.replace(/！/g, ".");
+  response = response.replace(/！/g, ".");
   response = response.replace(/；/g, ".");
   response = response.replace(/;/g, ".");
   response = response.replace(/：/g, ":");
-
 
   let lines = response.split('\n');
   let partial = "";
@@ -45,28 +50,33 @@ export const ResponseCleaner = (response, numSentences) => {
     .map((sentence) => sentence.trim());
 
   // Add a normal period at the end of each sentence
-  const sentencesWithPeriod = cleanedSentences.map(
+  let sentencesWithPeriod = cleanedSentences.map(
     (sentence) => sentence + "."
   );
 
+  sentencesWithPeriod = sentencesWithPeriod.slice(0, numSentences * 3);
+
   console.log("sentencez", sentencesWithPeriod);
 
-  let chineseSentences = sentencesWithPeriod.slice(0, numSentences);
-  let pinyinSentences = sentencesWithPeriod.slice(
-    numSentences,
-    2 * numSentences
-  );
-  let englishSentences = sentencesWithPeriod.slice(2 * numSentences);
+  console.log("Is first sentence Chinese?", isChinese(sentencesWithPeriod[0]));
+console.log("Is numSentences-th sentence Chinese?", isChinese(sentencesWithPeriod[numSentences - 1]));
 
-  console.log("chineseSentences", chineseSentences);
-  console.log("pinyinSentences", pinyinSentences);
-  console.log("englishSentences", englishSentences);
+const allChinese = sentencesWithPeriod.slice(0, numSentences).every(isChinese);
 
-  // Switch back the Chinese periods
-  const chineseWithChinesePeriod = chineseSentences.map((sentence) =>
-    sentence.replace(/\./g, "。")
-  );
-
-  // Return the sentences for each language as an array
-  return [chineseWithChinesePeriod, pinyinSentences, englishSentences];
-};
+if (allChinese) {
+    // Variant format
+    const chineseSentences = sentencesWithPeriod.slice(0, numSentences);
+    const pinyinSentences = sentencesWithPeriod.slice(numSentences, 2 * numSentences);
+    const englishSentences = sentencesWithPeriod.slice(2 * numSentences, 3 * numSentences);
+    return [chineseSentences, pinyinSentences, englishSentences];
+} else {
+    // Expected format
+    const groupedSentences = [];
+    for (let i = 0; i < sentencesWithPeriod.length; i += 3) {
+      groupedSentences.push([sentencesWithPeriod[i], sentencesWithPeriod[i + 1], sentencesWithPeriod[i + 2]]);
+    }
+    const chineseSentences = groupedSentences.map(group => group[0]);
+    const pinyinSentences = groupedSentences.map(group => group[1]);
+    const englishSentences = groupedSentences.map(group => group[2]);
+    return [chineseSentences, pinyinSentences, englishSentences];
+}};

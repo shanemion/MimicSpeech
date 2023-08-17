@@ -20,6 +20,7 @@ import {
   where,
   deleteDoc,
 } from "firebase/firestore";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // Your web app's Firebase configuration
 
@@ -28,6 +29,8 @@ import {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
 const db = getFirestore();
+const storage = getStorage();
+
 
 const AuthContext = createContext();
 
@@ -163,6 +166,10 @@ export const AuthProvider = ({ children }) => {
     getResponseById,
     updateTTSwav,
     updateUserWav,
+    ref,
+    storage,
+    uploadBytes,
+    getDownloadURL
   };
 
   return (

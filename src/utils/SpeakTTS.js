@@ -26,7 +26,7 @@ const SpeakText = async (text, selectedLanguage, selectedGender, rate, userId, u
         if (result.reason === sdk.ResultReason.SynthesizingAudioCompleted) {
           const blob = new Blob([result.audioData], { type: 'audio/wav' }); // Assuming the audio data is in WAV format
           blobToBase64(blob).then(base64 => {
-            localStorage.setItem("TTS_audio", base64);
+            localStorage.setItem("TTS_audio_url", base64);
           });
           resolve(blob);
         } else {

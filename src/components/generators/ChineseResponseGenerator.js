@@ -9,6 +9,8 @@ import Bookmark from "../Bookmark";
 import SpeedSlider from "../SpeedSlider";
 import { blobToBase64 } from "../../utils/BlobTo64";
 import { useSavedAudio } from "../../services/saved/SavedAudioContext";
+import writeWavFile from "../../utils/Base64toWav";
+
 import "../../styles.css";
 
 import SpeakText from "../../utils/SpeakTTS";
@@ -46,6 +48,11 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     localStorage.getItem("typedResponse") || ""
   );
   const [isMounted, setIsMounted] = useState(false);
+
+  const [synthesizedAudio, setSynthesizedAudio] = useState(null);
+const [recordedAudios, setRecordedAudios] = useState([]);
+
+
 
   const [speed, setSpeed] = useState(2); // default speed at medium
 
@@ -124,6 +131,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
         selectedGender,
         rates[speed]
       );
+
       let base64 = localStorage.getItem("TTS_audio");
   
       base64 = encodeURIComponent(base64); // Encode the base64 string
@@ -277,6 +285,8 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
             </button>
           </div>
           <AudioRecorder sendToTTS={sendToTTS} />
+
+
         </div>
       )}
       {typeResponse && (

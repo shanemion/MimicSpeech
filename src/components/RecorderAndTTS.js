@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Countdown from "./Countdown";
+import Recorder from 'recorder-js';
 import "../styles.css";
-
 
 export const BothRecordAndTTS = ({
   sendToTTS,
@@ -11,55 +11,66 @@ export const BothRecordAndTTS = ({
   isRecording,
 }) => {
   const [seconds, setSeconds] = useState(3);
-  const [showCountdown, setShowCountdown] = useState(false); // State to control the rendering of the countdown
+  const [showCountdown, setShowCountdown] = useState(false);
+  const recorderRef = useRef(null);
+  const mediaStreamRef = useRef(null); // Reference to store the media stream
 
-  const playBackBoth = () => {
-    if (recordedChunks && recordedChunks.length > 0) {
-      const audioBlob = new Blob(recordedChunks, { type: "audio/wav" });
-      const audioURL = URL.createObjectURL(audioBlob);
+  const playBackBoth = async () => {
+    if (recorderRef.current) {
+      const { blob } = await recorderRef.current.stop();
+      const audioURL = URL.createObjectURL(blob);
       const audioElement = new Audio(audioURL);
       audioElement.play();
     }
 
     setTimeout(() => {
-      if (recordedChunks) {
-        sendToTTS();
-      }
+      sendToTTS();
     }, 1000);
   };
 
-  const handleButtonClick = () => {
+  const handleButtonClick = async () => {
     if (!isRecording) {
-      setShowCountdown(true); // Show the countdown when the button is clicked and not recording
+      setShowCountdown(true);
       const countdownInterval = setInterval(() => {
         setSeconds((prevSeconds) => prevSeconds - 1);
       }, 1000);
 
-      setTimeout(() => {
+      setTimeout(async () => {
         clearInterval(countdownInterval);
-        setShowCountdown(false); // Hide the countdown after the recording starts
+        setShowCountdown(false);
+
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        mediaStreamRef.current = stream; // Store the media stream
+        recorderRef.current = new Recorder(new AudioContext(), { numChannels: 1 });
+        recorderRef.current.init(stream);
+        recorderRef.current.start();
         startRecording();
+
         setTimeout(() => {
           sendToTTS();
         }, 1000);
-      }, 3000); // Set the duration of the countdown here (3 seconds in this example)
+      }, 3000);
     } else {
       stopRecording();
+      if (mediaStreamRef.current) {
+        mediaStreamRef.current.getTracks().forEach(track => track.stop()); // Stop all tracks of the media stream
+      }
     }
   };
 
   return (
     <div className="response-options">
-      {/* UI for recording and playback */}
       <button className={isRecording ? "recording" : "not-recording" } onClick={handleButtonClick}>
         {isRecording
           ? "Stop Recording"
           : "Start Recording alongside Text to Speech!"}
       </button>
-      <button className="response-option" onClick={() => playBackBoth()}>
+      <button className="response-option" onClick={playBackBoth}>
         Listen to your voice alongside Text to Speech!
       </button>
       {showCountdown && <Countdown seconds={seconds} setSeconds={setSeconds} />}
     </div>
   );
 };
+
+export default BothRecordAndTTS;
