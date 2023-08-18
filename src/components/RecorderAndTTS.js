@@ -63,10 +63,10 @@ export const BothRecordAndTTS = ({
       <button className={isRecording ? "recording" : "not-recording" } onClick={handleButtonClick}>
         {isRecording
           ? "Stop Recording"
-          : "Start Recording alongside Text to Speech!"}
+          : "Record alongside TTS!"}
       </button>
       <button className="response-option" onClick={playBackBoth}>
-        Listen to your voice alongside Text to Speech!
+        Playback alongside TTS!
       </button>
       {showCountdown && <Countdown seconds={seconds} setSeconds={setSeconds} />}
     </div>

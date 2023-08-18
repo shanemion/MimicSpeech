@@ -5,7 +5,7 @@ import { useAuth } from "../services/firebase/FirebaseAuth";
 import Recorder from "recorder-js"; // Import Recorder.js
 import "../styles.css";
 
-const AudioRecorder = ({ sendToTTS }) => {
+const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [audioURL, setAudioURL] = useState(null);
   const { currentUser } = useAuth();
@@ -52,6 +52,7 @@ const AudioRecorder = ({ sendToTTS }) => {
 
         // Get the download URL and store it in local storage
         const audioURL = await getDownloadURL(storageRef);
+        setRecordedAudios(prev => [...prev, { id: new Date().toISOString(), url: audioURL }]);
         localStorage.setItem("user_audio_url", audioURL);
       });
       setIsRecording(false);
@@ -83,14 +84,14 @@ const AudioRecorder = ({ sendToTTS }) => {
           className={isRecording ? "recording" : "not-recording"}
           onClick={isRecording ? stopRecording : startRecording}
         >
-          {isRecording ? "Stop Recording" : "Start Recording"}
+          {isRecording ? "Stop Recording" : "Record"}
         </button>
         <button
           className={!audioURL ? "disabled" : "response-option"}
           onClick={playRecordedAudio}
           disabled={!audioURL}
         >
-          Play Recorded Audio
+          Playback
         </button>
       </div>
       <BothRecordAndTTS

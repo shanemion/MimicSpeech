@@ -25,41 +25,45 @@ function App() {
       <div className="page-container">
         <AuthProvider>
           <SavedResponseProvider>
-          <SavedAudioProvider>
-
-          <div className="App">
-            <div className="titleContainer">
-              <Title />
-              {width > 768 ? <AuthButtons /> : <Burger />}
-            </div>
-            <div className="content">
-              <Routes>
-                <Route
-                  path="/*"
-                  element={
-                    <LanguageProvider>
-                      <Selectors
-                        className="selectors"
-                        typeResponse={typeResponse}
-                        setTypeResponse={setTypeResponse}
+            <SavedAudioProvider>
+              <LanguageProvider>
+                <div className="App">
+                  <div className="titleContainer">
+                    <div className="subTitleContainer">
+                      <Title />
+                      <div>
+                        <Selectors
+                          className="selectors"
+                          typeResponse={typeResponse}
+                          setTypeResponse={setTypeResponse}
+                        />
+                      </div>
+                    </div>
+                    {width > 768 ? <AuthButtons /> : <Burger />}
+                  </div>
+                  <div className="content">
+                    <Routes>
+                      <Route
+                        path="/*"
+                        element={
+                          <div>
+                            <Navigator
+                              typeResponse={typeResponse}
+                              setTypeResponse={setTypeResponse}
+                            />
+                          </div>
+                        }
                       />
-                      <Navigator
-                        typeResponse={typeResponse}
-                        setTypeResponse={setTypeResponse}
-                      />
-                    </LanguageProvider>
-                  }
-                />
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-                <Route path="/saved" element={<SavedResponses />} />
-              </Routes>
-            </div>
-            {/* <Footer /> */}
-          </div>
-          </SavedAudioProvider>
+                      <Route path="/login" element={<Login />} />
+                      <Route path="/register" element={<Register />} />
+                      <Route path="/saved" element={<SavedResponses />} />
+                    </Routes>
+                  </div>
+                  {/* <Footer /> */}
+                </div>
+              </LanguageProvider>
+            </SavedAudioProvider>
           </SavedResponseProvider>
-                
         </AuthProvider>
       </div>
     </Router>

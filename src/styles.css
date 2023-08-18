@@ -6,6 +6,7 @@
   display: flex;
   justify-content: center;
   gap: 20px; /* starting gap size */
+  margin-bottom: 0px;
 }
 
 .titleContainer {
@@ -19,6 +20,12 @@
 
 .titleContainer > h1 {
   margin: 0 auto;
+}
+
+.subTitleContainer {
+  display: flex;
+  align-items: center;
+  gap: 40px;
 }
 
 .languageSelected {
@@ -330,4 +337,113 @@
   padding: 0;
   outline: none;
   font-size: 2em; /* Adjust this value to make the icon bigger or smaller */
+}
+
+.recorded-audios-list {
+  margin-top: 20px;
+  display: flex;
+  justify-content: end;
+  align-items: start;
+}
+
+.recorded-audio-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.tts-and-slider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
+.play-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  font-size: 20px; /* Adjust this value to make the icon bigger or smaller */
+  vertical-align: middle; /* Add this line */
+}
+
+.icon-button {
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 8px;
+  padding: 7px 20px;
+  cursor: pointer;
+  line-height: 1; /* Reset the line-height */
+  vertical-align: middle; /* Adjust the vertical alignment */
+
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.icon-button:hover {
+  background-color: black;
+  color: white;
+}
+
+.gender-selector {
+  border: 1px solid black;
+  border-radius: 8px;
+  font-size: 1em;
+  gap: 4px;
+}
+
+.inside-icon-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2px;
+  font-size: 1em;
+}
+
+.speed-slider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.recording-and-graph {
+  display: flex;
+  justify-content: center; /* This will center the children horizontally */
+  /* align-items: center; This will center the children vertically */
+}
+
+.chart {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.recordings-list {
+  margin-left: 40px; /* This will push the recording list 40px to the right of the chart */
+}
+
+.analyze-button {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+}
+
+.outlined-container {
+
+  border: 2px solid #ccc; /* This gives a thin outline */
+  border-radius: 16px; /* This rounds the edges slightly */
+  padding-bottom: 12px;
+  margin: 10px auto; /* This adds some space above and below the container */
+  width: 70%;
+}
+
+.outlined-subcontainer {
+  border: 2px solid #ccc; /* This gives a thin outline */
+  border-radius: 4px; /* This rounds the edges slightly */
+  /* padding: 5px 0; This adds some space between the content and the border */
+  margin: 10px -2px; /* This adds some space above and below the container */
+  width: 100%;
 }

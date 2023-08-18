@@ -62,7 +62,7 @@ const SpeedSlider = ({ speed, setSpeed }) => {
   };
 
   return (
-    <div className="center">
+    <div className="speed-slider">
       <ThemeProvider theme={theme}>
         <Slider
           defaultValue={2}

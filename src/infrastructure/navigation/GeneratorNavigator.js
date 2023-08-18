@@ -1,9 +1,8 @@
 import React, { useContext } from "react";
-import AnalyzeButton from "../../components/GraphButton";
 import ChineseResponseGenerator from "../../components/generators/ChineseResponseGenerator";
-import EnglishResponseGenerator from "../../components/generators/EnglishResponseGenerator";
-import JapaneseResponseGenerator from "../../components/generators/JapaneseResponseGenerator";
-import VietnameseResponseGenerator from "../../components/generators/VietnameseResponseGenerator";
+// import EnglishResponseGenerator from "../../components/generators/EnglishResponseGenerator";
+// import JapaneseResponseGenerator from "../../components/generators/JapaneseResponseGenerator";
+// import VietnameseResponseGenerator from "../../components/generators/VietnameseResponseGenerator";
 
 import LanguageContext from "../../services/language/LanguageContext";
 
@@ -24,11 +23,10 @@ export const Navigator = ({ typeResponse, setTypeResponse }) => {
           setTypeResponse={setTypeResponse}
         />
       )}
-      {language === "English" && <EnglishResponseGenerator />}
+      {/* {language === "English" && <EnglishResponseGenerator />}
       {language === "Japanese" && <JapaneseResponseGenerator />}
-      {language === "Vietnamese" && <VietnameseResponseGenerator />}
+      {language === "Vietnamese" && <VietnameseResponseGenerator />} */}
       </div>
-      <AnalyzeButton />
     </>
   );
 };

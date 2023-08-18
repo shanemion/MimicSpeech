@@ -63,33 +63,12 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
     );
   };
 
-  const GenderSelector = () => {
-    const genderOptions = [
-      { value: "Man", label: "Man" },
-      { value: "Woman", label: "Woman" },
-    ];
 
-    const handleChange = (selectedOption) => {
-      setSelectedGender(selectedOption);
-      console.log("Selected Gender:", selectedOption);
-    };
-
-    return (
-      <Select
-        className="selectorWidth"
-        value={selectedGender}
-        onChange={handleChange}
-        options={genderOptions}
-        placeholder="Choose a Voice"
-      />
-    );
-  };
 
   return (
     <div className="selectorContainer">
       <AiAndTypeSelector />
       <LanguageSelector />
-      <GenderSelector />
     </div>
   );
 };

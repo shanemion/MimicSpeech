@@ -10,6 +10,11 @@ import SpeedSlider from "../SpeedSlider";
 import { blobToBase64 } from "../../utils/BlobTo64";
 import { useSavedAudio } from "../../services/saved/SavedAudioContext";
 import writeWavFile from "../../utils/Base64toWav";
+import { RecordedAudioList } from "../RecordedAudiosList";
+import AnalyzeButton from "../AnalyzeButton";
+import { CiPlay1 } from "react-icons/ci";
+import { TTSsettings } from "../TTSsettings";
+import PitchChart from "../PitchChart";
 
 import "../../styles.css";
 
@@ -25,7 +30,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [responseLength, setResponseLength] = useState(
     parseInt(localStorage.getItem("numSentences"), 10) || 3
   );
-  
+
   const [generatedResponse, setGeneratedResponse] = useState(
     localStorage.getItem("generatedResponse") || ""
   );
@@ -50,18 +55,18 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   const [synthesizedAudio, setSynthesizedAudio] = useState(null);
-const [recordedAudios, setRecordedAudios] = useState([]);
-
-
+  const [recordedAudios, setRecordedAudios] = useState([]);
 
   const [speed, setSpeed] = useState(2); // default speed at medium
 
-  const rates = ['x-slow', 'slow', 'medium', 'fast', 'x-fast'];
+  const rates = ["x-slow", "slow", "medium", "fast", "x-fast"];
 
-  const { updateTTSwav} = useAuth();
+  const [synthesizedPitchData, setSynthesizedPitchData] = useState([]);
+  const [recordedPitchData, setRecordedPitchData] = useState([]);
+
+  const { updateTTSwav } = useAuth();
 
   const { currentUser } = useAuth();
-  
 
   useEffect(() => {
     setIsMounted(true);
@@ -78,15 +83,14 @@ const [recordedAudios, setRecordedAudios] = useState([]);
     setResponseLength(newValue);
     localStorage.setItem("numSentences", newValue.toString());
   };
-  
 
   const handleGenerateResponse = async () => {
     localStorage.removeItem("TTS_audio"); // Correct key
     localStorage.removeItem("USER_wavs"); // Correct key
     const prompt = `
-    Return a real-world, individual dialogue in simplified Mandarin Chinese, pinyin, and english on ${userPrompt}. 
+    Return a real-world event in simplified Mandarin Chinese, pinyin, and english on ${userPrompt}. 
     In your response, make the sentences fluid and humanlike. Avoid using overly complex grammar patterns and semicolons. 
-    The completion should have the following structure: ${responseLength} sentences in Chinese, then ${responseLength} sentences Pinyin, then ${responseLength} in English.`
+    The completion should have the following structure: ${responseLength} sentences in Chinese, then ${responseLength} sentences Pinyin, then ${responseLength} in English.`;
 
     console.log(prompt);
 
@@ -123,7 +127,12 @@ const [recordedAudios, setRecordedAudios] = useState([]);
     }
   };
 
-  const handleTTS = async (textToRead, selectedLanguage, selectedGender, rate) => {
+  const handleTTS = async (
+    textToRead,
+    selectedLanguage,
+    selectedGender,
+    rate
+  ) => {
     try {
       const audioUrlFromTTS = await SpeakText(
         textToRead,
@@ -133,7 +142,7 @@ const [recordedAudios, setRecordedAudios] = useState([]);
       );
 
       let base64 = localStorage.getItem("TTS_audio");
-  
+
       base64 = encodeURIComponent(base64); // Encode the base64 string
       const responseId = localStorage.getItem("responseId");
       if (responseId !== null) {
@@ -149,7 +158,25 @@ const [recordedAudios, setRecordedAudios] = useState([]);
       console.error("Error generating TTS:", error);
     }
   };
-  
+
+  const playAudio = (url) => {
+    const audioElement = new Audio(url);
+    audioElement.play();
+  };
+
+  const deleteAudio = (audioId) => {
+    // Find the index of the audio to delete
+    const indexToDelete = recordedAudios.findIndex(
+      (audio) => audio.id === audioId
+    );
+    setRecordedAudios((prev) => prev.filter((audio) => audio.id !== audioId));
+    if (indexToDelete !== -1) {
+      setRecordedPitchData((prevData) => [
+        ...prevData.slice(0, indexToDelete),
+        ...prevData.slice(indexToDelete + 1),
+      ]);
+    }
+  };
 
   async function sendToTTS() {
     let textToRead = "";
@@ -158,7 +185,7 @@ const [recordedAudios, setRecordedAudios] = useState([]);
     } else {
       textToRead = typedResponse;
     }
-  
+
     console.log("textToRead:", textToRead);
     await handleTTS(textToRead, selectedLanguage, selectedGender, rates[speed]);
   }
@@ -180,28 +207,26 @@ const [recordedAudios, setRecordedAudios] = useState([]);
       <div>
         {!typeResponse && (
           <div className="center">
-          <div className="inputs">
-            <div className="prompt-input">
-              <label htmlFor="prompt">Enter Your Prompt:</label>
-              <input
-                type="text"
-                id="prompt"
-                value={userPrompt}
-                onChange={handlePromptChange}
-              />
+            <div className="inputs">
+              <div className="prompt-input">
+                <label htmlFor="prompt">Enter Your Prompt:</label>
+                <input
+                  type="text"
+                  id="prompt"
+                  value={userPrompt}
+                  onChange={handlePromptChange}
+                />
+              </div>
+              <div className="response-length-input">
+                <label htmlFor="respone-length"># Sentences:</label>
+                <input
+                  type="number"
+                  id="responseLength"
+                  value={responseLength}
+                  onChange={handleResponseLengthChange}
+                />
+              </div>
             </div>
-            <div className="response-length-input">
-              <label htmlFor="respone-length">
-                # Sentences:
-              </label>
-              <input
-                type="number"
-                id="responseLength"
-                value={responseLength}
-                onChange={handleResponseLengthChange}
-              />
-            </div>
-          </div>
           </div>
         )}
         <div className="center">
@@ -225,68 +250,98 @@ const [recordedAudios, setRecordedAudios] = useState([]);
             )}
           </div>
         </div>
-        <SpeedSlider speed={speed} setSpeed={setSpeed} />
       </div>
       {generatedResponse && !typeResponse && (
         <div>
-          <div className="response-options">
-            <button
-              className={
-                selectedPage === "One"
-                  ? "response-option-selected"
-                  : "response-option"
-              }
-              onClick={() => {
-                setSelectedPage("One");
-                localStorage.setItem("selectedPage", "One");
-              }}
-            >
-              Chinese, Pinyin, and English
-            </button>
-            <button
-              className={
-                selectedPage === "Two"
-                  ? "response-option-selected"
-                  : "response-option"
-              }
-              onClick={() => {
-                setSelectedPage("Two");
-                localStorage.setItem("selectedPage", "Two");
-              }}
-            >
-              Chinese and Pinyin
-            </button>
-            <button
-              className={
-                selectedPage === "Three"
-                  ? "response-option-selected"
-                  : "response-option"
-              }
-              onClick={() => {
-                setSelectedPage("Three");
-                localStorage.setItem("selectedPage", "Three");
-              }}
-            >
-              Chinese
-            </button>
+          <div className="outlined-container">
+            <div className="response-options">
+              <button
+                className={
+                  selectedPage === "One"
+                    ? "response-option-selected"
+                    : "response-option"
+                }
+                onClick={() => {
+                  setSelectedPage("One");
+                  localStorage.setItem("selectedPage", "One");
+                }}
+              >
+                Chinese, Pinyin, and English
+              </button>
+              <button
+                className={
+                  selectedPage === "Two"
+                    ? "response-option-selected"
+                    : "response-option"
+                }
+                onClick={() => {
+                  setSelectedPage("Two");
+                  localStorage.setItem("selectedPage", "Two");
+                }}
+              >
+                Chinese and Pinyin
+              </button>
+              <button
+                className={
+                  selectedPage === "Three"
+                    ? "response-option-selected"
+                    : "response-option"
+                }
+                onClick={() => {
+                  setSelectedPage("Three");
+                  localStorage.setItem("selectedPage", "Three");
+                }}
+              >
+                Chinese
+              </button>
+            </div>
+            <div className="outlined-subcontainer">
+              <ResponseRenderer
+                sentences={sentences}
+                selectedPage={selectedPage}
+                newResponse={generatedResponse}
+              />
+            </div>
+            <TTSsettings
+              sendToTTS={sendToTTS}
+              isPlayButtonDisabled={isPlayButtonDisabled}
+              speed={speed}
+              setSpeed={setSpeed}
+            />
           </div>
-          <ResponseRenderer
-            sentences={sentences}
-            selectedPage={selectedPage}
-            newResponse={generatedResponse}
+          <AudioRecorder
+            sendToTTS={sendToTTS}
+            recordedAudios={recordedAudios}
+            setRecordedAudios={setRecordedAudios}
           />
-          <div className="center">
-            <button
-              className="response-option"
-              onClick={sendToTTS}
-              disabled={isPlayButtonDisabled}
-            >
-              Play Text to Speech
-            </button>
+          <div>
+            <AnalyzeButton
+              synthesizedPitchData={synthesizedPitchData}
+              setSynthesizedPitchData={setSynthesizedPitchData}
+              recordedPitchData={recordedPitchData}
+              setRecordedPitchData={setRecordedPitchData}
+              generatedResponse={generatedResponse}
+              setRecordedAudios={setRecordedAudios}
+            />
+            <div className="recording-and-graph">
+              <PitchChart
+                synthesizedData={synthesizedPitchData}
+                recordedData={recordedPitchData}
+                generatedResponse={generatedResponse}
+              />
+              <div className="recordings-list">
+                {recordedAudios.map((audio, index) => (
+                  <div key={audio.id} className="recorded-audio-item">
+                    <p>Recording {index + 1}</p>
+                    <button onClick={() => playAudio(audio.url)}>Play</button>
+                    <button onClick={() => deleteAudio(audio.id)}>
+                      Delete
+                    </button>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          <AudioRecorder sendToTTS={sendToTTS} />
-
-
         </div>
       )}
       {typeResponse && (
@@ -306,12 +361,12 @@ const [recordedAudios, setRecordedAudios] = useState([]);
                 );
               }}
             />
-            <Bookmark
+            {/* <Bookmark
               typeResponse={typeResponse}
               typedResponse={typedResponse}
               generatedResponse={typedResponse}
               language="Chinese"
-            />
+            /> */}
           </div>
           <div className="center">
             <button
