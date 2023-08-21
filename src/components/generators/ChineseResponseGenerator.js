@@ -3,7 +3,6 @@ import { useAuth } from "../../services/firebase/FirebaseAuth";
 import ResponseRenderer from "../ResponseRenderer";
 import { ResponseCleaner } from "../../utils/ResponseCleaner";
 import AudioRecorder from "../AudioRecorder";
-import { OPENAI_KEY } from "../../apikeys";
 import LanguageContext from "../../services/language/LanguageContext";
 import Bookmark from "../Bookmark";
 import SpeedSlider from "../SpeedSlider";
@@ -19,6 +18,8 @@ import PitchChart from "../PitchChart";
 import "../../styles.css";
 
 import SpeakText from "../../utils/SpeakTTS";
+const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;
+
 
 const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const { saveAudio } = useSavedAudio();

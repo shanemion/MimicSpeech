@@ -13,7 +13,14 @@ from traceback import print_exc
 from flask_cors import CORS
 
 app = Flask(__name__)
-CORS(app) # Enable CORS for all routes
+
+# Set up CORS with specific options
+CORS(app, resources={
+    r"/*": {
+        "origins": "http://localhost:3000",
+        "supports_credentials": True
+    }
+})
 
 def analyze_pitch(base64_audio):
     # Decode the base64 audio data

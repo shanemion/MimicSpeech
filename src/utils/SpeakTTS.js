@@ -1,7 +1,8 @@
-import { SPEECH_KEY, SPEECH_REGION } from "../apikeys.js";
 import SelectedVoice from "../services/language/LanguageString";
 import { blobToBase64 } from "./BlobTo64";
 
+const SPEECH_KEY = process.env.REACT_APP_SPEECH_KEY;
+const SPEECH_REGION = process.env.REACT_APP_SPEECH_REGION;
 
 const sdk = require("microsoft-cognitiveservices-speech-sdk");
 
