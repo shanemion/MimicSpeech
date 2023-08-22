@@ -9,17 +9,16 @@ import SpeedSlider from "../SpeedSlider";
 import { blobToBase64 } from "../../utils/BlobTo64";
 import { useSavedAudio } from "../../services/saved/SavedAudioContext";
 import writeWavFile from "../../utils/Base64toWav";
-import { RecordedAudioList } from "../RecordedAudiosList";
 import AnalyzeButton from "../AnalyzeButton";
 import { CiPlay1 } from "react-icons/ci";
 import { TTSsettings } from "../TTSsettings";
 import PitchChart from "../PitchChart";
+import { RecordedAudios } from "../RecordedAudios";
 
 import "../../styles.css";
 
 import SpeakText from "../../utils/SpeakTTS";
 const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;
-
 
 const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const { saveAudio } = useSavedAudio();
@@ -41,6 +40,10 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [audioURL, setAudioURL] = useState(
     localStorage.getItem("audioURL") || null
   );
+
+  const [recordedAudioURL, setRecordedAudioURL] = useState(null);
+
+
   const [mainString, setMainString] = useState(
     localStorage.getItem("mainString") || ""
   );
@@ -69,6 +72,10 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
 
   const { currentUser } = useAuth();
 
+  const [chartUpdateKey, setChartUpdateKey] = useState(0);
+
+  
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -86,7 +93,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   };
 
   const handleGenerateResponse = async () => {
-    localStorage.removeItem("TTS_audio"); // Correct key
+    // localStorage.removeItem("TTS_audio"); // Correct key
     localStorage.removeItem("USER_wavs"); // Correct key
     const prompt = `
     Return a real-world event in simplified Mandarin Chinese, pinyin, and english on ${userPrompt}. 
@@ -166,18 +173,13 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   };
 
   const deleteAudio = (audioId) => {
-    // Find the index of the audio to delete
-    const indexToDelete = recordedAudios.findIndex(
-      (audio) => audio.id === audioId
-    );
+    // Delete the audio from recordedAudios
     setRecordedAudios((prev) => prev.filter((audio) => audio.id !== audioId));
-    if (indexToDelete !== -1) {
-      setRecordedPitchData((prevData) => [
-        ...prevData.slice(0, indexToDelete),
-        ...prevData.slice(indexToDelete + 1),
-      ]);
-    }
+  
+    // Delete the corresponding pitch data from recordedPitchData
+    setRecordedPitchData((prevData) => prevData.filter(item => item.id !== audioId));
   };
+  
 
   async function sendToTTS() {
     let textToRead = "";
@@ -314,6 +316,8 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
             sendToTTS={sendToTTS}
             recordedAudios={recordedAudios}
             setRecordedAudios={setRecordedAudios}
+            recordedAudioURL={recordedAudioURL}
+            setRecordedAudioURL={setRecordedAudioURL}
           />
           <div>
             <AnalyzeButton
@@ -322,24 +326,31 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
               recordedPitchData={recordedPitchData}
               setRecordedPitchData={setRecordedPitchData}
               generatedResponse={generatedResponse}
+              recordedAudioURL={recordedAudioURL}
               setRecordedAudios={setRecordedAudios}
             />
             <div className="recording-and-graph">
               <PitchChart
+                synthesizedPitchData={synthesizedPitchData}
+                recordedPitchData={recordedPitchData}
+                recordedAudios={recordedAudios}
+                generatedResponse={generatedResponse}
+              />
+              {/* <PitchAccuracy
                 synthesizedData={synthesizedPitchData}
                 recordedData={recordedPitchData}
                 generatedResponse={generatedResponse}
-              />
+              /> */}
               <div className="recordings-list">
-                {recordedAudios.map((audio, index) => (
-                  <div key={audio.id} className="recorded-audio-item">
-                    <p>Recording {index + 1}</p>
-                    <button onClick={() => playAudio(audio.url)}>Play</button>
-                    <button onClick={() => deleteAudio(audio.id)}>
-                      Delete
-                    </button>
-                  </div>
-                ))}
+                <RecordedAudios
+                  recordedAudios={recordedAudios}
+                  playAudio={playAudio}
+                  deleteAudio={deleteAudio}
+                  synthesizedPitchData={synthesizedPitchData}
+                  recordedPitchData={recordedPitchData}
+                  setRecordedPitchData={setRecordedPitchData}
+                  forceChartUpdate={() => setChartUpdateKey(prevKey => prevKey + 1)}
+                />
               </div>
             </div>
           </div>

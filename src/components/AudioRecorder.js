@@ -5,9 +5,9 @@ import { useAuth } from "../services/firebase/FirebaseAuth";
 import Recorder from "recorder-js"; // Import Recorder.js
 import "../styles.css";
 
-const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios }) => {
+const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios, recordedAudioURL, setRecordedAudioURL }) => {
   const [isRecording, setIsRecording] = useState(false);
-  const [audioURL, setAudioURL] = useState(null);
+  const [tempAudioURL, setTempAudioURL] = useState("");
   const { currentUser } = useAuth();
   const { updateUserWav } = useAuth();
   const { ref, storage, uploadBytes, getDownloadURL } = useAuth();
@@ -39,8 +39,8 @@ const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios }) => {
 
     if (recorder) {
       recorder.stop().then(async ({ blob }) => {
-        setAudioURL(URL.createObjectURL(blob));
-
+        setRecordedAudioURL(URL.createObjectURL(blob));
+        setTempAudioURL(URL.createObjectURL(blob));
         // Upload the blob to Firebase Storage
         const storageRef = ref(
           storage,
@@ -49,10 +49,10 @@ const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios }) => {
         await uploadBytes(storageRef, blob);
         recorder.stream.getTracks().forEach(track => track.stop());
 
-
+          console.log(tempAudioURL)
         // Get the download URL and store it in local storage
         const audioURL = await getDownloadURL(storageRef);
-        setRecordedAudios(prev => [...prev, { id: new Date().toISOString(), url: audioURL }]);
+        setTempAudioURL(audioURL);
         localStorage.setItem("user_audio_url", audioURL);
       });
       setIsRecording(false);
@@ -61,8 +61,8 @@ const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios }) => {
   };
 
   const playRecordedAudio = () => {
-    if (audioURL) {
-      const audioElement = new Audio(audioURL);
+    if (tempAudioURL) {
+      const audioElement = new Audio(tempAudioURL);
       audioElement.play();
     }
   };
@@ -87,9 +87,9 @@ const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios }) => {
           {isRecording ? "Stop Recording" : "Record"}
         </button>
         <button
-          className={!audioURL ? "disabled" : "response-option"}
+          className={!tempAudioURL ? "disabled" : "response-option"}
           onClick={playRecordedAudio}
-          disabled={!audioURL}
+          disabled={!tempAudioURL}
         >
           Playback
         </button>
