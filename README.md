@@ -1,6 +1,6 @@
 Personal project designed to help improve accent and listening ability for foreign languages utilizing OPENAI API, Azure, GCP / Firestore, Flask, React, other libraries.
 
-Up next: Adding overall percent accuracy. Adding struggling words. Adding theme. Adding preset responses for free trials/examples. Adding Stripe for payments.
+Up next: Adding theme. Adding security/rates to prevent API/storage abuse. Improving storage decisions to limit costs. Adding preset responses for free trials/examples. Adding Stripe for subcription payments. Utilize Microsoft Speech to Text analysis tools to return per word accuracy rating.
 
 Current Design before theming and redesign. All functionality visible in proper working condition.
 
