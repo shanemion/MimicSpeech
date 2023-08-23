@@ -5,12 +5,8 @@ import { ResponseCleaner } from "../../utils/ResponseCleaner";
 import AudioRecorder from "../AudioRecorder";
 import LanguageContext from "../../services/language/LanguageContext";
 import Bookmark from "../Bookmark";
-import SpeedSlider from "../SpeedSlider";
-import { blobToBase64 } from "../../utils/BlobTo64";
 import { useSavedAudio } from "../../services/saved/SavedAudioContext";
-import writeWavFile from "../../utils/Base64toWav";
 import AnalyzeButton from "../AnalyzeButton";
-import { CiPlay1 } from "react-icons/ci";
 import { TTSsettings } from "../TTSsettings";
 import PitchChart from "../PitchChart";
 import { RecordedAudios } from "../RecordedAudios";
@@ -22,6 +18,8 @@ const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;
 
 const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const { saveAudio } = useSavedAudio();
+  const { ref, storage, deleteObject  } = useAuth();
+
 
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
   const [userPrompt, setUserPrompt] = useState(
@@ -42,7 +40,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   );
 
   const [recordedAudioURL, setRecordedAudioURL] = useState(null);
-
 
   const [mainString, setMainString] = useState(
     localStorage.getItem("mainString") || ""
@@ -74,7 +71,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
 
   const [chartUpdateKey, setChartUpdateKey] = useState(0);
 
-  
 
   useEffect(() => {
     setIsMounted(true);
@@ -93,8 +89,14 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   };
 
   const handleGenerateResponse = async () => {
+    // clean-up.
     // localStorage.removeItem("TTS_audio"); // Correct key
     localStorage.removeItem("USER_wavs"); // Correct key
+    recordedAudios.forEach(async (audio) => {
+      const audioRef = ref(storage, `recordedAudios/${audio.id}.wav`);
+      await deleteObject(audioRef);
+    });
+
     const prompt = `
     Return a real-world event in simplified Mandarin Chinese, pinyin, and english on ${userPrompt}. 
     In your response, make the sentences fluid and humanlike. Avoid using overly complex grammar patterns and semicolons. 

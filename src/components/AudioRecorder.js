@@ -44,8 +44,8 @@ const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios, recordedA
         // Upload the blob to Firebase Storage
         const storageRef = ref(
           storage,
-          "recordedAudios/" + new Date().toISOString() + ".wav"
-        );
+          `recordedAudios/${currentUser.uid}/${new Date().toISOString()}.wav`
+          );
         await uploadBytes(storageRef, blob);
         recorder.stream.getTracks().forEach(track => track.stop());
 
