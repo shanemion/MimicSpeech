@@ -5,22 +5,18 @@ import { ResponseCleaner } from "../../utils/ResponseCleaner";
 import AudioRecorder from "../AudioRecorder";
 import LanguageContext from "../../services/language/LanguageContext";
 import Bookmark from "../Bookmark";
-import { useSavedAudio } from "../../services/saved/SavedAudioContext";
 import AnalyzeButton from "../AnalyzeButton";
 import { TTSsettings } from "../TTSsettings";
 import PitchChart from "../PitchChart";
 import { RecordedAudios } from "../RecordedAudios";
-
+import SpeakText from "../../utils/SpeakTTS";
+import LoaderIcon from "react-loader-icon";
 import "../../styles.css";
 
-import SpeakText from "../../utils/SpeakTTS";
 const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;
 
 const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
-  const { saveAudio } = useSavedAudio();
-  const { ref, storage, deleteObject  } = useAuth();
-
-
+  const { ref, storage, deleteObject } = useAuth();
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
   const [userPrompt, setUserPrompt] = useState(
     localStorage.getItem("userPrompt") || "A reporter giving daily news."
@@ -28,7 +24,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [responseLength, setResponseLength] = useState(
     parseInt(localStorage.getItem("numSentences"), 10) || 3
   );
-
   const [generatedResponse, setGeneratedResponse] = useState(
     localStorage.getItem("generatedResponse") || ""
   );
@@ -38,39 +33,27 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [audioURL, setAudioURL] = useState(
     localStorage.getItem("audioURL") || null
   );
-
   const [recordedAudioURL, setRecordedAudioURL] = useState(null);
-
   const [mainString, setMainString] = useState(
     localStorage.getItem("mainString") || ""
   );
   const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(
     localStorage.getItem("isPlayButtonDisabled") === "true"
   );
-  const [isGenerateDisabled, setIsGenerateDisabled] = useState(
-    localStorage.getItem("isGenerateDisabled") === "true"
-  );
   const [typedResponse, setTypedResponse] = useState(
     localStorage.getItem("typedResponse") || ""
   );
   const [isMounted, setIsMounted] = useState(false);
-
   const [synthesizedAudio, setSynthesizedAudio] = useState(null);
   const [recordedAudios, setRecordedAudios] = useState([]);
-
   const [speed, setSpeed] = useState(2); // default speed at medium
-
   const rates = ["x-slow", "slow", "medium", "fast", "x-fast"];
-
   const [synthesizedPitchData, setSynthesizedPitchData] = useState([]);
   const [recordedPitchData, setRecordedPitchData] = useState([]);
-
   const { updateTTSwav } = useAuth();
-
   const { currentUser } = useAuth();
-
-  const [chartUpdateKey, setChartUpdateKey] = useState(0);
-
+  const [isAnalyzeButtonLoading, setIsAnalyzeButtonLoading] = useState(false);
+  const [isGPTLoading, setIsGPTLoading] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -96,7 +79,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
       const audioRef = ref(storage, `recordedAudios/${audio.id}.wav`);
       await deleteObject(audioRef);
     });
-
+    setIsGPTLoading(true);
     const prompt = `
     Return a real-world event in simplified Mandarin Chinese, pinyin, and english on ${userPrompt}. 
     In your response, make the sentences fluid and humanlike. Avoid using overly complex grammar patterns and semicolons. 
@@ -135,6 +118,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
         );
       }
     }
+    setIsGPTLoading(false);
   };
 
   const handleTTS = async (
@@ -177,11 +161,12 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const deleteAudio = (audioId) => {
     // Delete the audio from recordedAudios
     setRecordedAudios((prev) => prev.filter((audio) => audio.id !== audioId));
-  
+
     // Delete the corresponding pitch data from recordedPitchData
-    setRecordedPitchData((prevData) => prevData.filter(item => item.id !== audioId));
+    setRecordedPitchData((prevData) =>
+      prevData.filter((item) => item.id !== audioId)
+    );
   };
-  
 
   async function sendToTTS() {
     let textToRead = "";
@@ -238,11 +223,11 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
           <div className="button-container">
             {!typeResponse && (
               <button
-                className="generate"
+                className={isGPTLoading ? "generate-disabled" : "generate"}
                 onClick={handleGenerateResponse}
-                disabled={isGenerateDisabled}
+                disabled={isGPTLoading}
               >
-                Generate Response
+                {isGPTLoading ? "Response Generating..." : "Generate Response"}
               </button>
             )}
             {generatedResponse && !typeResponse && (
@@ -301,11 +286,19 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
               </button>
             </div>
             <div className="outlined-subcontainer">
+              {isGPTLoading && (
+              <LoaderIcon
+                type={"spin"}
+                style={{ marginTop: 20, marginBottom: 20 }}
+              />)}
+              {/* <LoaderIcon type={"spinningBubbles"} /> */}
+              {!isGPTLoading && (
               <ResponseRenderer
                 sentences={sentences}
                 selectedPage={selectedPage}
                 newResponse={generatedResponse}
               />
+              )}
             </div>
             <TTSsettings
               sendToTTS={sendToTTS}
@@ -320,6 +313,8 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
             setRecordedAudios={setRecordedAudios}
             recordedAudioURL={recordedAudioURL}
             setRecordedAudioURL={setRecordedAudioURL}
+            isAnalyzeButtonLoading={isAnalyzeButtonLoading}
+            setIsAnalyzeButtonLoading={setIsAnalyzeButtonLoading}
           />
           <div>
             <AnalyzeButton
@@ -330,6 +325,8 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
               generatedResponse={generatedResponse}
               recordedAudioURL={recordedAudioURL}
               setRecordedAudios={setRecordedAudios}
+              isAnalyzeButtonLoading={isAnalyzeButtonLoading}
+              setIsAnalyzeButtonLoading={setIsAnalyzeButtonLoading}
             />
             <div className="recording-and-graph">
               <PitchChart
@@ -338,11 +335,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                 recordedAudios={recordedAudios}
                 generatedResponse={generatedResponse}
               />
-              {/* <PitchAccuracy
-                synthesizedData={synthesizedPitchData}
-                recordedData={recordedPitchData}
-                generatedResponse={generatedResponse}
-              /> */}
               <div className="recordings-list">
                 <RecordedAudios
                   recordedAudios={recordedAudios}
@@ -351,7 +343,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   synthesizedPitchData={synthesizedPitchData}
                   recordedPitchData={recordedPitchData}
                   setRecordedPitchData={setRecordedPitchData}
-                  forceChartUpdate={() => setChartUpdateKey(prevKey => prevKey + 1)}
                 />
               </div>
             </div>

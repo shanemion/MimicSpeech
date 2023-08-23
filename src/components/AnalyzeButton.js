@@ -11,6 +11,8 @@ const AnalyzeButton = ({
   generatedResponse,
   recordedAudioURL,
   setRecordedAudios,
+  isAnalyzeButtonLoading,
+  setIsAnalyzeButtonLoading
 }) => {
 
   useEffect(() => {
@@ -35,19 +37,22 @@ const AnalyzeButton = ({
       console.log("Synthesized Pitch z:", data.synthesized_pitch_data);
       console.log("Recorded Pitch z:", data.recorded_pitch_data);
     }
+    setIsAnalyzeButtonLoading(false);
   };
 
   return (
     <div className="analyze-button">
       <button
-        className="response-option"
-        onClick={() => {
+          className={isAnalyzeButtonLoading ? "disabled" : "response-option"}
+          onClick={() => {
           if (localStorage.getItem("TTS_audio_url") === "" || localStorage.getItem("user_audio_url") === "") {
             alert("Listen and record before comparing!");
           } else {
+            setIsAnalyzeButtonLoading(true);
             handleAnalyzeAudio();
           }
         }}
+        disabled={isAnalyzeButtonLoading}
       >
         Save and Compare
       </button>

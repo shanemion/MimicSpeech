@@ -97,6 +97,21 @@
   margin-bottom: 30px;
 }
 
+.generate-disabled {
+  pointer-events: none;
+  opacity: 0.4;
+  background-color: white;
+  color: black;
+  border: 2px solid black;
+  border-radius: 8px;
+  font-size: 14px;
+  padding: 12px 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  margin-top: 20px;
+  margin-bottom: 30px;
+}
+
 .generate:hover {
   background-color: black;
   color: white;

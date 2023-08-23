@@ -5,7 +5,7 @@ import { useAuth } from "../services/firebase/FirebaseAuth";
 import Recorder from "recorder-js"; // Import Recorder.js
 import "../styles.css";
 
-const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios, recordedAudioURL, setRecordedAudioURL }) => {
+const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios, recordedAudioURL, setRecordedAudioURL, isAnalyzeButtonLoading, setIsAnalyzeButtonLoading }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [tempAudioURL, setTempAudioURL] = useState("");
   const { currentUser } = useAuth();
@@ -41,6 +41,7 @@ const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios, recordedA
       recorder.stop().then(async ({ blob }) => {
         setRecordedAudioURL(URL.createObjectURL(blob));
         setTempAudioURL(URL.createObjectURL(blob));
+        setIsAnalyzeButtonLoading(true);
         // Upload the blob to Firebase Storage
         const storageRef = ref(
           storage,
@@ -52,6 +53,7 @@ const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios, recordedA
           console.log(tempAudioURL)
         // Get the download URL and store it in local storage
         const audioURL = await getDownloadURL(storageRef);
+        setIsAnalyzeButtonLoading(false);
         setTempAudioURL(audioURL);
         localStorage.setItem("user_audio_url", audioURL);
       });
@@ -66,7 +68,6 @@ const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios, recordedA
       audioElement.play();
     }
   };
-
 
 
   useEffect(() => {
