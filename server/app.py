@@ -1,9 +1,6 @@
 from flask import Flask, request, jsonify
 import parselmouth
-import numpy as np
-import io
 from io import BytesIO
-import wave
 import os
 import base64
 import tempfile

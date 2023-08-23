@@ -2,6 +2,17 @@ import React, { useRef, useEffect } from "react";
 import Chart from "chart.js/auto";
 import styles from "../styles.css";
 
+const filterOutliers = (data) => {
+    const sortedData = [...data].sort((a, b) => a - b);
+    const q1 = sortedData[Math.floor(sortedData.length / 4)];
+    const q3 = sortedData[Math.floor(3 * sortedData.length / 4)];
+    const iqr = q3 - q1;
+    const lowerBound = q1 - 1.5 * iqr;
+    const upperBound = q3 + 1.5 * iqr;
+  
+    return data.filter((value) => value >= lowerBound && value <= upperBound);
+  };
+
 const PitchChart = ({ synthesizedPitchData, recordedPitchData, recordedAudios, generatedResponse }) => {
   const canvasRef = useRef(null);
   const colors = [
@@ -20,9 +31,11 @@ const PitchChart = ({ synthesizedPitchData, recordedPitchData, recordedAudios, g
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
 
-    const filteredSynthesizedData = synthesizedPitchData.filter(
-      (value) => typeof value === "number" && Math.abs(value) > 0.01
-    );
+    const filteredSynthesizedData = filterOutliers(
+        synthesizedPitchData.filter(
+          (value) => typeof value === "number" && Math.abs(value) > 0.01
+        )
+      );
 
     const datasets = [
       {
