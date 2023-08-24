@@ -5,6 +5,7 @@ import { ResponseCleaner } from "../../utils/ResponseCleaner";
 import AudioRecorder from "../AudioRecorder";
 import LanguageContext from "../../services/language/LanguageContext";
 import Bookmark from "../Bookmark";
+import SentencesHeader from "../SentencesHeader";
 import AnalyzeButton from "../AnalyzeButton";
 import { TTSsettings } from "../TTSsettings";
 import PitchChart from "../PitchChart";
@@ -68,7 +69,13 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   };
 
   const handleResponseLengthChange = (event) => {
-    const newValue = parseInt(event.target.value, 10);
+    let newValue = parseInt(event.target.value, 10);
+    if (newValue > 6) {
+      newValue = 6;
+    }
+    if (newValue < 1) {
+      newValue = 1;
+    }
     setResponseLength(newValue);
     localStorage.setItem("numSentences", newValue.toString());
   };
@@ -95,7 +102,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
       const response = await openai.createCompletion({
         model: "text-davinci-003",
         prompt: prompt,
-        max_tokens: 4000,
+        max_tokens: 820,
         temperature: 0.2,
         top_p: 0.1,
       });
@@ -148,7 +155,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     setSynthesizedPitchData([]);
     setRecordedAudios([]);
   };
-
 
   const handleTTS = async (
     textToRead,
@@ -273,47 +279,10 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
       {generatedResponse && !typeResponse && (
         <div>
           <div className="outlined-container">
-            <div className="response-options">
-              <button
-                className={
-                  selectedPage === "One"
-                    ? "response-option-selected"
-                    : "response-option"
-                }
-                onClick={() => {
-                  setSelectedPage("One");
-                  localStorage.setItem("selectedPage", "One");
-                }}
-              >
-                Chinese, Pinyin, and English
-              </button>
-              <button
-                className={
-                  selectedPage === "Two"
-                    ? "response-option-selected"
-                    : "response-option"
-                }
-                onClick={() => {
-                  setSelectedPage("Two");
-                  localStorage.setItem("selectedPage", "Two");
-                }}
-              >
-                Chinese and Pinyin
-              </button>
-              <button
-                className={
-                  selectedPage === "Three"
-                    ? "response-option-selected"
-                    : "response-option"
-                }
-                onClick={() => {
-                  setSelectedPage("Three");
-                  localStorage.setItem("selectedPage", "Three");
-                }}
-              >
-                Chinese
-              </button>
-            </div>
+            <SentencesHeader
+              selectedPage={selectedPage}
+              setSelectedPage={setSelectedPage}
+            />
             <div className="outlined-subcontainer">
               {isGPTLoading && (
                 <LoaderIcon
@@ -326,7 +295,8 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                 <ResponseRenderer
                   sentences={sentences}
                   selectedPage={selectedPage}
-                  newResponse={generatedResponse}
+                  setSelectedPage={setSelectedPage}
+                  generatedResponse={generatedResponse}
                 />
               )}
             </div>
