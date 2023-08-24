@@ -19,7 +19,7 @@ import {
   where,
   deleteDoc,
 } from "firebase/firestore";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 
 const firebaseConfig = {
@@ -177,7 +177,8 @@ export const AuthProvider = ({ children }) => {
     ref,
     storage,
     uploadBytes,
-    getDownloadURL
+    getDownloadURL,
+    deleteObject,
   };
 
   return (

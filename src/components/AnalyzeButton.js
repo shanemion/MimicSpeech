@@ -12,7 +12,10 @@ const AnalyzeButton = ({
   recordedAudioURL,
   setRecordedAudios,
   isAnalyzeButtonLoading,
-  setIsAnalyzeButtonLoading
+  setIsAnalyzeButtonLoading,
+  isRecordingListLoading,
+  setIsRecordingListLoading,
+  uniqueAudioID
 }) => {
 
   useEffect(() => {
@@ -26,18 +29,18 @@ const AnalyzeButton = ({
     const data = await analyzeAudio();
     if (data) {
       setSynthesizedPitchData(data.synthesized_pitch_data);
-      const uniqueId = new Date().toISOString();
       setRecordedPitchData((prevData) => [
         ...prevData,
-        { id: uniqueId, data: data.recorded_pitch_data },
+        { id: uniqueAudioID, data: data.recorded_pitch_data },
       ]);
       if (recordedAudioURL) {
-        setRecordedAudios(prev => [...prev, { id: uniqueId, url: recordedAudioURL }]);
+        setRecordedAudios(prev => [...prev, { id: uniqueAudioID, url: recordedAudioURL }]);
       }
       console.log("Synthesized Pitch z:", data.synthesized_pitch_data);
       console.log("Recorded Pitch z:", data.recorded_pitch_data);
     }
     setIsAnalyzeButtonLoading(false);
+    setIsRecordingListLoading(false);
   };
 
   return (
@@ -48,6 +51,7 @@ const AnalyzeButton = ({
           if (localStorage.getItem("TTS_audio_url") === "" || localStorage.getItem("user_audio_url") === "") {
             alert("Listen and record before comparing!");
           } else {
+            setIsRecordingListLoading(true);
             setIsAnalyzeButtonLoading(true);
             handleAnalyzeAudio();
           }

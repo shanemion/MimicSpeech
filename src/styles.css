@@ -436,6 +436,25 @@
   align-items: center;
 }
 
+@keyframes fadeInOut {
+  0% {
+    opacity: 0.9;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.9;
+  }
+}
+
+.chart-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInOut 0.5s infinite; /* 3s duration, infinite loop */
+}
+
 .recordings-list {
   margin-left: 40px; /* This will push the recording list 40px to the right of the chart */
 }

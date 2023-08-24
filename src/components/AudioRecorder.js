@@ -5,7 +5,16 @@ import { useAuth } from "../services/firebase/FirebaseAuth";
 import Recorder from "recorder-js"; // Import Recorder.js
 import "../styles.css";
 
-const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios, recordedAudioURL, setRecordedAudioURL, isAnalyzeButtonLoading, setIsAnalyzeButtonLoading }) => {
+const AudioRecorder = ({
+  sendToTTS,
+  recordedAudios,
+  setRecordedAudios,
+  recordedAudioURL,
+  setRecordedAudioURL,
+  isAnalyzeButtonLoading,
+  setIsAnalyzeButtonLoading,
+  setUniqueAudioID
+}) => {
   const [isRecording, setIsRecording] = useState(false);
   const [tempAudioURL, setTempAudioURL] = useState("");
   const { currentUser } = useAuth();
@@ -14,12 +23,10 @@ const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios, recordedA
   const [recorder, setRecorder] = useState(null);
 
   const startRecording = async () => {
-
     if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
       console.error("getUserMedia is not supported in this browser.");
       return;
     }
-
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       const audioContext = new (window.AudioContext ||
@@ -36,29 +43,30 @@ const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios, recordedA
   };
 
   const stopRecording = async () => {
-
     if (recorder) {
       recorder.stop().then(async ({ blob }) => {
         setRecordedAudioURL(URL.createObjectURL(blob));
         setTempAudioURL(URL.createObjectURL(blob));
+        const identifier = new Date().toISOString();
         setIsAnalyzeButtonLoading(true);
         // Upload the blob to Firebase Storage
         const storageRef = ref(
           storage,
-          `recordedAudios/${currentUser.uid}/${new Date().toISOString()}.wav`
-          );
+          `recordedAudios/${currentUser.uid}/${identifier}.wav`
+        );
+        console.log("storageRef", storageRef);
         await uploadBytes(storageRef, blob);
-        recorder.stream.getTracks().forEach(track => track.stop());
+        recorder.stream.getTracks().forEach((track) => track.stop());
 
-          console.log(tempAudioURL)
+        console.log(tempAudioURL);
         // Get the download URL and store it in local storage
         const audioURL = await getDownloadURL(storageRef);
+        setUniqueAudioID(identifier)
         setIsAnalyzeButtonLoading(false);
         setTempAudioURL(audioURL);
         localStorage.setItem("user_audio_url", audioURL);
       });
       setIsRecording(false);
-
     }
   };
 
@@ -68,7 +76,6 @@ const AudioRecorder = ({ sendToTTS, recordedAudios, setRecordedAudios, recordedA
       audioElement.play();
     }
   };
-
 
   useEffect(() => {
     return () => {

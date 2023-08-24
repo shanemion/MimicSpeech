@@ -1,5 +1,6 @@
 import React from "react";
-import PitchAccuracy from "./PitchAccuracy"; 
+import PitchAccuracy from "./PitchAccuracy";
+import LoaderIcon from "react-loader-icon";
 
 export const RecordedAudios = ({
   recordedAudios,
@@ -7,6 +8,8 @@ export const RecordedAudios = ({
   deleteAudio,
   synthesizedPitchData,
   recordedPitchData,
+  isRecordingListLoading,
+  setIsRecordingListLoading,
 }) => {
   const handleDelete = (audioId) => {
     deleteAudio(audioId);
@@ -17,14 +20,17 @@ export const RecordedAudios = ({
       {recordedAudios.map((audio, index) => (
         <div key={audio.id} className="recorded-audio-item">
           <p>Recording {index + 1}</p>
-          <button onClick={() => playAudio(audio.url) }>Play</button>
+          <button onClick={() => playAudio(audio.url)}>Play</button>
           <button onClick={() => handleDelete(audio.id)}>Delete</button>
           <PitchAccuracy
-                synthesizedPitchData={synthesizedPitchData}
-                recordedPitchData={recordedPitchData[index]}
-              />
+            synthesizedPitchData={synthesizedPitchData}
+            recordedPitchData={recordedPitchData[index]}
+          />
         </div>
       ))}
+      <div>
+        {isRecordingListLoading && <LoaderIcon type="bubbles" color="#000000" />}
+      </div>
     </div>
   );
 };
