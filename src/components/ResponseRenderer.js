@@ -73,7 +73,7 @@ const ResponseRenderer = ({
         alignItems: "center",
       }}
     >
-      {width > 740 && (
+      {(width > 740 && selectedPage !== "Three") && (
         <button
           style={{
             position: "absolute",
@@ -97,7 +97,7 @@ const ResponseRenderer = ({
         {selectedPage === "One" && (
           <p className="third-language">{sentences[2][index]}</p>
         )}
-        {width <= 740 && (
+        {(width <= 740 || selectedPage === "Three") && (
           <div
             style={{
               display: "flex",
@@ -114,8 +114,14 @@ const ResponseRenderer = ({
             </button>
           </div>
         )}
-        <div>
-          <hr style={{ width: "100%" }} />
+        <div
+          style={{
+            justifyContent: "center",
+          }}
+        >
+          <hr
+            style={{ width: "100%"}}
+          />
         </div>
       </div>
     </div>
