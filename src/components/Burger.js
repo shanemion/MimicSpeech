@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { slide as Menu } from "react-burger-menu";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../services/firebase/FirebaseAuth";
@@ -8,10 +8,30 @@ export const Burger = () => {
   const navigate = useNavigate();
   const { currentUser, logout } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef(null); // Create a ref
+
+  useEffect(() => {
+    // Add click event listener to the overlay
+    const overlay = document.querySelector(".bm-overlay");
+    overlay.addEventListener("click", () => {
+      if (menuRef.current) {
+        setIsOpen(false); // Close the menu
+      }
+    });
+
+    // Cleanup
+    return () => {
+      overlay.removeEventListener("click", () => {
+        if (menuRef.current) {
+          setIsOpen(false); // Close the menu
+        }
+      });
+    };
+  }, []);
 
   const styles = {
     bmBurgerButton: {
-      position: "fixed",
+      position: "absolute",
       width: "32px",
       height: "24px",
       right: "24px",
@@ -29,10 +49,13 @@ export const Burger = () => {
     },
     bmMenuWrap: {
       position: "fixed",
-      height: "100%",
+      top: 0,
+      bottom: 0,
+      zIndex: "20000",
+      opacity: "0.9",
     },
     bmMenu: {
-      background: "white",
+      background: "pink",
       padding: "2.5em 1.5em 0",
       fontSize: "1.15em",
     },
@@ -48,6 +71,9 @@ export const Burger = () => {
     },
     bmOverlay: {
       background: "rgba(0, 0, 0, 0.3)",
+      top: 0,
+      bottom: 0,
+      left: 200,
     },
   };
 
@@ -57,7 +83,6 @@ export const Burger = () => {
       await logout();
       navigate("/login");
       setIsOpen(false); // Close the menu
-
     } catch (error) {
       console.error(error);
     }
@@ -68,17 +93,33 @@ export const Burger = () => {
     padding: "6px",
     textDecoration: "underline",
     cursor: "pointer",
-    fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
-    fontSize: "16px"
+    fontFamily:
+      "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+    fontSize: "16px",
   }; // Inline style for Links
 
   const closeMenu = () => setIsOpen(false); // This function will close the menu
   const handleStateChange = (state) => setIsOpen(state.isOpen);
 
   return (
-    <Menu isOpen={isOpen} onStateChange={handleStateChange} styles={styles} right>
+    <Menu
+      ref={menuRef} 
+      isOpen={isOpen}
+      onStateChange={handleStateChange}
+      styles={styles}
+      right
+    >
       {currentUser ? (
         <>
+          <Link
+            id="saved"
+            className="menu-item"
+            to="/saved"
+            onClick={closeMenu}
+            style={linkStyle}
+          >
+            View Saved
+          </Link>
           <Link
             id="logout"
             className="menu-item"
@@ -87,14 +128,16 @@ export const Burger = () => {
           >
             Logout
           </Link>
-          <Link id="saved" className="menu-item" to="/saved" onClick={closeMenu}
-style={linkStyle}>
-            View Saved
-          </Link>
         </>
       ) : (
         <>
-          <Link id="login" className="menu-item" to="/login" onClick={closeMenu} style={linkStyle}>
+          <Link
+            id="login"
+            className="menu-item"
+            to="/login"
+            onClick={closeMenu}
+            style={linkStyle}
+          >
             Login
           </Link>
           <Link

@@ -36,21 +36,21 @@ export const TTSsettings = ({
 }) => {
   return (
     <div className="tts-and-slider">
-      <button
-        className="icon-button"
-        onClick={sendToTTS}
-        disabled={isPlayButtonDisabled}
-      >
+      <div className="tts-buttons">
+        <button
+          className="icon-button"
+          onClick={sendToTTS}
+          disabled={isPlayButtonDisabled}
+        >
         <div className="inside-icon-button">
           <div className="play-icon">
-            <CiPlay1 />{" "}
+            <CiPlay1 />
           </div>
-          <div style={{fontSize: "1.2em"}}>
-          Play
-          </div>
+          <div style={{ fontSize: "1.2em" }}>Play</div>
         </div>
       </button>
       <GenderSelector />
+      </div>
       <SpeedSlider speed={speed} setSpeed={setSpeed} />
     </div>
   );

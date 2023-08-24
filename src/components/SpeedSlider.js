@@ -9,7 +9,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           color: 'black',
-          width: '400px',
+          width: '380px',
         },
         markLabel: {
           color: 'black',

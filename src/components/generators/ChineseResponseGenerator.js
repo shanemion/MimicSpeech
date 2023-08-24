@@ -290,7 +290,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   style={{ marginTop: 20, marginBottom: 20 }}
                 />
               )}
-              {/* <LoaderIcon type={"spinningBubbles"} /> */}
               {!isGPTLoading && (
                 <ResponseRenderer
                   sentences={sentences}
@@ -332,25 +331,29 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
               setIsRecordingListLoading={setIsRecordingListLoading}
               uniqueAudioID={uniqueAudioID}
             />
-            <div className="recording-and-graph">
-              <PitchChart
-                synthesizedPitchData={synthesizedPitchData}
-                recordedPitchData={recordedPitchData}
-                recordedAudios={recordedAudios}
-                generatedResponse={generatedResponse}
-                isRecordingListLoading={isRecordingListLoading}
-              />
-              <div className="recordings-list">
-                <RecordedAudios
-                  recordedAudios={recordedAudios}
-                  playAudio={playAudio}
-                  deleteAudio={deleteAudio}
-                  synthesizedPitchData={synthesizedPitchData}
-                  recordedPitchData={recordedPitchData}
-                  setRecordedPitchData={setRecordedPitchData}
-                  isRecordingListLoading={isRecordingListLoading}
-                  setIsRecordingListLoading={setIsRecordingListLoading}
-                />
+            <div className="chart-and-list">
+              <div className="recording-and-graph">
+                {/* <div style={{position: "relative", height:"40vh", width:"80vw"}}> */}
+                  <PitchChart
+                    synthesizedPitchData={synthesizedPitchData}
+                    recordedPitchData={recordedPitchData}
+                    recordedAudios={recordedAudios}
+                    generatedResponse={generatedResponse}
+                    isRecordingListLoading={isRecordingListLoading}
+                  />
+                {/* </div> */}
+                <div className="recordings-list">
+                  <RecordedAudios
+                    recordedAudios={recordedAudios}
+                    playAudio={playAudio}
+                    deleteAudio={deleteAudio}
+                    synthesizedPitchData={synthesizedPitchData}
+                    recordedPitchData={recordedPitchData}
+                    setRecordedPitchData={setRecordedPitchData}
+                    isRecordingListLoading={isRecordingListLoading}
+                    setIsRecordingListLoading={setIsRecordingListLoading}
+                  />
+                </div>
               </div>
             </div>
           </div>

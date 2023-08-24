@@ -39,7 +39,7 @@ function App() {
                         />
                       </div>
                     </div>
-                    {width > 768 ? <AuthButtons /> : <Burger />}
+                    {width > 1300 ? <AuthButtons /> : <Burger />}
                   </div>
                   <div className="content">
                     <Routes>

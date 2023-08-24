@@ -1,7 +1,16 @@
-import React, { useEffect, useState } from "react"; 
+import React, { useEffect, useState } from "react";
+import useWindowSize from "../utils/WindowSize";
+import { LiaBookReaderSolid } from "react-icons/lia";
+
 import "../styles.css";
 
-const ResponseRenderer = ({ sentences, selectedPage, setSelectedPage, generatedResponse }) => {
+const ResponseRenderer = ({
+  sentences,
+  selectedPage,
+  setSelectedPage,
+  generatedResponse,
+}) => {
+  const { width } = useWindowSize();
   const [renderedSentences, setRenderedSentences] = useState(null);
   const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(null);
   const [previousPage, setPreviousPage] = useState(null);
@@ -22,21 +31,33 @@ const ResponseRenderer = ({ sentences, selectedPage, setSelectedPage, generatedR
       case "One":
         return (
           <>
-            <p className="primary-language">{sentences[0][selectedSentenceIndex]}</p>
-            <p className="secondary-language">{sentences[1][selectedSentenceIndex]}</p>
-            <p className="third-language">{sentences[2][selectedSentenceIndex]}</p>
+            <p className="primary-language">
+              {sentences[0][selectedSentenceIndex]}
+            </p>
+            <p className="secondary-language">
+              {sentences[1][selectedSentenceIndex]}
+            </p>
+            <p className="third-language">
+              {sentences[2][selectedSentenceIndex]}
+            </p>
           </>
         );
       case "Two":
         return (
           <>
-            <p className="primary-language">{sentences[0][selectedSentenceIndex]}</p>
-            <p className="secondary-language">{sentences[1][selectedSentenceIndex]}</p>
+            <p className="primary-language">
+              {sentences[0][selectedSentenceIndex]}
+            </p>
+            <p className="secondary-language">
+              {sentences[1][selectedSentenceIndex]}
+            </p>
           </>
         );
       case "Three":
         return (
-          <p className="primary-language">{sentences[0][selectedSentenceIndex]}</p>
+          <p className="primary-language">
+            {sentences[0][selectedSentenceIndex]}
+          </p>
         );
       default:
         return null;
@@ -44,17 +65,58 @@ const ResponseRenderer = ({ sentences, selectedPage, setSelectedPage, generatedR
   };
 
   const renderRow = (index) => (
-    <div style={{ display: 'flex', alignItems: 'center' }}>
-      <button 
-        style={{ marginRight: '50px' }}
-        onClick={() => handleSentenceClick(index)}
-      >
-        Practice
-      </button>
+    <div
+      style={{
+        position: "relative",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      {width > 740 && (
+        <button
+          style={{
+            position: "absolute",
+            left: "5px",
+            top: "20px",
+            transform: "translateY(-50%)",
+          }}
+          className="practice-button"
+          onClick={() => handleSentenceClick(index)}
+        >
+          <div className="practice-icon">
+            <LiaBookReaderSolid />
+          </div>
+        </button>
+      )}
       <div>
         <p className="primary-language">{sentences[0][index]}</p>
-        {selectedPage !== "Three" && <p className="secondary-language">{sentences[1][index]}</p>}
-        {selectedPage === "One" && <p className="third-language">{sentences[2][index]}</p>}
+        {selectedPage !== "Three" && (
+          <p className="secondary-language">{sentences[1][index]}</p>
+        )}
+        {selectedPage === "One" && (
+          <p className="third-language">{sentences[2][index]}</p>
+        )}
+        {width <= 740 && (
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              marginBottom: "15px",
+            }}
+          >
+            <button
+              className="practice-button"
+              onClick={() => handleSentenceClick(index)}
+            >
+              P
+            </button>
+          </div>
+        )}
+        <div>
+          <hr style={{ width: "100%" }} />
+        </div>
       </div>
     </div>
   );
@@ -64,33 +126,29 @@ const ResponseRenderer = ({ sentences, selectedPage, setSelectedPage, generatedR
       return (
         <div>
           {renderPracticePage()}
-          <button onClick={handleBackClick}   style={{
-    display: 'block',
-    marginLeft: 'auto',
-    marginRight: 'auto',
-    marginBottom: '20px'
-  }}>Back</button>
-
+          <button
+            onClick={handleBackClick}
+            style={{
+              display: "block",
+              marginLeft: "auto",
+              marginRight: "auto",
+              marginBottom: "20px",
+            }}
+          >
+            Back
+          </button>
         </div>
       );
     }
 
-    return (
-      <div>
-        {sentences[0].map((_, index) => renderRow(index))}
-      </div>
-    );
+    return <div>{sentences[0].map((_, index) => renderRow(index))}</div>;
   };
 
   useEffect(() => {
     setRenderedSentences(renderSentences(sentences, selectedPage));
-  }, [generatedResponse, selectedPage]);
+  }, [generatedResponse, selectedPage, width]);
 
-  return (
-    <div className="center">
-      {renderedSentences}
-    </div>
-  );
+  return <div className="center">{renderedSentences}</div>;
 };
 
 export default ResponseRenderer;

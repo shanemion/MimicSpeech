@@ -22,13 +22,14 @@ export default function AuthButtons() {
     <div className="auth-buttons">
       {currentUser ? (
         <>
-          <button className="authButton" onClick={handleLogout}>Logout</button>
           <button className="authButton" onClick={() => navigate("/saved")}>View Saved</button>
+          <button className="authButton" onClick={handleLogout}>Logout</button>
         </>
       ) : (
         <>
+          <button className="authButton" onClick={() => navigate("/register")}>Sign Up!</button>
           <button className="authButton" onClick={() => navigate("/login")}>Login</button>
-          <button className="authButton" onClick={() => navigate("/register")}>Register</button>
+
         </>
       )}
     </div>

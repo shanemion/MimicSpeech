@@ -54,7 +54,7 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
 
     return (
       <Select
-        className="selectorWidth"
+        className="selectorWidthRight"
         value={selectedLanguage}
         onChange={handleChange}
         options={languageOptions}

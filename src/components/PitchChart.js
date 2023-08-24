@@ -18,7 +18,7 @@ const PitchChart = ({
   recordedPitchData,
   recordedAudios,
   generatedResponse,
-  isRecordingListLoading
+  isRecordingListLoading,
 }) => {
   const canvasRef = useRef(null);
   const colors = [
@@ -45,11 +45,12 @@ const PitchChart = ({
 
     const datasets = [
       {
-        label: "Synthesized Pitch",
+        label: "Target Pitch",
         data: filteredSynthesizedData,
         borderColor: "black",
-        borderWidth: 1,
+        borderWidth: 3,
         fill: false,
+        pointRadius: 0, // Add this line
       },
       ...recordedAudios.map((audio, index) => {
         const pitchDataItem = recordedPitchData.find(
@@ -60,10 +61,12 @@ const PitchChart = ({
           (value) => typeof value === "number" && Math.abs(value) > 0.01
         );
         return {
-          label: `Recorded Pitch ${index + 1}`,
+          label: `Recording ${index + 1}`,
+          tension: 0.3,
+          pointRadius: 0, // Add this line
           data: filteredData,
           borderColor: colors[index % colors.length],
-          borderWidth: 1,
+          borderWidth: 3,
           fill: false,
         };
       }),
@@ -83,12 +86,17 @@ const PitchChart = ({
         datasets: datasets,
       },
       options: {
-        responsive: false,
+        responsive: true,
+        maintainAspectRatio: false,
         scales: {
           y: {
             beginAtZero: true,
             suggestedMin: 0,
             suggestedMax: maxYValue,
+            title: {
+              display: true,
+              text: 'Pitch in Hz'
+            }
           },
         },
       },
@@ -103,7 +111,16 @@ const PitchChart = ({
 
   return (
     <div className={isRecordingListLoading ? "chart-loading" : "chart"}>
-      <canvas ref={canvasRef} width="800" height="400"></canvas>
+      <div
+        style={{
+          position: "relative",
+          height: "40vh",
+          width: "80vw",
+          padding: "10px",
+        }}
+      >
+        <canvas ref={canvasRef} width="800" height="400"></canvas>
+      </div>
     </div>
   );
 };

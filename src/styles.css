@@ -70,7 +70,7 @@
 }
 
 .selectorWidth {
-  width: 220px;
+  width: 180px;
 }
 
 .selectors {
@@ -171,6 +171,8 @@
   font-size: 18px;
   font-weight: 500;
   text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .secondary-language {
@@ -179,6 +181,8 @@
   align-items: center;
   font-size: 18px;
   text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .third-language {
@@ -186,8 +190,9 @@
   justify-content: center;
   align-items: center;
   font-size: 14px;
-  margin-bottom: 35px;
   text-align: center;
+  padding-left: 15px;
+  padding-right: 15px;
 }
 
 .bottom-options {
@@ -277,13 +282,17 @@
     margin-bottom: 20px;
   }
   .selectorContainer {
-    gap: 40px; /* maximum gap size */
+    gap: 20px; /* maximum gap size */
   }
   .prompt-input input {
     width: 90%; /* nearly full screen width */
   }
   .selectorWidth {
-    width: 25%;
+    width: 70%;
+  }
+  .selectorWidthRight {
+    width: 70%;
+    margin-right: 50px;
   }
   .secondary-language {
     display: flex;
@@ -309,6 +318,19 @@
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
     Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
   font-size: 16px;
+}
+
+.practice-button {
+  background-color: rgb(192, 255, 200);
+  color: black;
+  border: 1.3px solid black;
+  border-radius: 45px;
+  padding: 4px 6px;
+  cursor: pointer;
+  line-height: 1; /* Reset the line-height */
+  vertical-align: middle; /* Adjust the vertical alignment */
+
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .languageSelected {
@@ -375,12 +397,28 @@
   gap: 20px;
 }
 
+.tts-buttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+}
+
 .play-icon {
   background: none;
   border: none;
   cursor: pointer;
   outline: none;
   font-size: 20px; /* Adjust this value to make the icon bigger or smaller */
+  vertical-align: middle; /* Add this line */
+}
+
+.practice-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+  font-size: 15px; /* Adjust this value to make the icon bigger or smaller */
   vertical-align: middle; /* Add this line */
 }
 
@@ -424,18 +462,6 @@
   padding: 0 20px;
 }
 
-.recording-and-graph {
-  display: flex;
-  justify-content: center; /* This will center the children horizontally */
-  /* align-items: center; This will center the children vertically */
-}
-
-.chart {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 @keyframes fadeInOut {
   0% {
     opacity: 0.9;
@@ -448,15 +474,57 @@
   }
 }
 
-.chart-loading {
+.recording-and-graph {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+    align-items: center;
+}
+
+.chart {
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeInOut 0.5s infinite; /* 3s duration, infinite loop */
 }
 
 .recordings-list {
-  margin-left: 40px; /* This will push the recording list 40px to the right of the chart */
+  margin-left: 40px;
+}
+
+.chart-dimensions {
+  width: 800px;
+  height: 400px;
+}
+
+@media (max-width: 850px) {
+  .chart-dimensions {
+    width: 400px;
+    height: 200px;
+  }
+}
+@media (max-width: 850px) {
+  .chart-dimensions {
+    width: 400px;
+    height: 200px;
+  }
+}
+
+@media (max-width: 1300px) {
+  .recording-and-graph {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .recordings-list {
+    margin-left: 0;
+    margin-top: 20px; /* Add some space above the list when it's below the chart */
+  }
+
+  .tts-and-slider {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
 }
 
 .analyze-button {
@@ -466,7 +534,6 @@
 }
 
 .outlined-container {
-
   border: 2px solid #ccc; /* This gives a thin outline */
   border-radius: 16px; /* This rounds the edges slightly */
   padding-bottom: 12px;
@@ -480,4 +547,14 @@
   /* padding: 5px 0; This adds some space between the content and the border */
   margin: 10px -2px; /* This adds some space above and below the container */
   width: 100%;
+}
+
+@media (max-width: 1300px) {
+  .outlined-container {
+    width: 100%;
+    padding: 10px;
+  }
+  .outlined-subcontainer {
+    width: 100%;
+  }
 }

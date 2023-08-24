@@ -17,6 +17,16 @@ export const RecordedAudios = ({
 
   return (
     <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginTop: "20px",
+        }}
+      >
+        <h2>Recorded Audios</h2>
+      </div>
       {recordedAudios.map((audio, index) => (
         <div key={audio.id} className="recorded-audio-item">
           <p>Recording {index + 1}</p>
@@ -29,7 +39,9 @@ export const RecordedAudios = ({
         </div>
       ))}
       <div>
-        {isRecordingListLoading && <LoaderIcon type="bubbles" color="#000000" />}
+        {isRecordingListLoading && (
+          <LoaderIcon type="bubbles" color="#000000" />
+        )}
       </div>
     </div>
   );
