@@ -352,6 +352,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
             <div className="chart-and-list">
               <div className="recording-and-graph">
                 <PitchChart
+                practiceData={practiceData}
                   synthesizedPitchData={synthesizedPitchData}
                   recordedPitchData={recordedPitchData}
                   recordedAudios={recordedAudios}
@@ -361,6 +362,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   generatedResponse={generatedResponse}
                   isRecordingListLoading={isRecordingListLoading}
                   selectedPage={selectedPage}
+                  selectedSentenceIndex={selectedSentenceIndex}
                 />
                 <div className="recordings-list">
                   <RecordedAudios

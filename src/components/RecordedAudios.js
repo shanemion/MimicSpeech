@@ -15,16 +15,12 @@ export const RecordedAudios = ({
   selectedSentenceIndex,
 }) => {
 
-  useEffect(() => {
-    console.log("practiceData has changed:", practiceData);
-  }, [practiceData]);
   const handleDelete = (audioId) => {
     deleteAudio(audioId);
   };
 
 
   let recordings = [];
-  console.log("practiceData1", practiceData);
 
 if (selectedPage === "Practice") {
   if (practiceData && practiceData[`${selectedPage}-${selectedSentenceIndex}`]) {
@@ -33,9 +29,6 @@ if (selectedPage === "Practice") {
 } else {
   recordings = recordedAudios;
 }
-console.log("recordings", recordings);
-console.log("practiceData2", practiceData);
-
 
   return (
     <div>

@@ -15,15 +15,17 @@ const filterOutliers = (data) => {
 };
 
 const PitchChart = ({
+  practiceData,
   synthesizedPitchData,
   recordedPitchData,
   recordedAudios,
   synthesizedPracticePitchData,
   recordedPracticePitchData,
-  // recordedPracticeAudios,
+  recordedPracticeAudios,
   generatedResponse,
   isRecordingListLoading,
-  selectedPage
+  selectedPage,
+  selectedSentenceIndex
 }) => {
   const canvasRef = useRef(null);
   const colors = [
@@ -41,15 +43,39 @@ const PitchChart = ({
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
-    let activeSynthesizedPitchData = selectedPage === "Practice" ? synthesizedPracticePitchData : synthesizedPitchData;
-    let activeRecordedPitchData = selectedPage === "Practice" ? recordedPracticePitchData : recordedPitchData;
-    let activeRecordedAudios = selectedPage === "Practice" ? recordedAudios : recordedAudios;
 
-    let filteredSynthesizedData = filterOutliers(
-      activeSynthesizedPitchData.filter(
-        (value) => typeof value === "number" && Math.abs(value) > 0.01
-      )
-    );
+
+    let activeSynthesizedPitchData = [];
+    let activeRecordedPitchData = [];
+    let activeRecordedAudios = [];
+
+    console.log("practiceData:", practiceData);
+    console.log("synthesizedPitchData:", synthesizedPitchData);
+  
+    if (selectedPage === "Practice") {
+      const key = `${selectedPage}-${selectedSentenceIndex}`;
+      if (practiceData && practiceData[key]) {
+        activeSynthesizedPitchData = practiceData[key].synthesizedPracticePitchData || [];
+        activeRecordedPitchData = practiceData[key].recordedPracticePitchData || [];
+        activeRecordedAudios = practiceData[key].recordedPracticeAudios || [];
+        console.log("practiceData:", practiceData);
+        console.log("synthesizedPitchData:", synthesizedPitchData);
+      }
+    } else {
+      activeSynthesizedPitchData = synthesizedPitchData || [];
+      activeRecordedPitchData = recordedPitchData || [];
+      activeRecordedAudios = recordedAudios || [];
+    }
+    let filteredSynthesizedData = [];
+    if (activeSynthesizedPitchData) {
+      filteredSynthesizedData = filterOutliers(
+        activeSynthesizedPitchData.filter(
+          (value) => typeof value === "number" && Math.abs(value) > 0.01
+        )
+      );
+    } else {
+      console.warn("activeSynthesizedPitchData is undefined");
+    }
 
     const datasets = [
       {
@@ -116,9 +142,11 @@ const PitchChart = ({
     recordedAudios,
     synthesizedPracticePitchData,
     recordedPracticePitchData,
-    // recordedPracticeAudios,
+    recordedPracticeAudios,
     selectedPage,
     generatedResponse,
+    practiceData,
+    selectedSentenceIndex,
   ]);
 
   return (
