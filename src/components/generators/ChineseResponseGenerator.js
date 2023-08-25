@@ -58,12 +58,17 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [isGPTLoading, setIsGPTLoading] = useState(false);
   const [uniqueAudioID, setUniqueAudioID] = useState("");
 
+  const [practiceData, setPracticeData] = useState({});
   const [synthesizedPracticePitchData, setSynthesizedPracticePitchData] =
     useState([]);
   const [recordedPracticePitchData, setRecordedPracticePitchData] = useState(
     []
   );
   const [recordedPracticeAudios, setRecordedPracticeAudios] = useState([]);
+
+  const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(null);
+  const [previousPage, setPreviousPage] = useState(null);
+  const [uniquePracticeAudioID, setUniquePracticeAudioID] = useState("");
 
   useEffect(() => {
     setIsMounted(true);
@@ -303,6 +308,10 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   selectedPage={selectedPage}
                   setSelectedPage={setSelectedPage}
                   generatedResponse={generatedResponse}
+                  selectedSentenceIndex={selectedSentenceIndex}
+                  setSelectedSentenceIndex={setSelectedSentenceIndex}
+                  previousPage={previousPage}
+                  setPreviousPage={setPreviousPage}
                 />
               )}
             </div>
@@ -318,9 +327,15 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
             setRecordedAudioURL={setRecordedAudioURL}
             setIsAnalyzeButtonLoading={setIsAnalyzeButtonLoading}
             setUniqueAudioID={setUniqueAudioID}
+            selectedPage={selectedPage}
+            previousPage={previousPage}
+            selectedSentenceIndex={selectedSentenceIndex}
+            setUniquePracticeAudioID={setUniquePracticeAudioID}
           />
           <div>
             <AnalyzeButton
+              practiceData={practiceData}
+              setPracticeData={setPracticeData}
               setSynthesizedPitchData={setSynthesizedPitchData}
               setRecordedPitchData={setRecordedPitchData}
               generatedResponse={generatedResponse}
@@ -330,6 +345,9 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
               setIsAnalyzeButtonLoading={setIsAnalyzeButtonLoading}
               setIsRecordingListLoading={setIsRecordingListLoading}
               uniqueAudioID={uniqueAudioID}
+              selectedPage={selectedPage}
+              selectedSentenceIndex={selectedSentenceIndex}
+              uniquePracticeAudioID={uniquePracticeAudioID}
             />
             <div className="chart-and-list">
               <div className="recording-and-graph">
@@ -344,33 +362,21 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   isRecordingListLoading={isRecordingListLoading}
                   selectedPage={selectedPage}
                 />
-                {selectedPage !== "Practice" && (
-                  <div className="recordings-list">
-                    <RecordedAudios
-                      recordedAudios={recordedAudios}
-                      playAudio={playAudio}
-                      deleteAudio={deleteAudio}
-                      synthesizedPitchData={synthesizedPitchData}
-                      recordedPitchData={recordedPitchData}
-                      setRecordedPitchData={setRecordedPitchData}
-                      isRecordingListLoading={isRecordingListLoading}
-                    />
-                  </div>
-                )}
-                {/* {selectedPage === "Practice" && (
-                  <div className="recordings-list">
-                    <PracticeRecordedAudios
-                    recordedPracticeAudios={recordedAudios}
+                <div className="recordings-list">
+                  <RecordedAudios
+                    practiceData={practiceData}
+                    recordedAudios={recordedAudios}
+                    recordedPracticeAudios={recordedPracticeAudios}
                     playAudio={playAudio}
-                      deleteAudio={deleteAudio}
-                      synthesizedPracticePitchData={synthesizedPitchData}
-                      recordedPracticePitchData={recordedPitchData}
-                      setRecordedPracticePitchData={setRecordedPracticePitchData}
-                      isRecordingListLoading={isRecordingListLoading}
-                      setIsRecordingListLoading={setIsRecordingListLoading}
-                    />
-                  </div>
-              )} */}
+                    deleteAudio={deleteAudio}
+                    synthesizedPitchData={synthesizedPitchData}
+                    recordedPitchData={recordedPitchData}
+                    setRecordedPitchData={setRecordedPitchData}
+                    isRecordingListLoading={isRecordingListLoading}
+                    selectedPage={selectedPage}
+                    selectedSentenceIndex={selectedSentenceIndex}
+                  />
+                </div>
               </div>
             </div>
           </div>

@@ -64,7 +64,7 @@ const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language }) 
   }, [currentUser, initialResponseId, getResponseById]);
 
   const handleClick = async () => {
-    console.log("isSaved:", isSaved, "setIsSaved:", setIsSaved);
+    // console.log("isSaved:", isSaved, "setIsSaved:", setIsSaved);
 
     if (currentUser) {
       if (isSaved) {

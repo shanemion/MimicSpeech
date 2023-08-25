@@ -12,7 +12,7 @@ export const AiAndTypeSelector = ({typeResponse, setTypeResponse}) => {
 
   const handleChange = (selectedOption) => {
     setTypeResponse(selectedOption.value);
-    console.log("Selected Mode:", selectedOption);
+    // console.log("Selected Mode:", selectedOption);
   };
 
   const selectedMode = modeOptions.find(option => option.value === typeResponse);

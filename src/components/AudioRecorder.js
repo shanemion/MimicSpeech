@@ -8,7 +8,11 @@ const AudioRecorder = ({
   sendToTTS,
   setRecordedAudioURL,
   setIsAnalyzeButtonLoading,
-  setUniqueAudioID
+  setUniqueAudioID,
+  selectedPage,
+  previousPage,
+  selectedSentenceIndex,
+  setUniquePracticeAudioID
 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [tempAudioURL, setTempAudioURL] = useState("");
@@ -42,20 +46,32 @@ const AudioRecorder = ({
         setRecordedAudioURL(URL.createObjectURL(blob));
         setTempAudioURL(URL.createObjectURL(blob));
         const identifier = new Date().toISOString();
+        const practiceIdentifier = `${previousPage}_${selectedSentenceIndex}_${new Date().toISOString()}`;
         setIsAnalyzeButtonLoading(true);
         // Upload the blob to Firebase Storage
-        const storageRef = ref(
-          storage,
-          `recordedAudios/${currentUser.uid}/${identifier}.wav`
-        );
+        let storageRef;
+        if (selectedPage === "Practice") {
+          // Use a more specific identifier for practice mode
+          storageRef = ref(
+            storage,
+            `recordedPracticeAudios/${currentUser.uid}/${practiceIdentifier}.wav`
+          );
+          // Update your practice audio state here
+        } else {
+          // existing functionality
+          storageRef = ref(
+            storage,
+            `recordedAudios/${currentUser.uid}/${identifier}.wav`
+          );
+        }
         console.log("storageRef", storageRef);
         await uploadBytes(storageRef, blob);
         recorder.stream.getTracks().forEach((track) => track.stop());
-
         console.log(tempAudioURL);
         // Get the download URL and store it in local storage
         const audioURL = await getDownloadURL(storageRef);
         setUniqueAudioID(identifier)
+        setUniquePracticeAudioID(practiceIdentifier)
         setIsAnalyzeButtonLoading(false);
         setTempAudioURL(audioURL);
         localStorage.setItem("user_audio_url", audioURL);

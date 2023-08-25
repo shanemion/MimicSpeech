@@ -12,8 +12,8 @@ const filterOutliers = (data) => {
   };
 
 const PitchAccuracy = ({ synthesizedPitchData, recordedPitchData }) => {
-  console.log("Synthesized Pitch:", synthesizedPitchData);
-  console.log("Recorded Pitch Index:", recordedPitchData);
+  // console.log("Synthesized Pitch:", synthesizedPitchData);
+  // console.log("Recorded Pitch Index:", recordedPitchData);
 
   const recordedData = recordedPitchData.data;
   //   const recordedData = synthesizedPitchData;
@@ -40,8 +40,8 @@ const PitchAccuracy = ({ synthesizedPitchData, recordedPitchData }) => {
     );
   }
 
-  console.log("Filtered Synthesized Pitch:", filteredSynthesizedData);
-  console.log("Filtered Recorded Pitch:", filteredRecordedData);
+  // console.log("Filtered Synthesized Pitch:", filteredSynthesizedData);
+  // console.log("Filtered Recorded Pitch:", filteredRecordedData);
 
   const calculateAccuracy = () => {
     // Calculate the average pitch for each dataset
@@ -153,10 +153,10 @@ const PitchAccuracy = ({ synthesizedPitchData, recordedPitchData }) => {
 
   // Usage
   let purePitchAccuracy = calculatePurePitchAccuracy();
-  console.log("Pure Pitch Accuracy:", purePitchAccuracy);
+  // console.log("Pure Pitch Accuracy:", purePitchAccuracy);
 
   let accuracy = calculateAccuracy();
-  console.log("Accuracy:", accuracy);
+  // console.log("Accuracy:", accuracy);
 
   return (
     <div className="pitch-accuracy">

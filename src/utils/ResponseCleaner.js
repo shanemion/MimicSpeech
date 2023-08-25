@@ -47,7 +47,7 @@ export const ResponseCleaner = (response, numSentences) => {
   // Add a normal period at the end of each sentence
   let sentencesWithPeriod = cleanedSentences.map((sentence) => sentence + ".");
   sentencesWithPeriod = sentencesWithPeriod.slice(0, numSentences * 3);
-  console.log("sentencez", sentencesWithPeriod);
+  // console.log("sentencez", sentencesWithPeriod);
   const allChinese = sentencesWithPeriod
     .slice(0, numSentences)
     .every(isChinese);

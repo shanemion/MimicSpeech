@@ -9,11 +9,13 @@ const ResponseRenderer = ({
   selectedPage,
   setSelectedPage,
   generatedResponse,
+  selectedSentenceIndex,
+  setSelectedSentenceIndex,
+  previousPage,
+  setPreviousPage,
 }) => {
   const { width } = useWindowSize();
   const [renderedSentences, setRenderedSentences] = useState(null);
-  const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(null);
-  const [previousPage, setPreviousPage] = useState(null);
 
   const handleSentenceClick = (index) => {
     setPreviousPage(selectedPage);

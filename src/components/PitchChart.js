@@ -20,7 +20,7 @@ const PitchChart = ({
   recordedAudios,
   synthesizedPracticePitchData,
   recordedPracticePitchData,
-  recordedPracticeAudios,
+  // recordedPracticeAudios,
   generatedResponse,
   isRecordingListLoading,
   selectedPage
@@ -43,7 +43,7 @@ const PitchChart = ({
     const ctx = canvasRef.current.getContext("2d");
     let activeSynthesizedPitchData = selectedPage === "Practice" ? synthesizedPracticePitchData : synthesizedPitchData;
     let activeRecordedPitchData = selectedPage === "Practice" ? recordedPracticePitchData : recordedPitchData;
-    let activeRecordedAudios = selectedPage === "Practice" ? recordedPracticeAudios : recordedAudios;
+    let activeRecordedAudios = selectedPage === "Practice" ? recordedAudios : recordedAudios;
 
     let filteredSynthesizedData = filterOutliers(
       activeSynthesizedPitchData.filter(
@@ -116,7 +116,7 @@ const PitchChart = ({
     recordedAudios,
     synthesizedPracticePitchData,
     recordedPracticePitchData,
-    recordedPracticeAudios,
+    // recordedPracticeAudios,
     selectedPage,
     generatedResponse,
   ]);
