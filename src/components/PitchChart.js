@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import Chart from "chart.js/auto";
 import styles from "../styles.css";
+import { active } from "d3";
 
 const filterOutliers = (data) => {
   const sortedData = [...data].sort((a, b) => a - b);
@@ -17,8 +18,12 @@ const PitchChart = ({
   synthesizedPitchData,
   recordedPitchData,
   recordedAudios,
+  synthesizedPracticePitchData,
+  recordedPracticePitchData,
+  recordedPracticeAudios,
   generatedResponse,
   isRecordingListLoading,
+  selectedPage
 }) => {
   const canvasRef = useRef(null);
   const colors = [
@@ -36,9 +41,12 @@ const PitchChart = ({
 
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
+    let activeSynthesizedPitchData = selectedPage === "Practice" ? synthesizedPracticePitchData : synthesizedPitchData;
+    let activeRecordedPitchData = selectedPage === "Practice" ? recordedPracticePitchData : recordedPitchData;
+    let activeRecordedAudios = selectedPage === "Practice" ? recordedPracticeAudios : recordedAudios;
 
-    const filteredSynthesizedData = filterOutliers(
-      synthesizedPitchData.filter(
+    let filteredSynthesizedData = filterOutliers(
+      activeSynthesizedPitchData.filter(
         (value) => typeof value === "number" && Math.abs(value) > 0.01
       )
     );
@@ -52,8 +60,8 @@ const PitchChart = ({
         fill: false,
         pointRadius: 0, // Add this line
       },
-      ...recordedAudios.map((audio, index) => {
-        const pitchDataItem = recordedPitchData.find(
+      ...activeRecordedAudios.map((audio, index) => {
+        const pitchDataItem = activeRecordedPitchData.find(
           (item) => item.id === audio.id
         );
         const pitchData = pitchDataItem ? pitchDataItem.data : [];
@@ -106,11 +114,15 @@ const PitchChart = ({
     synthesizedPitchData,
     recordedPitchData,
     recordedAudios,
+    synthesizedPracticePitchData,
+    recordedPracticePitchData,
+    recordedPracticeAudios,
+    selectedPage,
     generatedResponse,
   ]);
 
   return (
-    <div className={isRecordingListLoading ? "chart-loading" : "chart"}>
+    <div >
       <div
         style={{
           position: "relative",
@@ -118,6 +130,7 @@ const PitchChart = ({
           width: "80vw",
           padding: "10px",
         }}
+        className={isRecordingListLoading ? "chart-loading" : "chart"}
       >
         <canvas ref={canvasRef} width="800" height="400"></canvas>
       </div>

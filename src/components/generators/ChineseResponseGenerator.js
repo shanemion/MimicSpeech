@@ -58,6 +58,13 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [isGPTLoading, setIsGPTLoading] = useState(false);
   const [uniqueAudioID, setUniqueAudioID] = useState("");
 
+  const [synthesizedPracticePitchData, setSynthesizedPracticePitchData] =
+    useState([]);
+  const [recordedPracticePitchData, setRecordedPracticePitchData] = useState(
+    []
+  );
+  const [recordedPracticeAudios, setRecordedPracticeAudios] = useState([]);
+
   useEffect(() => {
     setIsMounted(true);
   }, []);
@@ -308,52 +315,62 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
           </div>
           <AudioRecorder
             sendToTTS={sendToTTS}
-            recordedAudios={recordedAudios}
-            setRecordedAudios={setRecordedAudios}
-            recordedAudioURL={recordedAudioURL}
             setRecordedAudioURL={setRecordedAudioURL}
-            isAnalyzeButtonLoading={isAnalyzeButtonLoading}
             setIsAnalyzeButtonLoading={setIsAnalyzeButtonLoading}
             setUniqueAudioID={setUniqueAudioID}
           />
           <div>
             <AnalyzeButton
-              synthesizedPitchData={synthesizedPitchData}
               setSynthesizedPitchData={setSynthesizedPitchData}
-              recordedPitchData={recordedPitchData}
               setRecordedPitchData={setRecordedPitchData}
               generatedResponse={generatedResponse}
               recordedAudioURL={recordedAudioURL}
               setRecordedAudios={setRecordedAudios}
               isAnalyzeButtonLoading={isAnalyzeButtonLoading}
               setIsAnalyzeButtonLoading={setIsAnalyzeButtonLoading}
-              isRecordingListLoading={isRecordingListLoading}
               setIsRecordingListLoading={setIsRecordingListLoading}
               uniqueAudioID={uniqueAudioID}
             />
             <div className="chart-and-list">
               <div className="recording-and-graph">
-                {/* <div style={{position: "relative", height:"40vh", width:"80vw"}}> */}
-                  <PitchChart
-                    synthesizedPitchData={synthesizedPitchData}
-                    recordedPitchData={recordedPitchData}
-                    recordedAudios={recordedAudios}
-                    generatedResponse={generatedResponse}
-                    isRecordingListLoading={isRecordingListLoading}
-                  />
-                {/* </div> */}
-                <div className="recordings-list">
-                  <RecordedAudios
-                    recordedAudios={recordedAudios}
+                <PitchChart
+                  synthesizedPitchData={synthesizedPitchData}
+                  recordedPitchData={recordedPitchData}
+                  recordedAudios={recordedAudios}
+                  synthesizedPracticePitchData={synthesizedPracticePitchData}
+                  recordedPracticePitchData={recordedPitchData}
+                  recordedPracticeAudios={recordedPracticeAudios}
+                  generatedResponse={generatedResponse}
+                  isRecordingListLoading={isRecordingListLoading}
+                  selectedPage={selectedPage}
+                />
+                {selectedPage !== "Practice" && (
+                  <div className="recordings-list">
+                    <RecordedAudios
+                      recordedAudios={recordedAudios}
+                      playAudio={playAudio}
+                      deleteAudio={deleteAudio}
+                      synthesizedPitchData={synthesizedPitchData}
+                      recordedPitchData={recordedPitchData}
+                      setRecordedPitchData={setRecordedPitchData}
+                      isRecordingListLoading={isRecordingListLoading}
+                    />
+                  </div>
+                )}
+                {/* {selectedPage === "Practice" && (
+                  <div className="recordings-list">
+                    <PracticeRecordedAudios
+                    recordedPracticeAudios={recordedAudios}
                     playAudio={playAudio}
-                    deleteAudio={deleteAudio}
-                    synthesizedPitchData={synthesizedPitchData}
-                    recordedPitchData={recordedPitchData}
-                    setRecordedPitchData={setRecordedPitchData}
-                    isRecordingListLoading={isRecordingListLoading}
-                    setIsRecordingListLoading={setIsRecordingListLoading}
-                  />
-                </div>
+                      deleteAudio={deleteAudio}
+                      synthesizedPracticePitchData={synthesizedPitchData}
+                      recordedPracticePitchData={recordedPitchData}
+                      setRecordedPracticePitchData={setRecordedPracticePitchData}
+                      isRecordingListLoading={isRecordingListLoading}
+                      setIsRecordingListLoading={setIsRecordingListLoading}
+                    />
+                  </div>
+              )} */}
               </div>
             </div>
           </div>

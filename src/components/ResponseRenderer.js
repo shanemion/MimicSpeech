@@ -73,7 +73,7 @@ const ResponseRenderer = ({
         alignItems: "center",
       }}
     >
-      {(width > 740 && selectedPage !== "Three") && (
+      {width > 740 && selectedPage !== "Three" && (
         <button
           style={{
             position: "absolute",
@@ -110,7 +110,9 @@ const ResponseRenderer = ({
               className="practice-button"
               onClick={() => handleSentenceClick(index)}
             >
-              P
+              <div className="practice-icon">
+                <LiaBookReaderSolid />
+              </div>
             </button>
           </div>
         )}
@@ -119,9 +121,7 @@ const ResponseRenderer = ({
             justifyContent: "center",
           }}
         >
-          <hr
-            style={{ width: "100%"}}
-          />
+          <hr style={{ width: "100%" }} />
         </div>
       </div>
     </div>
@@ -140,6 +140,7 @@ const ResponseRenderer = ({
               marginRight: "auto",
               marginBottom: "20px",
             }}
+            className="response-option"
           >
             Back
           </button>

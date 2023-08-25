@@ -1,24 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { BothRecordAndTTS } from "./RecorderAndTTS.js";
-import { blobToBase64 } from "../utils/BlobTo64.js";
 import { useAuth } from "../services/firebase/FirebaseAuth";
 import Recorder from "recorder-js"; // Import Recorder.js
 import "../styles.css";
 
 const AudioRecorder = ({
   sendToTTS,
-  recordedAudios,
-  setRecordedAudios,
-  recordedAudioURL,
   setRecordedAudioURL,
-  isAnalyzeButtonLoading,
   setIsAnalyzeButtonLoading,
   setUniqueAudioID
 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [tempAudioURL, setTempAudioURL] = useState("");
   const { currentUser } = useAuth();
-  const { updateUserWav } = useAuth();
   const { ref, storage, uploadBytes, getDownloadURL } = useAuth();
   const [recorder, setRecorder] = useState(null);
 

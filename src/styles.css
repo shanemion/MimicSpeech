@@ -474,6 +474,13 @@
   }
 }
 
+.chart-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: fadeInOut .6s linear infinite;
+}
+
 .recording-and-graph {
   display: flex;
   justify-content: center;

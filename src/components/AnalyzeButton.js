@@ -1,19 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, {  useEffect } from "react";
 import analyzeAudio from "../utils/AnalyzeAudio";
-import PitchChart from "./PitchChart";
 import "../styles.css";
 
 const AnalyzeButton = ({
-  synthesizedPitchData,
   setSynthesizedPitchData,
-  recordedPitchData,
   setRecordedPitchData,
   generatedResponse,
   recordedAudioURL,
   setRecordedAudios,
   isAnalyzeButtonLoading,
   setIsAnalyzeButtonLoading,
-  isRecordingListLoading,
   setIsRecordingListLoading,
   uniqueAudioID
 }) => {
