@@ -11,18 +11,40 @@ const filterOutliers = (data) => {
     return data.filter((value) => value >= lowerBound && value <= upperBound);
   };
 
-const PitchAccuracy = ({ synthesizedPitchData, recordedPitchData }) => {
-  // console.log("Synthesized Pitch:", synthesizedPitchData);
-  // console.log("Recorded Pitch Index:", recordedPitchData);
+const PitchAccuracy = ({ practiceData, synthesizedPitchData, recordedPitchData, selectedPage, selectedSentenceIndex }) => {
 
-  const recordedData = recordedPitchData.data;
-  //   const recordedData = synthesizedPitchData;
 
-  let filteredSynthesizedData = synthesizedPitchData.filter(
+  let activePitchData = [];
+  let activeRecordedPitchData = [];
+
+  if (selectedPage === "Practice") {
+    const key = `${selectedPage}-${selectedSentenceIndex}`;
+    if (practiceData && practiceData[key]) {
+      activePitchData = practiceData[key].synthesizedPracticePitchData || [];
+      activeRecordedPitchData = practiceData[key].recordedPracticePitchData.data || [];
+    }
+  } else {
+    activePitchData = synthesizedPitchData || [];
+    activeRecordedPitchData = recordedPitchData.data || [];
+  }
+
+  console.log("Active Pitch Data:", activePitchData);
+  console.log("Active Recorded Pitch Data:", activeRecordedPitchData);
+
+  if (!activePitchData) {
+    return <div>Loading...</div>;
+  }
+  if (!activeRecordedPitchData) {
+    return <div>Loading....</div>;
+  }
+  // const recordedData = recordedPitchData.data;  //   const recordedData = synthesizedPitchData;
+  // console.log("Recorded Pitch:", recordedData);
+
+  let filteredSynthesizedData = activePitchData.filter(
     (value) => typeof value === "number" && Math.abs(value) > 0.01
   );
 
-  let filteredRecordedData = recordedData.filter(
+  let filteredRecordedData = activeRecordedPitchData.filter(
     (value) => typeof value === "number" && Math.abs(value) > 0.01
   );
 

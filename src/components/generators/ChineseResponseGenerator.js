@@ -45,7 +45,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     localStorage.getItem("typedResponse") || ""
   );
   const [isMounted, setIsMounted] = useState(false);
-  const [synthesizedAudio, setSynthesizedAudio] = useState(null);
   const [recordedAudios, setRecordedAudios] = useState([]);
   const [speed, setSpeed] = useState(2); // default speed at medium
   const rates = ["x-slow", "slow", "medium", "fast", "x-fast"];
@@ -61,11 +60,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [practiceData, setPracticeData] = useState({});
   const [synthesizedPracticePitchData, setSynthesizedPracticePitchData] =
     useState([]);
-  const [recordedPracticePitchData, setRecordedPracticePitchData] = useState(
-    []
-  );
   const [recordedPracticeAudios, setRecordedPracticeAudios] = useState([]);
-
   const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(null);
   const [previousPage, setPreviousPage] = useState(null);
   const [uniquePracticeAudioID, setUniquePracticeAudioID] = useState("");
@@ -166,6 +161,9 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
       });
     setSynthesizedPitchData([]);
     setRecordedAudios([]);
+    setPracticeData({});
+    setSynthesizedPracticePitchData([]);
+    setRecordedPracticeAudios([]);
   };
 
   const handleTTS = async (
@@ -213,6 +211,15 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     setRecordedPitchData((prevData) =>
       prevData.filter((item) => item.id !== audioId)
     );
+    setPracticeData((prevData) => {
+      const updatedData = { ...prevData };
+      for (const key in updatedData) {
+        updatedData[key].recordedPracticeAudios = updatedData[key].recordedPracticeAudios.filter(
+          (audio) => audio.id !== audioId
+        );
+      }
+      return updatedData;
+    });  
   };
 
   async function sendToTTS() {
@@ -226,16 +233,33 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     console.log("textToRead:", textToRead);
     await handleTTS(textToRead, selectedLanguage, selectedGender, rates[speed]);
   }
+  
 
   useEffect(() => {
     const sentences = ResponseCleaner(generatedResponse, responseLength);
-    const mainLanguage = sentences[0];
-    const newReadString = mainLanguage.join(" ");
+    let mainLanguage = sentences[0];
+    let newReadString = "";
+    if (selectedPage === "Practice") {
+      mainLanguage = mainLanguage[selectedSentenceIndex];
+      newReadString = mainLanguage
+    } else {
+     newReadString = mainLanguage.join(" ");
+    }
     setMainString(newReadString);
     localStorage.setItem("mainString", newReadString);
     setAudioURL(null); // Reset the audio URL when the TTS text changes
     localStorage.setItem("audioURL", null);
-  }, [generatedResponse, responseLength]);
+  }, [generatedResponse, responseLength, selectedSentenceIndex, selectedPage]);
+
+  // useEffect(() => {
+  //   const sentences = ResponseCleaner(generatedResponse, responseLength);
+  //   const mainLanguage = sentences[0];
+  //   const newReadString = mainLanguage.join(" ");
+  //   setMainString(newReadString);
+  //   localStorage.setItem("mainString", newReadString);
+  //   setAudioURL(null); // Reset the audio URL when the TTS text changes
+  //   localStorage.setItem("audioURL", null);
+  // }, [generatedResponse, responseLength]);
 
   const sentences = ResponseCleaner(generatedResponse, responseLength);
 

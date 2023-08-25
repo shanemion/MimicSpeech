@@ -1,7 +1,6 @@
 import React, { useRef, useEffect } from "react";
 import Chart from "chart.js/auto";
-import styles from "../styles.css";
-import { active } from "d3";
+import "../styles.css";
 
 const filterOutliers = (data) => {
   const sortedData = [...data].sort((a, b) => a - b);
@@ -25,7 +24,7 @@ const PitchChart = ({
   generatedResponse,
   isRecordingListLoading,
   selectedPage,
-  selectedSentenceIndex
+  selectedSentenceIndex,
 }) => {
   const canvasRef = useRef(null);
   const colors = [
@@ -44,27 +43,30 @@ const PitchChart = ({
   useEffect(() => {
     const ctx = canvasRef.current.getContext("2d");
 
-
     let activeSynthesizedPitchData = [];
     let activeRecordedPitchData = [];
     let activeRecordedAudios = [];
 
-    console.log("practiceData:", practiceData);
-    console.log("synthesizedPitchData:", synthesizedPitchData);
-  
     if (selectedPage === "Practice") {
       const key = `${selectedPage}-${selectedSentenceIndex}`;
+      // console.log("Key:", key)
       if (practiceData && practiceData[key]) {
-        activeSynthesizedPitchData = practiceData[key].synthesizedPracticePitchData || [];
-        activeRecordedPitchData = practiceData[key].recordedPracticePitchData || [];
+        activeSynthesizedPitchData =
+          practiceData[key].synthesizedPracticePitchData || [];
+        activeRecordedPitchData =
+          practiceData[key].recordedPracticePitchData || [];
         activeRecordedAudios = practiceData[key].recordedPracticeAudios || [];
-        console.log("practiceData:", practiceData);
-        console.log("synthesizedPitchData:", synthesizedPitchData);
+        // console.log("PCPD:", activeSynthesizedPitchData);
+        // console.log("PCSD", activeRecordedPitchData);
+        // console.log("PCRD", activeRecordedAudios);
       }
     } else {
       activeSynthesizedPitchData = synthesizedPitchData || [];
       activeRecordedPitchData = recordedPitchData || [];
       activeRecordedAudios = recordedAudios || [];
+      // console.log("NPD:", activeSynthesizedPitchData);
+      // console.log("NRD:", activeRecordedPitchData);
+      // console.log("NA:", activeRecordedAudios);
     }
     let filteredSynthesizedData = [];
     if (activeSynthesizedPitchData) {
@@ -129,8 +131,8 @@ const PitchChart = ({
             suggestedMax: maxYValue,
             title: {
               display: true,
-              text: 'Pitch in Hz'
-            }
+              text: "Pitch in Hz",
+            },
           },
         },
       },
@@ -146,11 +148,11 @@ const PitchChart = ({
     selectedPage,
     generatedResponse,
     practiceData,
-    selectedSentenceIndex,
+    selectedSentenceIndex
   ]);
 
   return (
-    <div >
+    <div>
       <div
         style={{
           position: "relative",

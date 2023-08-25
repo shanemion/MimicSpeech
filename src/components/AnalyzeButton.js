@@ -72,10 +72,12 @@ const AnalyzeButton = ({
         className={isAnalyzeButtonLoading ? "disabled" : "response-option"}
         onClick={() => {
           if (
-            localStorage.getItem("TTS_audio_url") === "" ||
-            localStorage.getItem("user_audio_url") === ""
+            (localStorage.getItem("TTS_audio_url") === "" ||
+            localStorage.getItem("user_audio_url") === "") || 
+            (practiceData[`${selectedPage}-${selectedSentenceIndex}`]?.recordedPracticePitchData?.length === 0 ||
+            practiceData[`${selectedPage}-${selectedSentenceIndex}`]?.recordedPracticeAudios?.length === 0)
           ) {
-            alert("Listen and record before comparing!");
+            alert("Play TTS and record audio before comparing!");
           } else {
             setIsRecordingListLoading(true);
             setIsAnalyzeButtonLoading(true);

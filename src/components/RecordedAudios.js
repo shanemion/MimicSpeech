@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import PitchAccuracy from "./PitchAccuracy";
 import LoaderIcon from "react-loader-icon";
 
@@ -30,6 +30,8 @@ if (selectedPage === "Practice") {
   recordings = recordedAudios;
 }
 
+console.log("recordings:", recordings)
+
   return (
     <div>
       <div
@@ -48,8 +50,11 @@ if (selectedPage === "Practice") {
           <button onClick={() => playAudio(audio.url)}>Play</button>
           <button onClick={() => handleDelete(audio.id)}>Delete</button>
           <PitchAccuracy
+            practiceData={practiceData}
             synthesizedPitchData={synthesizedPitchData}
             recordedPitchData={recordedPitchData[index]}
+            selectedPage={selectedPage}
+            selectedSentenceIndex={selectedSentenceIndex}
           />
         </div>
       ))}
