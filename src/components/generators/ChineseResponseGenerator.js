@@ -247,7 +247,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   }
 
   useEffect(() => {
-    const sentences = ResponseCleaner(generatedResponse, responseLength);
+    const sentences = ResponseCleaner(generatedResponse, renderedSentencesCount);
     let mainLanguage = sentences[0];
     let newReadString = "";
     if (selectedPage === "Practice") {
@@ -260,7 +260,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     localStorage.setItem("mainString", newReadString);
     setAudioURL(null); // Reset the audio URL when the TTS text changes
     localStorage.setItem("audioURL", null);
-  }, [generatedResponse, responseLength, selectedSentenceIndex, selectedPage]);
+  }, [generatedResponse, renderedSentencesCount, selectedSentenceIndex, selectedPage]);
 
 
   const sentences = ResponseCleaner(generatedResponse, responseLength);
