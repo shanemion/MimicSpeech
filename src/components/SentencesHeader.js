@@ -1,6 +1,13 @@
-import React from 'react';
+import React from "react";
 
-const SentencesHeader = ({ selectedPage, setSelectedPage }) => {
+const SentencesHeader = ({
+  selectedPage,
+  setSelectedPage,
+  responseLength,
+  handleResponseLengthChange,
+  renderedSentencesCount,
+  handleRenderedSentencesCountChange
+}) => {
   return (
     <>
       {selectedPage !== "Practice" && (
@@ -44,12 +51,24 @@ const SentencesHeader = ({ selectedPage, setSelectedPage }) => {
           >
             Chinese
           </button>
+            <div className="input-container">
+              <div className="number-container">
+                <input
+                  type="number"
+                  id="renderedSentencesCount"
+                  className="input-number"
+                  value={renderedSentencesCount}
+                  onChange={handleRenderedSentencesCountChange}
+                />
+                <label htmlFor="responseLength" className="input-label">
+                  / {` ${responseLength} Sentences`}
+                </label>
+              </div>
+            </div>
         </div>
       )}
       {selectedPage === "Practice" && (
-        <div className="response-options">
-          Practice Mode
-        </div>
+        <div className="response-options">Practice Mode</div>
       )}
     </>
   );

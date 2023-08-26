@@ -14,23 +14,26 @@ export const RecordedAudios = ({
   selectedPage,
   selectedSentenceIndex,
 }) => {
-
   const handleDelete = (audioId) => {
     deleteAudio(audioId);
   };
 
-
   let recordings = [];
 
-if (selectedPage === "Practice") {
-  if (practiceData && practiceData[`${selectedPage}-${selectedSentenceIndex}`]) {
-    recordings = practiceData[`${selectedPage}-${selectedSentenceIndex}`].recordedPracticeAudios;
+  if (selectedPage === "Practice") {
+    if (
+      practiceData &&
+      practiceData[`${selectedPage}-${selectedSentenceIndex}`]
+    ) {
+      recordings =
+        practiceData[`${selectedPage}-${selectedSentenceIndex}`]
+          .recordedPracticeAudios;
+    }
+  } else {
+    recordings = recordedAudios;
   }
-} else {
-  recordings = recordedAudios;
-}
 
-console.log("recordings:", recordings)
+  console.log("recordings:", recordings);
 
   return (
     <div>

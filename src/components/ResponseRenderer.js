@@ -13,6 +13,7 @@ const ResponseRenderer = ({
   setSelectedSentenceIndex,
   previousPage,
   setPreviousPage,
+  renderedSentencesCount,
 }) => {
   const { width } = useWindowSize();
   const [renderedSentences, setRenderedSentences] = useState(null);
@@ -150,12 +151,18 @@ const ResponseRenderer = ({
       );
     }
 
-    return <div>{sentences[0].map((_, index) => renderRow(index))}</div>;
+    return (
+      <div>
+        {sentences[0]
+          .slice(0, renderedSentencesCount)
+          .map((_, index) => renderRow(index))}
+      </div>
+    );
   };
 
   useEffect(() => {
     setRenderedSentences(renderSentences(sentences, selectedPage));
-  }, [generatedResponse, selectedPage, width]);
+  }, [generatedResponse, selectedPage, renderedSentencesCount, width]);
 
   return <div className="center">{renderedSentences}</div>;
 };

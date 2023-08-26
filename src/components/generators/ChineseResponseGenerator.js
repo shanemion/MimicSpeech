@@ -25,6 +25,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [responseLength, setResponseLength] = useState(
     parseInt(localStorage.getItem("numSentences"), 10) || 3
   );
+  const [renderedSentencesCount, setRenderedSentencesCount] = useState(responseLength);
   const [generatedResponse, setGeneratedResponse] = useState(
     localStorage.getItem("generatedResponse") || ""
   );
@@ -85,6 +86,17 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     }
     setResponseLength(newValue);
     localStorage.setItem("numSentences", newValue.toString());
+  };
+
+  const handleRenderedSentencesCountChange = (event) => {
+    let newValue = parseInt(event.target.value, 10);
+    if (newValue > responseLength) {
+      newValue = responseLength;
+    }
+    if (newValue < 1) {
+      newValue = 1;
+    }
+    setRenderedSentencesCount(newValue);
   };
 
   const handleGenerateResponse = async () => {
@@ -214,12 +226,12 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     setPracticeData((prevData) => {
       const updatedData = { ...prevData };
       for (const key in updatedData) {
-        updatedData[key].recordedPracticeAudios = updatedData[key].recordedPracticeAudios.filter(
-          (audio) => audio.id !== audioId
-        );
+        updatedData[key].recordedPracticeAudios = updatedData[
+          key
+        ].recordedPracticeAudios.filter((audio) => audio.id !== audioId);
       }
       return updatedData;
-    });  
+    });
   };
 
   async function sendToTTS() {
@@ -233,7 +245,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     console.log("textToRead:", textToRead);
     await handleTTS(textToRead, selectedLanguage, selectedGender, rates[speed]);
   }
-  
 
   useEffect(() => {
     const sentences = ResponseCleaner(generatedResponse, responseLength);
@@ -241,9 +252,9 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     let newReadString = "";
     if (selectedPage === "Practice") {
       mainLanguage = mainLanguage[selectedSentenceIndex];
-      newReadString = mainLanguage
+      newReadString = mainLanguage;
     } else {
-     newReadString = mainLanguage.join(" ");
+      newReadString = mainLanguage.join(" ");
     }
     setMainString(newReadString);
     localStorage.setItem("mainString", newReadString);
@@ -251,15 +262,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     localStorage.setItem("audioURL", null);
   }, [generatedResponse, responseLength, selectedSentenceIndex, selectedPage]);
 
-  // useEffect(() => {
-  //   const sentences = ResponseCleaner(generatedResponse, responseLength);
-  //   const mainLanguage = sentences[0];
-  //   const newReadString = mainLanguage.join(" ");
-  //   setMainString(newReadString);
-  //   localStorage.setItem("mainString", newReadString);
-  //   setAudioURL(null); // Reset the audio URL when the TTS text changes
-  //   localStorage.setItem("audioURL", null);
-  // }, [generatedResponse, responseLength]);
 
   const sentences = ResponseCleaner(generatedResponse, responseLength);
 
@@ -318,6 +320,10 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
             <SentencesHeader
               selectedPage={selectedPage}
               setSelectedPage={setSelectedPage}
+              responseLength={responseLength}
+              handleResponseLengthChange={handleResponseLengthChange}
+              renderedSentencesCount={renderedSentencesCount}
+              handleRenderedSentencesCountChange={handleRenderedSentencesCountChange}
             />
             <div className="outlined-subcontainer">
               {isGPTLoading && (
@@ -336,6 +342,8 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   setSelectedSentenceIndex={setSelectedSentenceIndex}
                   previousPage={previousPage}
                   setPreviousPage={setPreviousPage}
+                  renderedSentencesCount={renderedSentencesCount}
+
                 />
               )}
             </div>
@@ -376,7 +384,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
             <div className="chart-and-list">
               <div className="recording-and-graph">
                 <PitchChart
-                practiceData={practiceData}
+                  practiceData={practiceData}
                   synthesizedPitchData={synthesizedPitchData}
                   recordedPitchData={recordedPitchData}
                   recordedAudios={recordedAudios}

@@ -3,13 +3,6 @@ import { select } from "d3";
 const analyzeAudio = async (selectedPage) => {
     const synthesizedAudioURL = localStorage.getItem("TTS_audio_url");
     const recordedAudioURL = localStorage.getItem("user_audio_url");
-    const synthesizedPracticeAudioURL = localStorage.getItem("TTS_practice_audio_url");
-    const recordedPracticeAudioURL = localStorage.getItem("user_practice_audio_url");
-
-    // console.log("Synthesized Audio URL:", synthesizedAudioURL);
-    // console.log("Recorded Audio URL:", recordedAudioURL);
-    // console.log("Synthesized Practice Audio URL:", synthesizedPracticeAudioURL);
-    // console.log("Recorded Practice Audio URL:", recordedPracticeAudioURL);
 
     if (!synthesizedAudioURL || !recordedAudioURL) {
       console.error("Missing audio URLs");

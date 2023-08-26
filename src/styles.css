@@ -140,6 +140,8 @@
   transition: background-color 0.3s ease, color 0.3s ease;
   margin-left: 4px;
   margin-right: 4px;
+  font-weight: 600;
+
 }
 
 .response-option-selected {
@@ -152,6 +154,8 @@
   transition: background-color 0.3s ease, color 0.3s ease;
   margin-left: 4px;
   margin-right: 4px;
+  font-weight: 600;
+
 }
 
 .response-option:hover {
@@ -564,4 +568,31 @@
   .outlined-subcontainer {
     width: 100%;
   }
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  border: 1px solid #6b6b6b;
+  border-radius: 8px;
+  padding: 4px 8px;
+  margin-left: 24px;
+  margin-right: 4px;
+  font-size: 13.3px; 
+}
+
+.input-label {
+  margin-right: 8px;
+  font-weight: 600;
+}
+
+.number-container {
+  direction: ltr;
+}
+
+.input-number {
+  direction: rtl;
+  width: 26px;
+  border: none;
+  outline: none;
 }
