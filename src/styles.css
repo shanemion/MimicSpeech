@@ -15,7 +15,7 @@
   align-items: center;
   padding: 20px;
   margin-left: 20px;
-  margin-right: 20px;
+  /* margin-right: 20px; */
 }
 
 .titleContainer > h1 {
@@ -296,7 +296,6 @@
   }
   .selectorWidthRight {
     width: 70%;
-    margin-right: 50px;
   }
   .secondary-language {
     display: flex;

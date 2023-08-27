@@ -14,7 +14,7 @@ const Login = () => {
         const { email, password } = event.target.elements;
         try {
             await login(email.value, password.value);
-            navigate('/');
+            navigate('/generator');
         } catch (error) {
             alert(error);
         }

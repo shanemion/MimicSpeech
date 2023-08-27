@@ -35,7 +35,7 @@ export const Burger = () => {
       width: "32px",
       height: "24px",
       right: "24px",
-      top: "46px",
+      top: "32px",
     },
     bmBurgerBars: {
       background: "#373a47",
@@ -81,7 +81,7 @@ export const Burger = () => {
     event.preventDefault();
     try {
       await logout();
-      navigate("/login");
+      navigate("/");
       setIsOpen(false); // Close the menu
     } catch (error) {
       console.error(error);
@@ -109,6 +109,51 @@ export const Burger = () => {
       styles={styles}
       right
     >
+      <Link
+        id="home"
+        className="menu-item"
+        to="/"
+        onClick={closeMenu}
+        style={linkStyle}
+      >
+        Home
+      </Link>
+      <Link
+        id="features"
+        className="menu-item"
+        to="/features"
+        onClick={closeMenu}
+        style={linkStyle}
+      >
+        Features
+      </Link>
+      <Link
+        id="pricing"
+        className="menu-item"
+        to="/pricing"
+        onClick={closeMenu}
+        style={linkStyle}
+      >
+        Pricing
+      </Link>
+      <Link
+        id="testimonials"
+        className="menu-item"
+        to="/testimonials"
+        onClick={closeMenu}
+        style={linkStyle}
+      >
+        Testimonials
+      </Link>
+      <Link
+        id="contact-us"
+        className="menu-item"
+        to="/contact"
+        onClick={closeMenu}
+        style={linkStyle}
+      >
+        Contact Us
+      </Link>
       {currentUser ? (
         <>
           <Link
@@ -121,6 +166,7 @@ export const Burger = () => {
             View Saved
           </Link>
           <Link
+
             id="logout"
             className="menu-item"
             onClick={handleLogout}
@@ -141,16 +187,19 @@ export const Burger = () => {
             Login
           </Link>
           <Link
-            id="register"
+
+            id="signup"
             className="menu-item"
-            to="/register"
+            
+            to="/signup"
             onClick={closeMenu}
             style={linkStyle}
           >
-            Register
+            Sign Up
           </Link>
         </>
       )}
+
     </Menu>
   );
 };

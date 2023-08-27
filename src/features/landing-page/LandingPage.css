@@ -1,0 +1,163 @@
+/* .header, .hero, .features, .pricing, .testimonials, .faq, .footer {
+    padding: 20px;
+  } */
+  body, h1, ul, li {
+    margin: 0;
+    padding: 0;
+  }
+  * {
+    box-sizing: border-box;
+  }
+
+  .logo {
+    padding-left: 20px;
+    padding-right: 90px;
+    cursor: pointer;
+
+  }
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0px;
+    position: sticky;  /* Make it stick to the top */
+    top: 0;  /* Stick to the top of the page */
+    z-index: 1000;  /* Make sure it stays on top of other elements */
+    background-color: white;  /* Add a background color */
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);  /* Add a slight shadow */
+  }
+  .nav-links {
+    list-style: none;
+    cursor: pointer;
+
+  }
+
+  @media (max-width: 1100px) {
+    .nav-links li {
+      font-size: 14px; /* Adjust the size as needed */
+    }
+  }
+
+  @media (max-width: 920px) {
+    .nav-links {
+      display: none;
+    }
+    .sign-up-button {
+      display: none;
+    }
+    .log-in-button {
+      display: none;
+    }
+  }
+    
+  .nav-links li {
+    display: inline;
+    margin-right: 20px;
+  }
+  
+  .cta-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .sign-up-button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+  .log-in-button {
+    background-color: #ffffff;
+    color: #007bff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .feature, .plan {
+    text-align: center;
+  }
+
+  .video-container {
+    position: relative;
+  }
+  
+  .background-video {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh; /* Adjust height as needed */
+  }
+
+  .hero-content h1 {
+    font-weight: bold;  /* Make the text bold */
+    color: white;  /* Change the text color to white */
+    font-size: 4.5em;  /* Increase the font size */
+  }
+  
+  .background-animation {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Place it behind the content */
+  }
+  
+  .sixty-image {
+    width: 60%;
+    height: auto;
+  }
+
+  @media (max-width: 768px) {
+    .sixty-image {
+      width: 80%;
+    }
+  }
+
+  .scaled-image {
+    width: 80%;
+    height: auto;
+  }
+
+  .features-content h2 {
+    font-size: 2em;  /* Increase the font size */
+  }
+
+  .pricing-content h2 {
+    font-size: 2em;  /* Increase the font size */
+  }
+
+  .fadeIn {
+    animation: fadeInAnimation ease 1.3s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+  }
+  
+  @keyframes fadeInAnimation {
+    0% {
+      opacity: .2;
+    }
+    100% {
+      opacity: 1;
+    }
+  }

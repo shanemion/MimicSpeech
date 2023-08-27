@@ -1,0 +1,66 @@
+.pricing-container {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  margin: 40px 0px; /* Increased margin on the sides */
+}
+
+.inside-pricing-container {
+    display: flex;
+}
+
+.pricing-box {
+  flex: 1;
+  border: 4px solid #A93F55; /* Thicker border */
+  border-radius: 10px;
+  padding: 30px; /* Increased padding to make it taller */
+  margin: 10px 10px; /* 10px margin on all sides, making 20px between boxes */
+  text-align: center;
+  background-color: #ffffff;
+  min-width: 220px; /* Increased minimum width */
+  max-width: 340px; /* Increased maximum width */
+  flex-basis: calc(33.333% - 20px); /* Default width, accounting for margin */
+}
+
+.price {
+  display: flex;
+  align-items: baseline;
+}
+
+.billing {
+  font-size: 14px;
+  margin-left: 5px;
+}
+
+.buy-button {
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 10px 0;
+}
+
+/* Media query for smaller screens */
+@media (max-width: 768px) {
+  .pricing-container {
+    flex-direction: column;
+    align-items: stretch;
+    margin: 20px 20px;
+  }
+
+  .inside-pricing-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 20px 20px;
+}
+
+  .pricing-box {
+    flex-basis: auto; /* Reset to auto */
+    width: 100%; /* Full width */
+    margin: 10px 0; /* Adjust margin */
+  }
+}

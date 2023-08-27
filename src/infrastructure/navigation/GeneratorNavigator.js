@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import ChineseResponseGenerator from "../../components/generators/ChineseResponseGenerator";
+import ChineseResponseGenerator from "../../features/generate-page/generators/ChineseResponseGenerator";
 // import EnglishResponseGenerator from "../../components/generators/EnglishResponseGenerator";
 // import JapaneseResponseGenerator from "../../components/generators/JapaneseResponseGenerator";
 // import VietnameseResponseGenerator from "../../components/generators/VietnameseResponseGenerator";

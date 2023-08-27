@@ -15,7 +15,7 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
   const AiAndTypeSelector = () => {
     const modeOptions = [
       { value: false, label: "AI Response" },
-      { value: true, label: "Type Own Response" },
+      { value: true, label: "Type Response" },
     ];
 
     const handleChange = (selectedOption) => {

@@ -32,7 +32,7 @@ const SavedResponses = () => {
     localStorage.setItem('responseLanguage', response.language);
     localStorage.setItem('numSentences', response.numSentences);
     // Navigate back to the main page
-    navigate('/');
+    navigate('/generator');
   };
 
   return (

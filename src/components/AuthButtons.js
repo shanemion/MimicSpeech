@@ -1,7 +1,7 @@
 import React from "react";
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../services/firebase/FirebaseAuth';
-import "../styles.css"
+import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../services/firebase/FirebaseAuth";
+import "../styles.css";
 
 export default function AuthButtons() {
   const navigate = useNavigate();

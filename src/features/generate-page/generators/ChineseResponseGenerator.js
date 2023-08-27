@@ -1,22 +1,27 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useAuth } from "../../services/firebase/FirebaseAuth";
-import ResponseRenderer from "../ResponseRenderer";
-import { ResponseCleaner } from "../../utils/ResponseCleaner";
-import AudioRecorder from "../AudioRecorder";
-import LanguageContext from "../../services/language/LanguageContext";
-import Bookmark from "../Bookmark";
-import SentencesHeader from "../SentencesHeader";
-import AnalyzeButton from "../AnalyzeButton";
-import { TTSsettings } from "../TTSsettings";
-import PitchChart from "../PitchChart";
-import { RecordedAudios } from "../RecordedAudios";
-import SpeakText from "../../utils/SpeakTTS";
+import { useAuth } from "../../../services/firebase/FirebaseAuth";
+import ResponseRenderer from "../../../components/ResponseRenderer";
+import { ResponseCleaner } from "../../../utils/ResponseCleaner";
+import AudioRecorder from "../../../components/AudioRecorder";
+import LanguageContext from "../../../services/language/LanguageContext";
+import Bookmark from "../../../components/Bookmark";
+import SentencesHeader from "../../../components/SentencesHeader";
+import AnalyzeButton from "../../../components/AnalyzeButton";
+import { TTSsettings } from "../../../components/TTSsettings";
+import PitchChart from "../../../components/PitchChart";
+import { RecordedAudios } from "../../../components/RecordedAudios";
+import SpeakText from "../../../utils/SpeakTTS";
 import LoaderIcon from "react-loader-icon";
-import "../../styles.css";
+import GenerateHeader from "../header/GenerateHeader";
+import useWindowSize from "../../../utils/WindowSize";
+import { Selectors } from "../../../components/Selectors";
+
+import "../../../../src/styles.css";
 
 const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;
 
 const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
+  const { width } = useWindowSize();
   const { ref, storage, deleteObject } = useAuth();
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
   const [userPrompt, setUserPrompt] = useState(
@@ -25,7 +30,8 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [responseLength, setResponseLength] = useState(
     parseInt(localStorage.getItem("numSentences"), 10) || 3
   );
-  const [renderedSentencesCount, setRenderedSentencesCount] = useState(responseLength);
+  const [renderedSentencesCount, setRenderedSentencesCount] =
+    useState(responseLength);
   const [generatedResponse, setGeneratedResponse] = useState(
     localStorage.getItem("generatedResponse") || ""
   );
@@ -247,7 +253,10 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   }
 
   useEffect(() => {
-    const sentences = ResponseCleaner(generatedResponse, renderedSentencesCount);
+    const sentences = ResponseCleaner(
+      generatedResponse,
+      renderedSentencesCount
+    );
     let mainLanguage = sentences[0];
     let newReadString = "";
     if (selectedPage === "Practice") {
@@ -260,14 +269,31 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     localStorage.setItem("mainString", newReadString);
     setAudioURL(null); // Reset the audio URL when the TTS text changes
     localStorage.setItem("audioURL", null);
-  }, [generatedResponse, renderedSentencesCount, selectedSentenceIndex, selectedPage]);
-
+  }, [
+    generatedResponse,
+    renderedSentencesCount,
+    selectedSentenceIndex,
+    selectedPage,
+  ]);
 
   const sentences = ResponseCleaner(generatedResponse, responseLength);
 
   return (
     <div>
       <div>
+        <GenerateHeader
+          typeResponse={typeResponse}
+          setTypeResponse={setTypeResponse}
+        />
+        {width < 768 && (
+          <div className="center">
+            <Selectors
+              className="selectors"
+              typeResponse={typeResponse}
+              setTypeResponse={setTypeResponse}
+            />
+          </div>
+        )}
         {!typeResponse && (
           <div className="center">
             <div className="inputs">
@@ -323,7 +349,9 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
               responseLength={responseLength}
               handleResponseLengthChange={handleResponseLengthChange}
               renderedSentencesCount={renderedSentencesCount}
-              handleRenderedSentencesCountChange={handleRenderedSentencesCountChange}
+              handleRenderedSentencesCountChange={
+                handleRenderedSentencesCountChange
+              }
             />
             <div className="outlined-subcontainer">
               {isGPTLoading && (
@@ -343,7 +371,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   previousPage={previousPage}
                   setPreviousPage={setPreviousPage}
                   renderedSentencesCount={renderedSentencesCount}
-
                 />
               )}
             </div>
