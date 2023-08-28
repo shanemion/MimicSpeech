@@ -106,12 +106,15 @@
     align-items: center;
     justify-content: center;
     height: 100vh; /* Adjust height as needed */
+    color: rgb(0, 0, 0);
+
   }
 
   .hero-content h1 {
-    font-weight: bold;  /* Make the text bold */
-    color: white;  /* Change the text color to white */
-    font-size: 4.5em;  /* Increase the font size */
+    font-weight: bold;  
+    /* color: rgb(193, 24, 24); */
+    color: white;
+    font-size: 4.5em;  
   }
   
   .background-animation {

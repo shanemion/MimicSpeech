@@ -3,7 +3,6 @@
   justify-content: space-around;
   align-items: center;
   flex-wrap: wrap;
-  margin: 40px 0px; /* Increased margin on the sides */
 }
 
 .inside-pricing-container {
@@ -43,6 +42,25 @@
   margin: 10px 0;
 }
 
+ul {
+    list-style-type: none; /* Remove default bullets */
+    padding-left: 0; /* Remove padding */
+    text-align: left; /* Left-align text */
+  }
+
+li {
+    padding: 8px 0; /* Add some padding */
+    font-size: 14px; /* Increase the font-size */
+}
+  
+  /* Style for the checkmark image */
+  img {
+    height: 16px;
+    width: 16px;
+    margin-right: 8px; /* Add some space between the image and text */
+  }
+
+
 /* Media query for smaller screens */
 @media (max-width: 768px) {
   .pricing-container {
@@ -64,3 +82,4 @@
     margin: 10px 0; /* Adjust margin */
   }
 }
+

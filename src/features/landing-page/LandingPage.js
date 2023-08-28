@@ -3,7 +3,9 @@ import "./LandingPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Burger } from "../../components/Burger";
 import { useIntersectionObserver } from "./Intersection";
-import Pricing from "./components/Pricing";
+import Pricing from "./components/pricing/Pricing";
+import Faq from "./components/faq/Faq";
+import Language from "./components/language/Language";
 import useWindowSize from "../../../src/utils/WindowSize";
 import p5 from "p5";
 
@@ -12,6 +14,7 @@ const LandingPage = () => {
   const myRef = useRef();
   const location = useLocation();
   const { width } = useWindowSize();
+
   const featureRef = useRef(null);
   const pricingRef = useRef(null);
   const testimonialsRef = useRef(null);
@@ -19,6 +22,8 @@ const LandingPage = () => {
   const ttsRef = useRef(null);
   const progressRef = useRef(null);
   const practiceRef = useRef(null);
+  const faqRef = useRef(null);
+  const languageRef = useRef(null);
 
   const isFeatureVisible = useIntersectionObserver(featureRef);
   const isPricingVisible = useIntersectionObserver(pricingRef);
@@ -27,6 +32,8 @@ const LandingPage = () => {
   const isTTSVisible = useIntersectionObserver(ttsRef);
   const isProgressVisible = useIntersectionObserver(progressRef);
   const isPracticeVisible = useIntersectionObserver(practiceRef);
+  const isFaqVisible = useIntersectionObserver(faqRef);
+  const isLanguageVisible = useIntersectionObserver(languageRef);
 
   const heroRef = useRef();
 
@@ -55,13 +62,35 @@ const LandingPage = () => {
     };
 
     p.draw = () => {
-      p.background(220);
+      drawGradient();
       wave1.update(p.mouseY); // Pass mouseY as an argument
       wave1.display();
       wave2.update(p.mouseY); // Pass mouseY as an argument
       wave2.display();
       time += 0.01; // Increment time for smooth fluctuation
     };
+    
+    function drawGradient() {
+      let topColor = p.color(220, 220, 220);
+      let middleColor = p.color(220, 220, 220);
+      let bottomColor = p.color(255, 255, 255);
+    
+      // Draw the top-to-middle gradient
+      for (let i = 0; i <= p.height / 2; i++) {
+        let inter = p.map(i, 0, p.height / 2, 0, 1);
+        let c = p.lerpColor(topColor, middleColor, inter);
+        p.stroke(c);
+        p.line(0, i, p.width, i);
+      }
+    
+      // Draw the middle-to-bottom gradient
+      for (let i = p.height / 2; i <= p.height; i++) {
+        let inter = p.map(i, p.height / 2, p.height, 0, 1);
+        let c = p.lerpColor(middleColor, bottomColor, inter);
+        p.stroke(c);
+        p.line(0, i, p.width, i);
+      }
+    }
 
     p.windowResized = () => {
       const heroSection = heroRef.current;
@@ -109,7 +138,7 @@ const LandingPage = () => {
 
       display() {
         p.stroke(this.col);
-        p.strokeWeight(3.5); // Increase the thickness
+        p.strokeWeight(4.5); // Increase the thickness
         p.noFill();
         p.beginShape();
         for (let x = 0; x <= p.width; x += 5) {
@@ -134,7 +163,7 @@ const LandingPage = () => {
             <li onClick={() => navigate("/")}>Home</li>
             <li onClick={() => navigate("/features")}>Features</li>
             <li onClick={() => navigate("/pricing")}>Pricing</li>
-            <li onClick={() => navigate("/testimonials")}>Testimonials</li>
+            <li onClick={() => navigate("/testimonials")}>FAQs</li>
             <li onClick={() => navigate("/contact")}>Contact Us</li>
           </ul>
         </nav>
@@ -156,6 +185,7 @@ const LandingPage = () => {
         </div>
         {width < 920 && <Burger />}
       </header>
+
       {/* Hero Section */}
       <section className="hero" ref={heroRef}>
         {" "}
@@ -185,7 +215,24 @@ const LandingPage = () => {
         className={`features ${isFeatureVisible ? "fadeIn" : ""}`}
         ref={featureRef}
       >
+        
         <div className="features-content">
+        <div style={{ height: 0 }}></div>
+
+          <div
+            className={`feature ${isLanguageVisible ? "fadeIn" : ""}`}
+            ref={languageRef}
+          >
+            <h2>Learn Languages From...</h2>
+            <p>
+              Unlock the world with our extensive language library. Whether
+              you're learning for travel, work, or personal enrichment, we've
+              got you covered. Choose from dozens of languages to start your
+              journey.
+            </p>
+            <Language />
+
+          </div>
           <div style={{ height: 70 }}></div>
           <div
             className={`feature ${isPromptsVisible ? "fadeIn" : ""}`}
@@ -244,7 +291,7 @@ const LandingPage = () => {
               className="sixty-image"
             />
           </div>
-          <div style={{ height: 170 }}></div>
+          <div style={{ height: 100 }}></div>
         </div>
       </section>
 
@@ -254,9 +301,9 @@ const LandingPage = () => {
         ref={pricingRef}
       >
         <div className="pricing-content">
-        <div className="feature">
-          <h2>Choose a Plan that Works for You</h2>
-        </div>
+          <div className="feature">
+            <h2>Choose a Plan that Works for You</h2>
+          </div>
         </div>
         <Pricing />
       </section>
@@ -270,7 +317,14 @@ const LandingPage = () => {
       </section>
 
       {/* FAQ Section */}
-      <section className="faq">{/* Add your FAQ here */}</section>
+      <section className={`faq ${isFaqVisible ? "fadeIn" : ""}`} ref={faqRef}>
+        <div className="pricing-content">
+          <div className="feature">
+            <h2>FAQ</h2>
+          </div>
+        </div>
+        <Faq />
+      </section>
 
       {/* Footer Section */}
       <footer className="footer">

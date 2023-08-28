@@ -1,5 +1,6 @@
 import React from "react";
 import "./Pricing.css";
+import checkmark from "./icons8-checkmark-48.png"; // adjust the filename if needed
 
 const Pricing = () => {
   const plans = [
@@ -14,7 +15,7 @@ const Pricing = () => {
         "Option to save responses",
         "3 sentence responses",
       ],
-      buttonText: "Buy this plan",
+      buttonText: "Sign up for free",
     },
     {
       header: "Pro",
@@ -59,7 +60,7 @@ const Pricing = () => {
               <ul>
                 {plan.features.map((feature, index) => (
                   <li key={index}>
-                    {/* You can import and add an icon here */}
+                    <img src={checkmark} alt="check" />
                     {feature}
                   </li>
                 ))}
@@ -68,7 +69,7 @@ const Pricing = () => {
           ))}
         </div>
       </div>
-      <div style={{ height: 120 }}></div>
+      <div style={{ height: 80 }}></div>
     </div>
   );
 };

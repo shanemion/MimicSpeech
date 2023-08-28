@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Language from '../features/landing-page/components/language/Language';
 
 import { useAuth } from '../services/firebase/FirebaseAuth';
 
