@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Navigator } from "./infrastructure/navigation/GeneratorNavigator";
 import LanguageProvider from "./services/language/LanguageProvider";
-import Login from "./components/Login";
-import Register from "./components/Register";
+import Login from "./features/registration/Login";
+import Register from "./features/registration/Register";
 import { AuthProvider } from "./services/firebase/FirebaseAuth";
 import SavedResponses from "./components/SavedResponses";
 import { Footer } from "./components/Footer";
@@ -26,7 +26,7 @@ function App() {
                     <Routes>
                       <Route path="/" element={<LandingPage />} />
                       <Route path="/login" element={<Login />} />
-                      <Route path="/register" element={<Register />} />
+                      <Route path="/signup" element={<Register />} />
                       <Route
                         path="/generator"
                         element={

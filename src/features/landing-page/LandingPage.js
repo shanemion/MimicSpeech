@@ -17,9 +17,9 @@ const LandingPage = () => {
 
   const featureRef = useRef(null);
   const pricingRef = useRef(null);
-  const testimonialsRef = useRef(null);
   const promptsRef = useRef(null);
   const ttsRef = useRef(null);
+  const testimonialsRef = useRef(null);
   const progressRef = useRef(null);
   const practiceRef = useRef(null);
   const faqRef = useRef(null);
@@ -56,8 +56,8 @@ const LandingPage = () => {
         canvas.position(0, 0); // Position it at the top-left corner
         canvas.style("z-index", "-1"); // Place it behind the content
 
-        wave1 = new Wave(0.02, p.height / 1.5, p.color(255, 0, 0, 50));
-        wave2 = new Wave(0.03, p.height / 1.5, p.color(0, 0, 255, 50));
+        wave1 = new Wave(0.02, p.height / 1.5, p.color(242, 84, 91));
+        wave2 = new Wave(0.03, p.height / 1.5, p.color(108, 145, 191));
       }
     };
 
@@ -71,8 +71,8 @@ const LandingPage = () => {
     };
     
     function drawGradient() {
-      let topColor = p.color(220, 220, 220);
-      let middleColor = p.color(220, 220, 220);
+      let topColor = p.color(243, 247, 240);
+      let middleColor =  p.color(243, 247, 240);
       let bottomColor = p.color(255, 255, 255);
     
       // Draw the top-to-middle gradient
@@ -151,6 +151,65 @@ const LandingPage = () => {
       }
     }
   };
+
+  const scrollToHome = () => {
+    const offset = -140; 
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = heroRef.current.getBoundingClientRect().top;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition + offset;
+  
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollToFeature = () => {
+    const offset = -140; 
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = featureRef.current.getBoundingClientRect().top;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition + offset;
+  
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+  };
+
+  const scrollToPricing = () => {
+    const offset = -140; 
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = pricingRef.current.getBoundingClientRect().top;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition + offset;
+  
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+  };
+  
+
+  const scrollToFAQ = () => {
+    // const offset = -140; 
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = faqRef.current.getBoundingClientRect().top;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition 
+  
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: "smooth",
+    });
+  };
+
+  // const scrollToContact = () => {
+  //   contactRef.current.scrollIntoView({ behavior: "smooth" });
+  // };
+
+
   return (
     <div className="landing-page">
       {/* Header Section */}
@@ -160,10 +219,10 @@ const LandingPage = () => {
         </div>
         <nav>
           <ul className="nav-links">
-            <li onClick={() => navigate("/")}>Home</li>
-            <li onClick={() => navigate("/features")}>Features</li>
-            <li onClick={() => navigate("/pricing")}>Pricing</li>
-            <li onClick={() => navigate("/testimonials")}>FAQs</li>
+            <li onClick={scrollToHome}>Home</li>
+            <li onClick={scrollToFeature}>Features</li>
+            <li onClick={scrollToPricing}>Pricing</li>
+            <li onClick={scrollToFAQ}>FAQs</li>
             <li onClick={() => navigate("/contact")}>Contact Us</li>
           </ul>
         </nav>
@@ -178,7 +237,7 @@ const LandingPage = () => {
           <button
             className="sign-up-button"
             style={{ marginRight: 20 }}
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/signup")}
           >
             Sign up - It's free
           </button>
@@ -329,9 +388,9 @@ const LandingPage = () => {
       {/* Footer Section */}
       <footer className="footer">
         <div className="footer-links">
-          <a href="#">Privacy Policy</a>
+          {/* <a href="#">Privacy Policy</a>
           <a href="#">Terms of Service</a>
-          <a href="#">About Us</a>
+          <a href="#">About Us</a> */}
         </div>
         <div className="social-media">
           {/* Add your social media icons here */}

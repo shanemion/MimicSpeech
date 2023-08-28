@@ -26,6 +26,7 @@
     background-color: white;  /* Add a background color */
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);  /* Add a slight shadow */
   }
+
   .nav-links {
     list-style: none;
     cursor: pointer;
@@ -106,14 +107,14 @@
     align-items: center;
     justify-content: center;
     height: 100vh; /* Adjust height as needed */
-    color: rgb(0, 0, 0);
+    color: rgb(25, 50, 60);
 
   }
 
   .hero-content h1 {
     font-weight: bold;  
     /* color: rgb(193, 24, 24); */
-    color: white;
+    /* color: white; */
     font-size: 4.5em;  
   }
   

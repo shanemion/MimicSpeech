@@ -9,7 +9,7 @@ const SentencesHeader = ({
   handleRenderedSentencesCountChange
 }) => {
   return (
-    <>
+    <div className="sentences-header">
       {selectedPage !== "Practice" && (
         <div className="response-options">
           <button
@@ -70,7 +70,7 @@ const SentencesHeader = ({
       {selectedPage === "Practice" && (
         <div className="response-options">Practice Mode</div>
       )}
-    </>
+    </div>
   );
 };
 

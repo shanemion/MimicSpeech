@@ -64,7 +64,7 @@ const FlagSlideshow = () => {
               </div>
               <div className="card-back">
                 <p>{`The predominant language in ${language.country} is ${language.name}.`}</p>
-                <button onClick={() => (window.location.href = "/login")}>
+                <button onClick={() => (window.location.href = "/signup")}>
                   Start Studying {language.name}
                 </button>
               </div>

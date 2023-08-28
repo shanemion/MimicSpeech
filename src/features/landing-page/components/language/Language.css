@@ -2,9 +2,8 @@
   position: relative;
   overflow: show;
   width: 100%;
-  height: 200px;
-  margin: 100px 0;
-  z-index: 1;  /* Lower z-index */
+  height: 500px;
+  z-index: 1;
 }
 
 .language-text {
@@ -13,16 +12,18 @@
   opacity: 0.6;
   white-space: nowrap;
   animation: flow 20s linear infinite;
-  z-index: 1;  /* Lower z-index */
+  z-index: 1;
+  top: var(--top);
+  left: var(--left);
+  animation-delay: var(--delay);
 }
-  
-  .italic {
-    font-style: italic;
+
+.italic {
+  font-style: italic;
+}
+
+@keyframes flow {
+  to {
+    left: 100%;
   }
-  
-  @keyframes flow {
-    to {
-      left: 100%;
-    }
-  }
-  
+}

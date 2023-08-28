@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useMemo } from "react";
 import FlagSlideshow from './FlagSlideshow';
 import "./Language.css";
 
-const Language = () => {
-  const [positions, setPositions] = useState([]);
-  const languages = [
+const languages = [
     { name: "English", text: "Learn English", isRoman: true },
     { name: "Simplified Mandarin Chinese", text: "学习中文", isRoman: false },
     { name: "Spanish", text: "Aprende Español", isRoman: true },
@@ -19,35 +17,32 @@ const Language = () => {
     { name: "Tagalog", text: "Matutong Magtagalog", isRoman: true },
   ];
 
-  useEffect(() => {
-    const newPositions = [];
-    let lastPosition = 0;
+const generatePositions = () => {
+  const newPositions = [];
+  let lastPosition = 0;
 
-    for (let i = 0; i < languages.length; i++) {
-      let newPosition = Math.random() * 100; // Generate a random position between 0 and 100
-      while (Math.abs(newPosition - lastPosition) < 15) {
-        // Ensure it doesn't overlap more than 15% with the last
-        newPosition = Math.random() * 100;
-      }
-      newPositions.push(newPosition);
-      lastPosition = newPosition;
+  for (let i = 0; i < languages.length; i++) {
+    let newPosition = Math.random() * 100;
+    while (Math.abs(newPosition - lastPosition) < 15) {
+      newPosition = Math.random() * 100;
     }
+    newPositions.push(newPosition);
+    lastPosition = newPosition;
+  }
 
-    setPositions(newPositions);
-  }, []);
+  return newPositions;
+};
+
+const Language = () => {
+  const positions = useMemo(generatePositions, []);
 
   return (
     <div className="language-container">
       <FlagSlideshow />
-
       {languages.map((language, index) => (
         <span
           className={`language-text ${language.isRoman ? "italic" : ""}`}
-          style={{
-            top: `${positions[index]}%`,
-            left: `-${50 + index * 10}%`,
-            animationDelay: `${index * 1}s`,
-          }}
+          style={{ '--top': `${positions[index]}%`, '--delay': `${index}s`, '--left': `-${50 + index * 10}%` }}
           key={index}
         >
           {language.text}

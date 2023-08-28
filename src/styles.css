@@ -580,7 +580,7 @@
   font-size: 13.3px; 
 }
 
-.input-label {
+.input-label label {
   margin-right: 8px;
   font-weight: 600;
 }
