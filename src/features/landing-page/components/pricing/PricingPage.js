@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Pricing from "./Pricing";
+import Pricing from "../../../dashboard/pricing/Pricing";
 import { useAuth } from "../../../../services/firebase/FirebaseAuth";
 import LandingHeader from "../header/LandingHeader";
 import { useNavigate } from "react-router-dom";

@@ -1,5 +1,5 @@
 import React from 'react';
-import Pricing from '../landing-page/components/pricing/Pricing';
+import Pricing from './Pricing';
 import './PricingModal.css';
 
 const PricingModal = ({ onClose }) => {

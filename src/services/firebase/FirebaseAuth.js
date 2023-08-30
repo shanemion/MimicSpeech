@@ -66,7 +66,9 @@ export const AuthProvider = ({ children }) => {
     );
     await setDoc(doc(db, "users", userCredential.user.uid), {
       ...additionalData,
-      credits: 0  // Initialize credits to 0
+      credits: 0,  // Initialize credits to 0
+      firstName: "",
+      lastName: "",
     });
     setCurrentUser(userCredential.user);
   };
@@ -118,6 +120,18 @@ export const AuthProvider = ({ children }) => {
     const userRef = doc(db, "users", userId);
     const userDoc = await getDoc(userRef);
     return userDoc.data().credits || 0;
+  };
+
+  const fetchFirstName = async (userId) => {
+    const userRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userRef);
+    return userDoc.data().firstName || "";
+  };
+
+  const fetchLastName = async (userId) => {
+    const userRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userRef);
+    return userDoc.data().lastName || "";
   };
   
 
@@ -228,6 +242,8 @@ export const AuthProvider = ({ children }) => {
     signInWithGoogle,
     // signInWithGitHub,
     fetchCredits,
+    fetchFirstName,
+    fetchLastName,
 
 
   };

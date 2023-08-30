@@ -5,15 +5,14 @@ import "../styles.css";
 
 export default function AuthButtons() {
   const navigate = useNavigate();
-  const { currentUser, logout } = useAuth();  // useAuth instead of useContext
+  const { currentUser, logout } = useAuth();  
 
   const handleLogout = async () => {
-    // Here goes your logout logic.
     try {
       await logout();
-      navigate("/login"); // After logout, you can redirect user to login page
+      navigate("/"); 
     } catch (error) {
-      // handle errors here
+  
       console.error(error);
     }
   }

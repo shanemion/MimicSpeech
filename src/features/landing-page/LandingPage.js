@@ -3,7 +3,7 @@ import "./LandingPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Burger } from "../../components/Burger";
 import { useIntersectionObserver } from "./utils/Intersection";
-import Pricing from "./components/pricing/Pricing";
+import Pricing from "../dashboard/pricing/Pricing";
 import Faq from "./components/faq/Faq";
 import Language from "./components/language/Language";
 import useWindowSize from "../../../src/utils/WindowSize";
@@ -15,7 +15,6 @@ const LandingPage = () => {
   const myRef = useRef();
   const location = useLocation();
   const { width } = useWindowSize();
-
 
 
   const featureRef = useRef(null);

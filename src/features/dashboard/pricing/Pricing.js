@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Pricing.css";
 import checkmark from "./icons8-checkmark-48.png"; // adjust the filename if needed
-import { useAuth } from "../../../../services/firebase/FirebaseAuth";
+import { useAuth } from "../../../services/firebase/FirebaseAuth";
 
 const useStripe = () => {
   useEffect(() => {
@@ -49,17 +49,18 @@ const Pricing = () => {
   return (
     <div>
       <div className="pricing-container">
+        <h1>Choose a plan</h1>
+
         <div className="inside-pricing-container">
           {/* Free Plan */}
-          <div className="pricing-box">
+          <div className="free-box">
             <h3>Free</h3>
             <div className="price">
               <span>$0</span>
               <span className="billing">Billed Monthly</span>
             </div>
-            <button className="buy-button" onClick={() => navigate("/signup")}>
-              Sign up for free
-            </button>
+            <div style={{ height: "20px" }}></div>
+
             <ul>
               <li>
                 <img src={checkmark} alt="check" />5 free credits
@@ -80,6 +81,9 @@ const Pricing = () => {
                 <img src={checkmark} alt="check" />3 sentence responses
               </li>
             </ul>
+            <button className="free-button" onClick={() => navigate("/signup")}>
+              Current Plan
+            </button>
           </div>
 
           {/* Pro Plan */}
@@ -89,12 +93,8 @@ const Pricing = () => {
               <span>$4.99</span>
               <span className="billing">Billed Monthly</span>
             </div>
-            <button
-              className="buy-button"
-              onClick={() => handleCheckout("Pro")}
-            >
-              Buy this plan
-            </button>
+            <div style={{ height: "20px" }}></div>
+
             <ul>
               <li>
                 <img src={checkmark} alt="check" />
@@ -117,6 +117,12 @@ const Pricing = () => {
                 Up to 8 sentence responses
               </li>
             </ul>
+            <button
+              className="buy-button"
+              onClick={() => handleCheckout("Pro")}
+            >
+              Buy this plan
+            </button>
           </div>
 
           {/* Unlimited Plan */}
@@ -126,12 +132,7 @@ const Pricing = () => {
               <span>$9.99</span>
               <span className="billing">Billed Monthly</span>
             </div>
-            <button
-              className="buy-button"
-              onClick={() => handleCheckout("Unlimited")}
-            >
-              Buy this plan
-            </button>
+            <div style={{ height: "20px" }}></div>
             <ul>
               <li>
                 <img src={checkmark} alt="check" />
@@ -154,10 +155,15 @@ const Pricing = () => {
                 10 sentence responses
               </li>
             </ul>
+            <button
+              className="buy-button"
+              onClick={() => handleCheckout("Unlimited")}
+            >
+              Buy this plan
+            </button>
           </div>
         </div>
       </div>
-      <div style={{ height: 80 }}></div>
     </div>
   );
 };
