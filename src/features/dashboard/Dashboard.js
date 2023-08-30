@@ -80,7 +80,7 @@ const Dashboard = (selectedLanguage, setSelectedLanguage) => {
       </div>
 
       <div className="main-content">
-        <div className="header">
+        <div className="dashboard-header">
           <div class={{ height: "1px" }}></div>
           <PopupMenu />
         </div>
