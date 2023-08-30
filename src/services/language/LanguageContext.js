@@ -2,7 +2,7 @@
 import { createContext } from "react";
 
 const LanguageContext = createContext({
-  selectedLanguage: null,
+  selectedLanguage: "Chinese",
   selectedGender: null,
   setSelectedLanguage: () => {},
   setSelectedGender: () => {},

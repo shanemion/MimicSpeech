@@ -19,6 +19,12 @@ CORS(app, resources={
     }
 })
 
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
+
 def analyze_pitch(base64_audio):
     # Decode the base64 audio data
     audio_data = base64.b64decode(base64_audio)

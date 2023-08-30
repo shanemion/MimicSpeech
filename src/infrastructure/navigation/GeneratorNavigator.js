@@ -1,8 +1,5 @@
 import React, { useContext } from "react";
 import ChineseResponseGenerator from "../../features/generate-page/generators/ChineseResponseGenerator";
-// import EnglishResponseGenerator from "../../components/generators/EnglishResponseGenerator";
-// import JapaneseResponseGenerator from "../../components/generators/JapaneseResponseGenerator";
-// import VietnameseResponseGenerator from "../../components/generators/VietnameseResponseGenerator";
 
 import LanguageContext from "../../services/language/LanguageContext";
 
@@ -23,9 +20,18 @@ export const Navigator = ({ typeResponse, setTypeResponse }) => {
           setTypeResponse={setTypeResponse}
         />
       )}
-      {/* {language === "English" && <EnglishResponseGenerator />}
-      {language === "Japanese" && <JapaneseResponseGenerator />}
-      {language === "Vietnamese" && <VietnameseResponseGenerator />} */}
+      {language === "English" && <ChineseResponseGenerator
+          typeResponse={typeResponse}
+          setTypeResponse={setTypeResponse}
+        />}
+      {language === "Japanese" && <ChineseResponseGenerator
+          typeResponse={typeResponse}
+          setTypeResponse={setTypeResponse}
+        />}
+      {language === "Vietnamese" && <ChineseResponseGenerator
+          typeResponse={typeResponse}
+          setTypeResponse={setTypeResponse}
+        />}
       </div>
     </>
   );

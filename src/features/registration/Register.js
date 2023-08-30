@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../services/firebase/FirebaseAuth";
 import useWindowSize from "../../utils/WindowSize";
+import { usePricing } from "../../services/pricing/PricingContext";
 
 const Register = () => {
-  const { register } = useAuth();
+  const { register, signInWithGoogle, signInWithGitHub } = useAuth();
+
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [email, setEmail] = useState("");
@@ -14,6 +16,9 @@ const Register = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const { width } = useWindowSize();
+  const location = useLocation();
+  const { pricingState, setPricingState } = usePricing();
+
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -28,7 +33,12 @@ const Register = () => {
         lastName,
       };
       await register(email, password, additionalData);
-      navigate("/generator");
+      if (pricingState && pricingState.fromPricingPage) {
+        navigate("/dashboard");
+        setPricingState({ fromPricingPage: false });  // Reset the state
+      } else {
+        navigate("/dashboard");
+      }
     } catch (error) {
       alert(error);
     }
@@ -82,6 +92,24 @@ const Register = () => {
               >
                 Next
               </button>
+              <div className="or">
+                <p>or</p>
+              </div>
+              <button
+                type="button"
+                className="google-signin-button"
+                onClick={signInWithGoogle}
+              >
+                Sign Up with Google
+              </button>
+              {/* <div style={{ height: "20px" }}></div> */}
+              {/* <button
+                type="button"
+                className="github-signin-button"
+                onClick={signInWithGitHub}
+              >
+                Sign Up with GitHub
+              </button> */}
             </>
           )}
           {step === 2 && (
@@ -153,7 +181,7 @@ const Register = () => {
                   onChange={(e) => setLastName(e.target.value)}
                 />
               </label>
-              <button type="submit" disabled={!canProceed() }>
+              <button type="submit" disabled={!canProceed()}>
                 Create Account
               </button>
             </>

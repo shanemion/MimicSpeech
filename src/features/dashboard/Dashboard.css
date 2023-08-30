@@ -1,0 +1,33 @@
+.dashboard {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 20%;
+    background-color: #f4f4f4;
+    padding: 20px;
+  }
+  
+  .main-content {
+    width: 80%;
+    padding: 20px;
+  }
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .profile-icon {
+    /* Style your profile icon */
+  }
+  
+  .popup-menu {
+    /* Style your popup menu */
+  }
+  
+  .language-selector {
+    /* Style your language selector */
+  }
+  

@@ -1,12 +1,13 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
 import "./LandingPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Burger } from "../../components/Burger";
-import { useIntersectionObserver } from "./Intersection";
+import { useIntersectionObserver } from "./utils/Intersection";
 import Pricing from "./components/pricing/Pricing";
 import Faq from "./components/faq/Faq";
 import Language from "./components/language/Language";
 import useWindowSize from "../../../src/utils/WindowSize";
+import LandingHeader from "./components/header/LandingHeader";
 import p5 from "p5";
 
 const LandingPage = () => {
@@ -14,6 +15,8 @@ const LandingPage = () => {
   const myRef = useRef();
   const location = useLocation();
   const { width } = useWindowSize();
+
+
 
   const featureRef = useRef(null);
   const pricingRef = useRef(null);
@@ -36,6 +39,7 @@ const LandingPage = () => {
   const isLanguageVisible = useIntersectionObserver(languageRef);
 
   const heroRef = useRef();
+
 
   useEffect(() => {
     let myP5 = new p5(sketch, myRef.current);
@@ -69,12 +73,12 @@ const LandingPage = () => {
       wave2.display();
       time += 0.01; // Increment time for smooth fluctuation
     };
-    
+
     function drawGradient() {
       let topColor = p.color(243, 247, 240);
-      let middleColor =  p.color(243, 247, 240);
+      let middleColor = p.color(243, 247, 240);
       let bottomColor = p.color(255, 255, 255);
-    
+
       // Draw the top-to-middle gradient
       for (let i = 0; i <= p.height / 2; i++) {
         let inter = p.map(i, 0, p.height / 2, 0, 1);
@@ -82,7 +86,7 @@ const LandingPage = () => {
         p.stroke(c);
         p.line(0, i, p.width, i);
       }
-    
+
       // Draw the middle-to-bottom gradient
       for (let i = p.height / 2; i <= p.height; i++) {
         let inter = p.map(i, p.height / 2, p.height, 0, 1);
@@ -152,98 +156,67 @@ const LandingPage = () => {
     }
   };
 
-  const scrollToHome = () => {
-    const offset = -140; 
-    const bodyRect = document.body.getBoundingClientRect().top;
-    const elementRect = heroRef.current.getBoundingClientRect().top;
-    const elementPosition = elementRect - bodyRect;
-    const offsetPosition = elementPosition + offset;
-  
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
-    });
-  };
+  // const scrollToHome = () => {
+  //   const offset = -140;
+  //   const bodyRect = document.body.getBoundingClientRect().top;
+  //   const elementRect = heroRef.current.getBoundingClientRect().top;
+  //   const elementPosition = elementRect - bodyRect;
+  //   const offsetPosition = elementPosition + offset;
 
-  const scrollToFeature = () => {
-    const offset = -140; 
-    const bodyRect = document.body.getBoundingClientRect().top;
-    const elementRect = featureRef.current.getBoundingClientRect().top;
-    const elementPosition = elementRect - bodyRect;
-    const offsetPosition = elementPosition + offset;
-  
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
-    });
-  };
+  //   window.scrollTo({
+  //     top: offsetPosition,
+  //     behavior: "smooth",
+  //   });
+  // };
 
-  const scrollToPricing = () => {
-    const offset = -140; 
-    const bodyRect = document.body.getBoundingClientRect().top;
-    const elementRect = pricingRef.current.getBoundingClientRect().top;
-    const elementPosition = elementRect - bodyRect;
-    const offsetPosition = elementPosition + offset;
-  
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
-    });
-  };
-  
+  // const scrollToFeature = () => {
+  //   const offset = -140;
+  //   const bodyRect = document.body.getBoundingClientRect().top;
+  //   const elementRect = featureRef.current.getBoundingClientRect().top;
+  //   const elementPosition = elementRect - bodyRect;
+  //   const offsetPosition = elementPosition + offset;
 
-  const scrollToFAQ = () => {
-    // const offset = -140; 
-    const bodyRect = document.body.getBoundingClientRect().top;
-    const elementRect = faqRef.current.getBoundingClientRect().top;
-    const elementPosition = elementRect - bodyRect;
-    const offsetPosition = elementPosition 
-  
-    window.scrollTo({
-      top: offsetPosition,
-      behavior: "smooth",
-    });
-  };
+  //   window.scrollTo({
+  //     top: offsetPosition,
+  //     behavior: "smooth",
+  //   });
+  // };
+
+  // const scrollToPricing = () => {
+  //   const offset = -140;
+  //   const bodyRect = document.body.getBoundingClientRect().top;
+  //   const elementRect = pricingRef.current.getBoundingClientRect().top;
+  //   const elementPosition = elementRect - bodyRect;
+  //   const offsetPosition = elementPosition + offset;
+
+  //   window.scrollTo({
+  //     top: offsetPosition,
+  //     behavior: "smooth",
+  //   });
+  // };
+
+  // const scrollToFAQ = () => {
+  //   // const offset = -140;
+  //   navigate("/");
+  //   const bodyRect = document.body.getBoundingClientRect().top;
+  //   const elementRect = faqRef.current.getBoundingClientRect().top;
+  //   const elementPosition = elementRect - bodyRect;
+  //   const offsetPosition = elementPosition;
+
+  //   window.scrollTo({
+  //     top: offsetPosition,
+  //     behavior: "smooth",
+  //   });
+  // };
 
   // const scrollToContact = () => {
   //   contactRef.current.scrollIntoView({ behavior: "smooth" });
   // };
 
-
   return (
     <div className="landing-page">
       {/* Header Section */}
-      <header className="header">
-        <div className="logo">
-          <h2 onClick={() => navigate("/")}>MimicSpeech</h2>
-        </div>
-        <nav>
-          <ul className="nav-links">
-            <li onClick={scrollToHome}>Home</li>
-            <li onClick={scrollToFeature}>Features</li>
-            <li onClick={scrollToPricing}>Pricing</li>
-            <li onClick={scrollToFAQ}>FAQs</li>
-            <li onClick={() => navigate("/contact")}>Contact Us</li>
-          </ul>
-        </nav>
-        <div>
-          <button
-            className="log-in-button"
-            style={{ marginRight: 4 }}
-            onClick={() => navigate("/login")}
-          >
-            LOG IN
-          </button>
-          <button
-            className="sign-up-button"
-            style={{ marginRight: 20 }}
-            onClick={() => navigate("/signup")}
-          >
-            Sign up - It's free
-          </button>
-        </div>
-        {width < 920 && <Burger />}
-      </header>
+      <LandingHeader />
 
       {/* Hero Section */}
       <section className="hero" ref={heroRef}>
@@ -257,10 +230,7 @@ const LandingPage = () => {
               Customize your language learning journey with our AI-powered
               application.
             </p>
-            <button
-              className="cta-button"
-              onClick={() => navigate("/register")}
-            >
+            <button className="cta-button" onClick={() => navigate("/signup")}>
               Start Learning Now
             </button>
             <p>No credit card required.</p>
@@ -274,9 +244,8 @@ const LandingPage = () => {
         className={`features ${isFeatureVisible ? "fadeIn" : ""}`}
         ref={featureRef}
       >
-        
         <div className="features-content">
-        <div style={{ height: 0 }}></div>
+          <div style={{ height: 0 }}></div>
 
           <div
             className={`feature ${isLanguageVisible ? "fadeIn" : ""}`}
@@ -290,7 +259,6 @@ const LandingPage = () => {
               journey.
             </p>
             <Language />
-
           </div>
           <div style={{ height: 70 }}></div>
           <div
