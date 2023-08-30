@@ -122,7 +122,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  box-shadow: none !important;
+  /* box-shadow: none !important; */
   background-color: rgb(183, 214, 214);
 }
 
