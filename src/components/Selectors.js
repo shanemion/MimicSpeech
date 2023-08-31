@@ -8,8 +8,6 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
   const {
     selectedLanguage,
     setSelectedLanguage,
-    selectedGender,
-    setSelectedGender,
   } = useContext(LanguageContext);
 
   const AiAndTypeSelector = () => {

@@ -1,13 +1,15 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../services/firebase/FirebaseAuth";
-import DashboardLanguage from "./DashboardLanguage";
+import DashboardLanguage from "./components/DashboardLanguage";
 import PricingModal from "./pricing/PricingModal";
 import PricingContext from "../../services/pricing/PricingContext";
 import "./Dashboard.css";
-import PopupMenu from "./popup-menu/PopupMenu";
+import PopupMenu from "./components/popup-menu/PopupMenu";
+import useWindowSize from "../../utils/WindowSize";
+import { DashBurger } from "./components/DashBurger";
 
-const Dashboard = (selectedLanguage, setSelectedLanguage) => {
+const Dashboard = () => {
   const navigate = useNavigate();
   const { currentUser, fetchCredits, fetchFirstName, fetchLastName } =
     useAuth();
@@ -15,6 +17,7 @@ const Dashboard = (selectedLanguage, setSelectedLanguage) => {
   const [credits, setCredits] = useState(0);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const { width } = useWindowSize();
 
   useEffect(() => {
     const fetchUserCredits = async () => {
@@ -50,48 +53,49 @@ const Dashboard = (selectedLanguage, setSelectedLanguage) => {
   return (
     <div className="dashboard">
       {pricingState && <PricingModal onClose={closePricingModal} />}
-      <div className="sidebar">
-        <h2>
-          {firstName} {lastName}
-        </h2>
-        <span>{credits} Credits</span>
-        <button onClick={() => navigate("/generator")}>
-          AI Prompt Generator
-        </button>
-        <button onClick={() => navigate("/translator")}>
-          Sentence Translator
-        </button>
-        <button onClick={() => navigate("/text-input")}>
-          Input Custom Text
-        </button>
-        <button onClick={() => navigate("/prompt-history")}>
-          View Prompt History
-        </button>
-        <button onClick={() => navigate("/saved-responses")}>
-          Saved Responses
-        </button>
-        <div className="sidebar-footer">
-          <h3>Current Plan: {/* {currentUser.plan} */}</h3>
-          <span className="plan-credits">{credits} Credits Remaining</span>
-          <button className="dashboard-nav-button" onClick={openPricing}>
-            Manage Plan
+      <div className="sidebar-wrapper">
+        <div className="sidebar">
+          <h2>
+            {firstName} {lastName}
+          </h2>
+          <span>{credits} Credits</span>
+          <button onClick={() => navigate("/generator")}>
+            AI Prompt Generator
           </button>
-        </div>
+          <button onClick={() => navigate("/translator")}>
+            Sentence Translator
+          </button>
+          <button onClick={() => navigate("/text-input")}>
+            Input Custom Text
+          </button>
+          <button onClick={() => navigate("/prompt-history")}>
+            View Prompt History
+          </button>
+          <button onClick={() => navigate("/saved-responses")}>
+            Saved Responses
+          </button>
+          </div>
+          <div className="sidebar-footer">
+            <h3>Current Plan: {/* {currentUser.plan} */}</h3>
+            <span className="plan-credits">{credits} Credits Remaining</span>
+            <button className="dashboard-footer-button" onClick={openPricing}>
+              Manage Plan
+            </button>
+          </div>
       </div>
 
       <div className="main-content">
         <div className="dashboard-header">
-          <div class={{ height: "1px" }}></div>
+          {width < 1000 && <DashBurger />}
+          <div style={{ height: "1px" }}></div>
           <PopupMenu />
         </div>
         <div className="dashboard-body">
           <h1>Dashboard</h1>
-          <div className="language-selector">
-            <DashboardLanguage
-              selectedLanguage={selectedLanguage}
-              setSelectedLanguage={setSelectedLanguage}
-            />
+          <div className="dashboard-language-selector">
+            <DashboardLanguage />
           </div>
+
           <button
             className="ai-nav-button"
             onClick={() => navigate("/generator")}
@@ -112,6 +116,7 @@ const Dashboard = (selectedLanguage, setSelectedLanguage) => {
               Go to Sentence Translator
             </button>
           </div>
+          <div style={{ height: "1000px" }}></div>
         </div>
       </div>
     </div>

@@ -49,8 +49,6 @@ const Pricing = () => {
   return (
     <div>
       <div className="pricing-container">
-        <h1>Choose a plan</h1>
-
         <div className="inside-pricing-container">
           {/* Free Plan */}
           <div className="free-box">
@@ -81,7 +79,7 @@ const Pricing = () => {
                 <img src={checkmark} alt="check" />3 sentence responses
               </li>
             </ul>
-            <button className="free-button" onClick={() => navigate("/signup")}>
+            <button className="free-button" disabled onClick={() => navigate("/signup")}>
               Current Plan
             </button>
           </div>

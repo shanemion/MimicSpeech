@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../../services/firebase/FirebaseAuth';
-import PricingContext from '../../../services/pricing/PricingContext';
+import { useAuth } from '../../../../services/firebase/FirebaseAuth';
+import PricingContext from '../../../../services/pricing/PricingContext';
 import './PopupMenu.css';
 
 const PopupMenu = () => {

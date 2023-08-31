@@ -73,6 +73,11 @@ h3 {
   margin: 20px 0;
   display: block;
   width: 100%; /* Full width */
+  cursor: default;
+}
+
+.free-button:hover {
+  background-color: #afafaf;
 }
 
 ul {

@@ -78,6 +78,7 @@ const LandingPage = () => {
       let middleColor = p.color(243, 247, 240);
       let bottomColor = p.color(255, 255, 255);
 
+
       // Draw the top-to-middle gradient
       for (let i = 0; i <= p.height / 2; i++) {
         let inter = p.map(i, 0, p.height / 2, 0, 1);
@@ -321,7 +322,7 @@ const LandingPage = () => {
         </div>
       </section>
 
-      {/* Pricing Section */}
+      {/* Pricing Section
       <section
         className={`pricing ${isPricingVisible ? "fadeIn" : ""}`}
         ref={pricingRef}
@@ -332,7 +333,7 @@ const LandingPage = () => {
           </div>
         </div>
         <Pricing />
-      </section>
+      </section> */}
 
       {/* Testimonials Section */}
       <section
