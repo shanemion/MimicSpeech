@@ -18,6 +18,7 @@ import PricingPage from "./features/landing-page/components/pricing/PricingPage"
 import PaymentSuccessPage from "./features/landing-page/components/pricing/PaymentSuccessPage";
 import { PricingProvider } from "./services/pricing/PricingContext";
 import Dashboard from "./features/dashboard/Dashboard";
+import { TypedResponseProvider } from "./services/type-response/TypedResponseContext";
 
 function App() {
   const [typeResponse, setTypeResponse] = useState(false);
@@ -30,33 +31,35 @@ function App() {
             <SavedResponseProvider>
               <SavedAudioProvider>
                 <LanguageProvider>
-                  <div className="App">
-                    <div className="content">
-                      <Routes>
-                        <Route path="/" element={<LandingPage />} />
-                        <Route path="/login" element={<Login />} />
-                        <Route path="/signup" element={<Register />} />
-                        <Route path="/pricing" element={<PricingPage />} />
-                        <Route path="/dashboard" element={<Dashboard />} />
-                        <Route
-                          path="/payment-success"
-                          element={<PaymentSuccessPage />}
-                        />
-                        <Route
-                          path="/generator"
-                          element={
-                            <div>
-                              <Navigator
-                                typeResponse={typeResponse}
-                                setTypeResponse={setTypeResponse}
-                              />
-                            </div>
-                          }
-                        />
-                        <Route path="/saved" element={<SavedResponses />} />
-                      </Routes>
+                  <TypedResponseProvider>
+                    <div className="App">
+                      <div className="content">
+                        <Routes>
+                          <Route path="/" element={<LandingPage />} />
+                          <Route path="/login" element={<Login />} />
+                          <Route path="/signup" element={<Register />} />
+                          <Route path="/pricing" element={<PricingPage />} />
+                          <Route path="/dashboard" element={<Dashboard />} />
+                          <Route
+                            path="/payment-success"
+                            element={<PaymentSuccessPage />}
+                          />
+                          <Route
+                            path="/generator"
+                            element={
+                              <div>
+                                <Navigator
+                                  typeResponse={typeResponse}
+                                  setTypeResponse={setTypeResponse}
+                                />
+                              </div>
+                            }
+                          />
+                          <Route path="/saved" element={<SavedResponses />} />
+                        </Routes>
+                      </div>
                     </div>
-                  </div>
+                  </TypedResponseProvider>
                 </LanguageProvider>
               </SavedAudioProvider>
             </SavedResponseProvider>

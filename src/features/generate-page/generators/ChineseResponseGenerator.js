@@ -15,15 +15,21 @@ import LoaderIcon from "react-loader-icon";
 import GenerateHeader from "../header/GenerateHeader";
 import useWindowSize from "../../../utils/WindowSize";
 import { Selectors } from "../../../components/Selectors";
-
 import "../../../../src/styles.css";
+import { useTypedResponse } from "../../../services/type-response/TypedResponseContext";
 
 const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;
 
 const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
+  // Utils
   const { width } = useWindowSize();
   const { ref, storage, deleteObject } = useAuth();
+
+  // Contexts 
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
+  const [typedResponse, setTypedResponse] = useTypedResponse();
+
+  // State for the response generator
   const [userPrompt, setUserPrompt] = useState(
     localStorage.getItem("userPrompt") || "A reporter giving daily news."
   );
@@ -48,9 +54,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [isPlayButtonDisabled, setIsPlayButtonDisabled] = useState(
     localStorage.getItem("isPlayButtonDisabled") === "true"
   );
-  const [typedResponse, setTypedResponse] = useState(
-    localStorage.getItem("typedResponse") || ""
-  );
   const [isMounted, setIsMounted] = useState(false);
   const [recordedAudios, setRecordedAudios] = useState([]);
   const [speed, setSpeed] = useState(2); // default speed at medium
@@ -62,8 +65,11 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [isAnalyzeButtonLoading, setIsAnalyzeButtonLoading] = useState(false);
   const [isRecordingListLoading, setIsRecordingListLoading] = useState(false);
   const [isGPTLoading, setIsGPTLoading] = useState(false);
-  const [uniqueAudioID, setUniqueAudioID] = useState("");
 
+
+  // State for audio recorder / analysis
+
+  const [uniqueAudioID, setUniqueAudioID] = useState("");
   const [practiceData, setPracticeData] = useState({});
   const [synthesizedPracticePitchData, setSynthesizedPracticePitchData] =
     useState([]);
@@ -460,12 +466,6 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                 );
               }}
             />
-            {/* <Bookmark
-              typeResponse={typeResponse}
-              typedResponse={typedResponse}
-              generatedResponse={typedResponse}
-              language="Chinese"
-            /> */}
           </div>
           <div className="center">
             <button
