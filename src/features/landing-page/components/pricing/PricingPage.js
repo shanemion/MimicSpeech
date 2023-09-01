@@ -25,7 +25,7 @@ const PricingPage = () => {
     } else {
       // User is not logged in, navigate to login/signup
       setPricingState({ fromPricingPage: true });
-      navigate("/login");
+      navigate("/signup");
     }
   };
 
@@ -50,7 +50,7 @@ const PricingPage = () => {
               className="pricing-button"
               onClick={() => handleButtonClick("Free")}
             >
-              Current Plan
+              Sign Up for Free!
             </button>
           </div>
           <div className="pricing-plan pro">

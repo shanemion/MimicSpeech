@@ -15,7 +15,7 @@ const SelectedVoice = (selectedLanguage, selectedGender) => {
 
   if (language === "English") {
     if (gender === "Man") {
-      return "en-US-TonyNeural";
+      return "en-GB-RyanNeural";
     }
     console.log("es-US-PalomaNeural")
     return "en-US-JennyNeural";
@@ -35,14 +35,78 @@ const SelectedVoice = (selectedLanguage, selectedGender) => {
     return "vi-VN-HoaiMyNeural";
   }
 
-
-  if (language === "Burmese") {
+  if (language === "Spanish") {
     if (gender === "Man") {
-      return "my-MM-ThihaNeural";
+      return "es-ES-AlvaroNeural";
     }
-    return "my-MM-NilarNeural";
+    return "es-ES-ElviraNeural";
   }
 
+  if (language === "Korean") {
+    if (gender === "Man") {
+      return "ko-KR-InJoonNeural";
+    }
+    return "ko-KR-SunHiNeural";
+  }
+
+  if (language === "French") {
+    if (gender === "Man") {
+      return "fr-FR-DeniseNeural";
+    }
+    return "fr-FR-HenriNeural";
+  }
+
+  if (language === "German") {
+    if (gender === "Man") {
+
+      return "de-DE-ConradNeural";
+    }
+    return "de-DE-KatjaNeural";
+
+  }
+
+  if (language === "Italian") {
+    if (gender === "Man") {
+      return "it-IT-DiegoNeural";
+    }
+    return "it-IT-ElsaNeural";
+  }
+
+  if (language === "Russian") {
+    if (gender === "Man") {
+      return "ru-RU-DmitryNeural";
+    }
+    return "ru-RU-SvetlanaNeural";
+  }
+
+  if (language === "Arabic") {
+    if (gender === "Man") {
+      return "ar-EG-SalmaNeural";
+    }
+    return "ar-SA-ZariyahNeural";
+  }
+
+  if (language === "Hindi") {
+    if (gender === "Man") {
+
+      return "hi-IN-AaravNeural";
+    }
+    return "hi-IN-MadhurNeural";
+  }
+
+  if (language === "Portuguese") {
+    if (gender === "Man") {
+      return "pt-BR-FranciscaNeural";
+    }
+    return "pt-BR-FranciscoNeural";
+  }
+
+  if (language === "Tagalog") {
+    if (gender === "Man") {
+      return "fil-PH-AlingNeural";
+    }
+    return "fil-PH-AlingNeural";
+  }
 
   console.log("none")
   return null;

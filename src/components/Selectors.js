@@ -40,9 +40,18 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
     const languageOptions = [
       { value: "Chinese", label: "Chinese" },
       { value: "English", label: "English" },
+      { value: "Spanish", label: "Spanish"},
       { value: "Japanese", label: "Japanese" },
       { value: "Vietnamese", label: "Vietnamese" },
-      // { value: "Burmese", label: "Burmese"}
+      { value: "Korean", label: "Korean"},
+      { value: "French", label: "French"},
+      { value: "German", label: "German"},
+      { value: "Italian", label: "Italian"},
+      { value: "Russian", label: "Russian"},
+      { value: "Arabic", label: "Arabic"},
+      { value: "Hindi", label: "Hindi"},
+      { value: "Portuguese", label: "Portuguese"},
+      { value: "Tagalog", label: "Tagalog"}
     ];
 
     const handleChange = (selectedOption) => {

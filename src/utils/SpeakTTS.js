@@ -6,7 +6,10 @@ const SPEECH_REGION = process.env.REACT_APP_SPEECH_REGION;
 
 const sdk = require("microsoft-cognitiveservices-speech-sdk");
 
+
+
 const SpeakText = async (text, selectedLanguage, selectedGender, rate, userId, updateTTSwav) => {
+  
   const responseId = localStorage.getItem("responseId");
 
   const selectedVoice = SelectedVoice(selectedLanguage, selectedGender);

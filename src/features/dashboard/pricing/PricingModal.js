@@ -8,7 +8,6 @@ const PricingModal = ({ onClose }) => {
       <div className="pricing-modal-content">
         <button className="close-button" onClick={onClose}>X</button>
         <h1>Choose a plan</h1>
-
         <Pricing />
       </div>
     </div>

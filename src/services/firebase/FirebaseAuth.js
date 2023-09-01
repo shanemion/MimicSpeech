@@ -2,7 +2,6 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import { useNavigate } from "react-router-dom";
 import {
-  GithubAuthProvider,
   GoogleAuthProvider,
   signInWithPopup,
   getAuth,
@@ -102,20 +101,6 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  // const githubProvider = new GithubAuthProvider();
-
-  // // Function to handle GitHub Sign-In
-  // const signInWithGitHub = async () => {
-  //   try {
-  //     const result = await signInWithPopup(auth, githubProvider);
-  //     const user = result.user;
-  //     setCurrentUser(user);
-  //     navigate("/generator");
-  //   } catch (error) {
-  //     console.error(error);
-  //   }
-  // };
-
   const fetchCredits = async (userId) => {
     const userRef = doc(db, "users", userId);
     const userDoc = await getDoc(userRef);
@@ -132,6 +117,21 @@ export const AuthProvider = ({ children }) => {
     const userRef = doc(db, "users", userId);
     const userDoc = await getDoc(userRef);
     return userDoc.data().lastName || "";
+  };
+
+  const deleteCredits = async (userId, amount) => {
+    try {
+      const userRef = doc(db, "users", userId);
+      const userDoc = await getDoc(userRef);
+      const currentCredits = userDoc.data().credits || 0;
+      const newCredits = Math.max(currentCredits - amount, 0); // Ensure credits don't go below 0
+      await setDoc(userRef, { credits: newCredits }, { merge: true });
+  
+      return newCredits; // Return the new credits for further use if needed
+    } catch (error) {
+      console.error("Error deleting credits:", error);
+      return null; 
+    }
   };
   
 
@@ -244,8 +244,7 @@ export const AuthProvider = ({ children }) => {
     fetchCredits,
     fetchFirstName,
     fetchLastName,
-
-
+    deleteCredits,
   };
 
   return (

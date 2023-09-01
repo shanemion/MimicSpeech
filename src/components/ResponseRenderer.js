@@ -76,22 +76,24 @@ const ResponseRenderer = ({
         alignItems: "center",
       }}
     >
-      {width > 740 && selectedPage !== "Three" && (
-        <button
-          style={{
-            position: "absolute",
-            left: "5px",
-            top: "20px",
-            transform: "translateY(-50%)",
-          }}
-          className="practice-button"
-          onClick={() => handleSentenceClick(index)}
-        >
-          <div className="practice-icon">
-            <LiaBookReaderSolid />
-          </div>
-        </button>
-      )}
+      {width > 740 &&
+        selectedPage !== "Three" &&
+        generatedResponse !== "Not enough credits!" && (
+          <button
+            style={{
+              position: "absolute",
+              left: "5px",
+              top: "20px",
+              transform: "translateY(-50%)",
+            }}
+            className="practice-button"
+            onClick={() => handleSentenceClick(index)}
+          >
+            <div className="practice-icon">
+              <LiaBookReaderSolid />
+            </div>
+          </button>
+        )}
       <div>
         <p className="primary-language">{sentences[0][index]}</p>
         {selectedPage !== "Three" && (
@@ -100,7 +102,7 @@ const ResponseRenderer = ({
         {selectedPage === "One" && (
           <p className="third-language">{sentences[2][index]}</p>
         )}
-        {(width <= 740 || selectedPage === "Three") && (
+        {(width <= 740 || selectedPage === "Three") && generatedResponse !== "Not enough credits!" && (
           <div
             style={{
               display: "flex",

@@ -17,21 +17,36 @@ import useWindowSize from "../../../utils/WindowSize";
 import { Selectors } from "../../../components/Selectors";
 import "../../../../src/styles.css";
 import { useTypedResponse } from "../../../services/type-response/TypedResponseContext";
-
-const OPENAI_KEY = process.env.REACT_APP_OPENAI_KEY;
+import OpenAI from "openai";
+import PricingModal from "../../dashboard/pricing/PricingModal";
+import PricingContext from "../../../services/pricing/PricingContext";
 
 const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   // Utils
   const { width } = useWindowSize();
   const { ref, storage, deleteObject } = useAuth();
+  const {
+    currentUser,
+    fetchCredits,
+    fetchFirstName,
+    fetchLastName,
+    deleteCredits,
+  } = useAuth();
+  const { updateTTSwav } = useAuth();
 
-  // Contexts 
+  // Contexts
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
   const [typedResponse, setTypedResponse] = useTypedResponse();
+  const { pricingState, setPricingState } = useContext(PricingContext);
+
+  // State for database and user info
+  const [credits, setCredits] = useState(0);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   // State for the response generator
   const [userPrompt, setUserPrompt] = useState(
-    localStorage.getItem("userPrompt") || "A reporter giving daily news."
+    localStorage.getItem("userPrompt") || ""
   );
   const [responseLength, setResponseLength] = useState(
     parseInt(localStorage.getItem("numSentences"), 10) || 3
@@ -60,15 +75,12 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const rates = ["x-slow", "slow", "medium", "fast", "x-fast"];
   const [synthesizedPitchData, setSynthesizedPitchData] = useState([]);
   const [recordedPitchData, setRecordedPitchData] = useState([]);
-  const { updateTTSwav } = useAuth();
-  const { currentUser } = useAuth();
   const [isAnalyzeButtonLoading, setIsAnalyzeButtonLoading] = useState(false);
   const [isRecordingListLoading, setIsRecordingListLoading] = useState(false);
   const [isGPTLoading, setIsGPTLoading] = useState(false);
 
 
   // State for audio recorder / analysis
-
   const [uniqueAudioID, setUniqueAudioID] = useState("");
   const [practiceData, setPracticeData] = useState({});
   const [synthesizedPracticePitchData, setSynthesizedPracticePitchData] =
@@ -81,6 +93,33 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  const closePricingModal = () => {
+    setPricingState(false);
+  };
+
+  useEffect(() => {
+    const fetchUserCredits = async () => {
+      const userCredits = await fetchCredits(currentUser.uid);
+      setCredits(userCredits);
+    };
+
+    fetchUserCredits();
+
+    const fetchUserFirstName = async () => {
+      const userFirstName = await fetchFirstName(currentUser.uid);
+      setFirstName(userFirstName);
+    };
+
+    fetchUserFirstName();
+
+    const fetchUserLastName = async () => {
+      const userLastName = await fetchLastName(currentUser.uid);
+      setLastName(userLastName);
+    };
+
+    fetchUserLastName();
+  }, [currentUser, fetchCredits, fetchFirstName, fetchLastName]);
 
   const handlePromptChange = (event) => {
     const newValue = event.target.value;
@@ -115,35 +154,58 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     // localStorage.removeItem("TTS_audio"); // Correct key
     localStorage.removeItem("USER_wavs"); // Correct key
     setIsGPTLoading(true);
+    // const prompt = `
+    // Return a real-world event in simplified Mandarin Chinese, pinyin, and english on ${userPrompt}.
+    // In your response, make the sentences fluid and humanlike. Avoid using overly complex grammar patterns and semicolons.
+    // The completion should have the following structure: ${responseLength} sentences in Chinese, then ${responseLength} sentences Pinyin, then ${responseLength} in English.`;
     const prompt = `
     Return a real-world event in simplified Mandarin Chinese, pinyin, and english on ${userPrompt}.
     In your response, make the sentences fluid and humanlike. Avoid using overly complex grammar patterns and semicolons.
-    The completion should have the following structure: ${responseLength} sentences in Chinese, then ${responseLength} sentences Pinyin, then ${responseLength} in English.`;
+    The completion should be ${
+      responseLength * 3
+    } sentences long: ${responseLength} sentences in Chinese, then ${responseLength} sentences Pinyin, then ${responseLength} in English.`;
 
     console.log(prompt);
 
-    const { Configuration, OpenAIApi } = require("openai");
-
-    const configuration = new Configuration({
-      apiKey: OPENAI_KEY,
+    const openai = new OpenAI({
+      apiKey: process.env.REACT_APP_OPENAI_KEY,
+      dangerouslyAllowBrowser: true,
     });
-
-    const openai = new OpenAIApi(configuration);
     try {
-      const response = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: prompt,
-        max_tokens: 820,
-        temperature: 0.2,
-        top_p: 0.1,
-      });
+      if (credits >= responseLength) {
+        // const response = await openai.completions.create({
+        //   model: "text-davinci-003",
+        //   prompt: prompt,
+        //   max_tokens: 3900,
+        //   temperature: 0.2,
+        //   top_p: 0.1,
+        // });
+        // const responseText = response.choices[0].text;
 
-      const responseText = response.data.choices[0].text;
-      setGeneratedResponse(responseText);
-      localStorage.setItem("generatedResponse", responseText);
-      console.log("Response from API:", response.data.choices[0].text);
+        const responseText = "one. two. three. four. five. six.";
 
-      setIsPlayButtonDisabled(false);
+        setGeneratedResponse(responseText);
+        localStorage.setItem("generatedResponse", responseText);
+        // console.log("Response from API:", response.choices[0].text);
+
+        const handleDeleteCredits = async () => {
+          const userId = currentUser.uid;
+          const amount = responseLength;
+
+          const newCredits = await deleteCredits(userId, amount);
+          if (newCredits !== null) {
+            console.log(`New credits: ${newCredits}`);
+          }
+
+          setCredits(newCredits);
+        };
+
+        handleDeleteCredits();
+
+        setIsPlayButtonDisabled(false);
+      } else {
+        setGeneratedResponse("Not enough credits!");
+      }
     } catch (error) {
       console.error("Error generating response:", error);
       if (error.response && error.response.body) {
@@ -196,6 +258,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     selectedGender,
     rate
   ) => {
+    console.log();
     try {
       const audioUrlFromTTS = await SpeakText(
         textToRead,
@@ -286,6 +349,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
 
   return (
     <div>
+      {pricingState && <PricingModal onClose={closePricingModal} />}
       <div>
         <GenerateHeader
           typeResponse={typeResponse}
@@ -304,7 +368,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
           <div className="center">
             <div className="inputs">
               <div className="prompt-input">
-                <label htmlFor="prompt">Enter Your Prompt:</label>
+                <label htmlFor="prompt">Enter a topic!:</label>
                 <input
                   type="text"
                   id="prompt"
@@ -327,20 +391,25 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
         <div className="center">
           <div className="button-container">
             {!typeResponse && (
-              <button
-                className={isGPTLoading ? "generate-disabled" : "generate"}
-                onClick={handleGenerateResponse}
-                disabled={isGPTLoading}
-              >
-                {isGPTLoading ? "Response Generating..." : "Generate Response"}
-              </button>
+              <div >
+                <span className="generator-credits">{credits} credits </span>
+                <button
+                  className={isGPTLoading ? "generate-disabled" : "generate"}
+                  onClick={handleGenerateResponse}
+                  disabled={isGPTLoading}
+                >
+                  {isGPTLoading
+                    ? "Scenario Generating..."
+                    : "Generate Scenario"}
+                </button>
+              </div>
             )}
             {generatedResponse && !typeResponse && (
               <Bookmark
                 typeResponse={typeResponse}
                 typedResponse={typedResponse}
                 generatedResponse={generatedResponse}
-                language="Chinese"
+                language={selectedLanguage}
               />
             )}
           </div>
@@ -378,6 +447,13 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   setPreviousPage={setPreviousPage}
                   renderedSentencesCount={renderedSentencesCount}
                 />
+              )}
+              {generatedResponse === "Not enough credits!" && (
+                <div className="center">
+                  <button className="generate" onClick={() => setPricingState(true)}>
+                    Buy more credits!
+                  </button>
+                </div>
               )}
             </div>
             <TTSsettings

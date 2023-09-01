@@ -33,7 +33,7 @@ export const RecordedAudios = ({
     recordings = recordedAudios;
   }
 
-  console.log("recordings:", recordings);
+  // console.log("recordings:", recordings);
 
   return (
     <div>

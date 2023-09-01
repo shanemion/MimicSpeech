@@ -5,6 +5,7 @@ const isChinese = (str) => {
 
 export const ResponseCleaner = (response, numSentences) => {
   response = response.trim();
+  response = response.replace(/中文：|拼音：|English:/g, "");
   response = response.replace(/。/g, ".");
   response = response.replace(/!/g, ".");
   response = response.replace(/\?/g, ".");
@@ -63,6 +64,9 @@ export const ResponseCleaner = (response, numSentences) => {
       2 * numSentences,
       3 * numSentences
     );
+    // console.log("chineseSentences", chineseSentences);
+    // console.log("pinyinSentences", pinyinSentences);
+    // console.log("englishSentences", englishSentences);
     return [chineseSentences, pinyinSentences, englishSentences];
   } else {
     // Expected format
@@ -77,6 +81,9 @@ export const ResponseCleaner = (response, numSentences) => {
     const chineseSentences = groupedSentences.map((group) => group[0]);
     const pinyinSentences = groupedSentences.map((group) => group[1]);
     const englishSentences = groupedSentences.map((group) => group[2]);
+    // console.log("chineseSentences1", chineseSentences);
+    // console.log("pinyinSentences1", pinyinSentences);
+    // console.log("englishSentences1", englishSentences);
     return [chineseSentences, pinyinSentences, englishSentences];
   }
 };
