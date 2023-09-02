@@ -2,6 +2,8 @@ Personal project designed to help improve accent and listening ability for forei
 
 Utilizing: OPENAI API, Azure, GCP / Firestore, Flask, React.js, Stripe, p5.js, Parselmouth/PRATT, AudioRecorder.js, responsive design, and other libraries.
 
+Has support for translation all ways between a pool of Chinese, English, Spanish, Japanese, Vietnamese, Korean, French, German, Italian, Russian, Arabic, Hindi, and Portuguese. 
+
 Up next to implement: Adding backend security/rates to prevent API/storage/TTS abuse. Adding preset responses for free trials/examples to Dashboard. Finalizing theme. Incorporate / utilize Microsoft Speech to Text analysis tools to return per word accuracy rating and mouth visual of speech.
 
 Current Design before theming and redesign. All functionality visible in proper working condition.
