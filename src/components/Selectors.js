@@ -2,12 +2,14 @@ import React, { useContext } from "react";
 import Select from "react-select";
 import LanguageContext from "../services/language/LanguageContext";
 
-import "../styles.css"; // Adjust the path according to your project structure
+import "../../src/styles.css";
 
 export const Selectors = ({ typeResponse, setTypeResponse }) => {
   const {
     selectedLanguage,
     setSelectedLanguage,
+    fromLanguage,
+    setFromLanguage,
   } = useContext(LanguageContext);
 
   const AiAndTypeSelector = () => {
@@ -36,7 +38,7 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
     );
   };
 
-  const LanguageSelector = () => {
+  const FromLanguageSelector = () => {
     const languageOptions = [
       { value: "Chinese", label: "Chinese" },
       { value: "English", label: "English" },
@@ -51,7 +53,39 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
       { value: "Arabic", label: "Arabic"},
       { value: "Hindi", label: "Hindi"},
       { value: "Portuguese", label: "Portuguese"},
-      { value: "Tagalog", label: "Tagalog"}
+    ];
+
+    const handleChange = (selectedOption) => {
+      setFromLanguage(selectedOption);
+      console.log("From Language:", selectedOption);
+    };
+
+    return (
+      <Select
+        className="selectorWidthRight"
+        value={fromLanguage}
+        onChange={handleChange}
+        options={languageOptions}
+        placeholder="From Language"
+      />
+    );
+  };
+
+  const ToLanguageSelector = () => {
+    const languageOptions = [
+      { value: "Chinese", label: "Chinese" },
+      { value: "English", label: "English" },
+      { value: "Spanish", label: "Spanish"},
+      { value: "Japanese", label: "Japanese" },
+      { value: "Vietnamese", label: "Vietnamese" },
+      { value: "Korean", label: "Korean"},
+      { value: "French", label: "French"},
+      { value: "German", label: "German"},
+      { value: "Italian", label: "Italian"},
+      { value: "Russian", label: "Russian"},
+      { value: "Arabic", label: "Arabic"},
+      { value: "Hindi", label: "Hindi"},
+      { value: "Portuguese", label: "Portuguese"},
     ];
 
     const handleChange = (selectedOption) => {
@@ -65,7 +99,7 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
         value={selectedLanguage}
         onChange={handleChange}
         options={languageOptions}
-        placeholder="Choose a Language"
+        placeholder="Translate to Language"
       />
     );
   };
@@ -74,8 +108,9 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
 
   return (
     <div className="selectorContainer">
-      <AiAndTypeSelector />
-      <LanguageSelector />
+      {/* <AiAndTypeSelector /> */}
+      <FromLanguageSelector />
+      <ToLanguageSelector />
     </div>
   );
 };

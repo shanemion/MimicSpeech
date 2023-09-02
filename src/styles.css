@@ -35,40 +35,6 @@
   width: 100%;
 }
 
-.inputs {
-  display: flex;
-  justify-content: space-between;
-  width: 500px;
-}
-
-.prompt-input,
-.response-length-input {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-}
-
-.prompt-input {
-  width: 70%;
-}
-
-.response-length-input {
-  width: 22%;
-}
-
-.prompt-input label,
-.response-length-input label {
-  padding-top: 20px;
-  align-self: flex-start;
-}
-
-.prompt-input input,
-.response-length-input input {
-  width: 100%;
-  height: 40px;
-}
-
 .selectorWidth {
   width: 180px;
 }
@@ -82,44 +48,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-}
-
-.generate {
-  background-color: white;
-  color: black;
-  border: 2px solid black;
-  border-radius: 8px;
-  font-size: 14px;
-  padding: 12px 25px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  margin-top: 20px;
-  margin-bottom: 30px;
-}
-
-.generate-disabled {
-  pointer-events: none;
-  opacity: 0.4;
-  background-color: white;
-  color: black;
-  border: 2px solid black;
-  border-radius: 8px;
-  font-size: 14px;
-  padding: 12px 25px;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-  margin-top: 20px;
-  margin-bottom: 30px;
-}
-
-.generate:hover {
-  background-color: black;
-  color: white;
-}
-
-.generate:active {
-  background-color: #333; /* darker version of black */
-  color: #eee; /* darker version of white */
 }
 
 .response-options {
@@ -141,7 +69,6 @@
   margin-left: 4px;
   margin-right: 4px;
   font-weight: 600;
-
 }
 
 .response-option-selected {
@@ -155,7 +82,6 @@
   margin-left: 4px;
   margin-right: 4px;
   font-weight: 600;
-
 }
 
 .response-option:hover {
@@ -288,9 +214,7 @@
   .selectorContainer {
     gap: 20px; /* maximum gap size */
   }
-  .prompt-input input {
-    width: 90%; /* nearly full screen width */
-  }
+
   .selectorWidth {
     width: 70%;
   }
@@ -303,11 +227,6 @@
     align-items: center;
     font-size: 14px;
     text-align: center;
-  }
-  .inputs {
-    display: flex;
-    justify-content: space-between;
-    width: 90%;
   }
 }
 
@@ -340,13 +259,6 @@
   justify-content: center;
   align-items: center;
   display: flex;
-}
-
-.button-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem; /* This creates a gap between the buttons */
 }
 
 .login-message {
@@ -482,14 +394,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  animation: fadeInOut .6s linear infinite;
+  animation: fadeInOut 0.6s linear infinite;
 }
 
 .recording-and-graph {
   display: flex;
   justify-content: center;
   flex-direction: column;
-    align-items: center;
+  align-items: center;
 }
 
 .chart {
@@ -578,7 +490,7 @@
   padding: 4px 8px;
   margin-left: 24px;
   margin-right: 4px;
-  font-size: 13.3px; 
+  font-size: 13.3px;
 }
 
 .input-label label {
@@ -595,8 +507,4 @@
   width: 26px;
   border: none;
   outline: none;
-}
-
-.generator-credits {
-  padding-right: 12px;
 }

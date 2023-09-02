@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import Select from "react-select";
 import LanguageContext from "../../../services/language/LanguageContext";
 
-const DashboardLanguage = () => {
+const DashboardToLanguage = () => {
   const { selectedLanguage, setSelectedLanguage } = useContext(LanguageContext);
 
   const customStyles = {
@@ -49,7 +49,6 @@ const DashboardLanguage = () => {
     { value: "Hindi", label: "Hindi" },
     { value: "Japanese", label: "Japanese" },
     { value: "Vietnamese", label: "Vietnamese" },
-    { value: "Tagalog", label: "Tagalog" },
   ];
 
   const handleChange = (selectedOption) => {
@@ -71,4 +70,4 @@ const DashboardLanguage = () => {
   );
 };
 
-export default DashboardLanguage;
+export default DashboardToLanguage;

@@ -1,13 +1,16 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useContext } from "react";
 import { useAuth } from "../services/firebase/FirebaseAuth";
 import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { useSavedResponse } from "../services/saved/SavedContext";
+import LanguageContext from "../services/language/LanguageContext";
 import "../styles.css";
 
-const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language }) => {
+const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language, userPrompt, responseLength }) => {
   const { currentUser, saveResponse, deleteSavedResponse, getResponseById } =
     useAuth();
     const { isSaved, setIsSaved } = useSavedResponse(); // Get isSaved and setIsSaved from context
+
+  const { fromLanguage, selectedLanguage } = useContext(LanguageContext);
 
   const initialResponseId = localStorage.getItem("responseId");
 
@@ -76,7 +79,11 @@ const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language }) 
         const responseId = await saveResponse(
           currentUser.uid,
           { text: generatedResponse },
-          language
+          language,
+          fromLanguage,
+          selectedLanguage,
+          userPrompt,
+          responseLength
         );
         setResponseId(responseId); // Save response ID
         setIsSaved(true);

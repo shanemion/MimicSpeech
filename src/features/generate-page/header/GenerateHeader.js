@@ -12,13 +12,13 @@ const GenerateHeader = ({ typeResponse, setTypeResponse }) => {
       <div className="subTitleContainer">
         <Title />
         <div>
-            {width > 768 && (
+            {/* {width > 768 && (
           <Selectors
             className="selectors"
             typeResponse={typeResponse}
             setTypeResponse={setTypeResponse}
           />
-          )}
+          )} */}
         </div>
       </div>
       {width > 1300 ? <AuthButtons /> : <Burger />}

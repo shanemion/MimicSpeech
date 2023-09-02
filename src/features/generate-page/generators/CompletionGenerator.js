@@ -20,8 +20,10 @@ import { useTypedResponse } from "../../../services/type-response/TypedResponseC
 import OpenAI from "openai";
 import PricingModal from "../../dashboard/pricing/PricingModal";
 import PricingContext from "../../../services/pricing/PricingContext";
+import GeneratePrompt from "./prompts/Prompts";
+import GenerateOptions from "./components/GenerateOptions";
 
-const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
+const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUserPrompt, responseLength, setResponseLength }) => {
   // Utils
   const { width } = useWindowSize();
   const { ref, storage, deleteObject } = useAuth();
@@ -35,7 +37,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const { updateTTSwav } = useAuth();
 
   // Contexts
-  const { selectedLanguage, selectedGender } = useContext(LanguageContext);
+  const { selectedLanguage, selectedGender, fromLanguage } = useContext(LanguageContext);
   const [typedResponse, setTypedResponse] = useTypedResponse();
   const { pricingState, setPricingState } = useContext(PricingContext);
 
@@ -45,12 +47,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [lastName, setLastName] = useState("");
 
   // State for the response generator
-  const [userPrompt, setUserPrompt] = useState(
-    localStorage.getItem("userPrompt") || ""
-  );
-  const [responseLength, setResponseLength] = useState(
-    parseInt(localStorage.getItem("numSentences"), 10) || 3
-  );
+
   const [renderedSentencesCount, setRenderedSentencesCount] =
     useState(responseLength);
   const [generatedResponse, setGeneratedResponse] = useState(
@@ -78,6 +75,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const [isAnalyzeButtonLoading, setIsAnalyzeButtonLoading] = useState(false);
   const [isRecordingListLoading, setIsRecordingListLoading] = useState(false);
   const [isGPTLoading, setIsGPTLoading] = useState(false);
+  const [numLanguages, setNumLanguages] = useState(2);
 
 
   // State for audio recorder / analysis
@@ -153,19 +151,31 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   const handleGenerateResponse = async () => {
     // localStorage.removeItem("TTS_audio"); // Correct key
     localStorage.removeItem("USER_wavs"); // Correct key
+
+    if (!fromLanguage || !selectedLanguage) {
+      alert("Please select a language.");
+      return;
+    }
     setIsGPTLoading(true);
-    // const prompt = `
-    // Return a real-world event in simplified Mandarin Chinese, pinyin, and english on ${userPrompt}.
-    // In your response, make the sentences fluid and humanlike. Avoid using overly complex grammar patterns and semicolons.
-    // The completion should have the following structure: ${responseLength} sentences in Chinese, then ${responseLength} sentences Pinyin, then ${responseLength} in English.`;
-    const prompt = `
-    Return a real-world event in simplified Mandarin Chinese, pinyin, and english on ${userPrompt}.
-    In your response, make the sentences fluid and humanlike. Avoid using overly complex grammar patterns and semicolons.
-    The completion should be ${
-      responseLength * 3
-    } sentences long: ${responseLength} sentences in Chinese, then ${responseLength} sentences Pinyin, then ${responseLength} in English.`;
+
+    console.log("selectedLanguage", selectedLanguage);
+
+    const prompt = GeneratePrompt({
+      fromLanguage: fromLanguage,
+      selectedLanguage: selectedLanguage,
+      userPrompt: userPrompt,
+      responseLength: responseLength,
+    });
 
     console.log(prompt);
+
+    if (selectedLanguage.value === "Chinese") {
+      setNumLanguages(3);
+    } else {
+      setNumLanguages(2);
+    }
+
+    console.log("numLanguages", numLanguages);
 
     const openai = new OpenAI({
       apiKey: process.env.REACT_APP_OPENAI_KEY,
@@ -173,20 +183,20 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     });
     try {
       if (credits >= responseLength) {
-        // const response = await openai.completions.create({
-        //   model: "text-davinci-003",
-        //   prompt: prompt,
-        //   max_tokens: 3900,
-        //   temperature: 0.2,
-        //   top_p: 0.1,
-        // });
-        // const responseText = response.choices[0].text;
+        const response = await openai.completions.create({
+          model: "text-davinci-003",
+          prompt: prompt,
+          max_tokens: 3900,
+          temperature: 0.2,
+          top_p: 0.1,
+        });
+        const responseText = response.choices[0].text;
 
-        const responseText = "one. two. three. four. five. six.";
+        // const responseText = "one. two. three. four. five. six.";
 
         setGeneratedResponse(responseText);
         localStorage.setItem("generatedResponse", responseText);
-        // console.log("Response from API:", response.choices[0].text);
+        console.log("Response from API:", response.choices[0].text);
 
         const handleDeleteCredits = async () => {
           const userId = currentUser.uid;
@@ -324,7 +334,10 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   useEffect(() => {
     const sentences = ResponseCleaner(
       generatedResponse,
-      renderedSentencesCount
+      renderedSentencesCount,
+      numLanguages,
+      selectedLanguage,
+      fromLanguage
     );
     let mainLanguage = sentences[0];
     let newReadString = "";
@@ -343,78 +356,29 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
     renderedSentencesCount,
     selectedSentenceIndex,
     selectedPage,
+    numLanguages,
+    selectedLanguage,
+    fromLanguage,
   ]);
 
-  const sentences = ResponseCleaner(generatedResponse, responseLength);
+  const sentences = ResponseCleaner(generatedResponse, responseLength, numLanguages, selectedLanguage, fromLanguage);
 
   return (
     <div>
       {pricingState && <PricingModal onClose={closePricingModal} />}
-      <div>
-        <GenerateHeader
-          typeResponse={typeResponse}
-          setTypeResponse={setTypeResponse}
-        />
-        {width < 768 && (
-          <div className="center">
-            <Selectors
-              className="selectors"
-              typeResponse={typeResponse}
-              setTypeResponse={setTypeResponse}
-            />
-          </div>
-        )}
-        {!typeResponse && (
-          <div className="center">
-            <div className="inputs">
-              <div className="prompt-input">
-                <label htmlFor="prompt">Enter a topic!:</label>
-                <input
-                  type="text"
-                  id="prompt"
-                  value={userPrompt}
-                  onChange={handlePromptChange}
-                />
-              </div>
-              <div className="response-length-input">
-                <label htmlFor="respone-length"># Sentences:</label>
-                <input
-                  type="number"
-                  id="responseLength"
-                  value={responseLength}
-                  onChange={handleResponseLengthChange}
-                />
-              </div>
-            </div>
-          </div>
-        )}
-        <div className="center">
-          <div className="button-container">
-            {!typeResponse && (
-              <div >
-                <span className="generator-credits">{credits} credits </span>
-                <button
-                  className={isGPTLoading ? "generate-disabled" : "generate"}
-                  onClick={handleGenerateResponse}
-                  disabled={isGPTLoading}
-                >
-                  {isGPTLoading
-                    ? "Scenario Generating..."
-                    : "Generate Scenario"}
-                </button>
-              </div>
-            )}
-            {generatedResponse && !typeResponse && (
-              <Bookmark
-                typeResponse={typeResponse}
-                typedResponse={typedResponse}
-                generatedResponse={generatedResponse}
-                language={selectedLanguage}
-              />
-            )}
-          </div>
-        </div>
-      </div>
+      <GenerateOptions 
+        typeResponse={typeResponse}
+        setTypeResponse={setTypeResponse}
+        userPrompt={userPrompt}
+        handlePromptChange={handlePromptChange}
+        responseLength={responseLength}
+        handleResponseLengthChange={handleResponseLengthChange}
+        handleGenerateResponse={handleGenerateResponse}
+        generatedResponse={generatedResponse}
+        selectedLanguage={selectedLanguage}
+        credits={credits}
+        isGPTLoading={isGPTLoading}
+      />
       {generatedResponse && !typeResponse && (
         <div>
           <div className="outlined-container">
@@ -446,6 +410,7 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
                   previousPage={previousPage}
                   setPreviousPage={setPreviousPage}
                   renderedSentencesCount={renderedSentencesCount}
+                  numLanguages={numLanguages}
                 />
               )}
               {generatedResponse === "Not enough credits!" && (
@@ -559,4 +524,4 @@ const ChineseResponseGenerator = ({ typeResponse, setTypeResponse }) => {
   );
 };
 
-export default ChineseResponseGenerator;
+export default CompletionGenerator;

@@ -22,6 +22,13 @@ import { TypedResponseProvider } from "./services/type-response/TypedResponseCon
 
 function App() {
   const [typeResponse, setTypeResponse] = useState(false);
+  const [userPrompt, setUserPrompt] = useState(
+    
+  );
+  console.log(userPrompt)
+  const [responseLength, setResponseLength] = useState(
+    parseInt(localStorage.getItem("numSentences"), 10) || 3
+  );
 
   return (
     <Router>
@@ -51,11 +58,25 @@ function App() {
                                 <Navigator
                                   typeResponse={typeResponse}
                                   setTypeResponse={setTypeResponse}
+                                  userPrompt={userPrompt}
+                                  setUserPrompt={setUserPrompt}
+                                  responseLength={responseLength}
+                                  setResponseLength={setResponseLength}
                                 />
                               </div>
                             }
                           />
-                          <Route path="/saved" element={<SavedResponses />} />
+                          <Route
+                            path="/saved"
+                            element={
+                              <SavedResponses
+                                userPrompt={userPrompt}
+                                setUserPrompt={setUserPrompt}
+                                responseLength={responseLength}
+                                setResponseLength={setResponseLength}
+                              />
+                            }
+                          />
                         </Routes>
                       </div>
                     </div>

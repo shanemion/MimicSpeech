@@ -7,6 +7,11 @@ const LanguageProvider = ({ children }) => {
     return storedLanguage ? JSON.parse(storedLanguage) : null;
   });
 
+  const [ fromLanguage, setFromLanguage ] = useState(() => {
+    const storedLanguage = localStorage.getItem("fromLanguage");
+    return storedLanguage ? JSON.parse(storedLanguage) : null;
+  });
+
   const [selectedGender, setSelectedGender] = useState(() => {
     const storedGender = localStorage.getItem("selectedGender");
     return storedGender ? JSON.parse(storedGender) : null;
@@ -17,6 +22,12 @@ const LanguageProvider = ({ children }) => {
       localStorage.setItem("selectedLanguage", JSON.stringify(selectedLanguage));
     }
   }, [selectedLanguage]);
+
+  useEffect(() => {
+    if (fromLanguage) {
+      localStorage.setItem("fromLanguage", JSON.stringify(fromLanguage));
+    }
+  }, [fromLanguage]);
 
   useEffect(() => {
     if (selectedGender) {
@@ -31,6 +42,8 @@ const LanguageProvider = ({ children }) => {
         selectedGender,
         setSelectedLanguage,
         setSelectedGender,
+        fromLanguage,
+        setFromLanguage
       }}
     >
       {children}

@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import useWindowSize from "../utils/WindowSize";
 import { LiaBookReaderSolid } from "react-icons/lia";
+import LanguageContext from "../services/language/LanguageContext";
 
 import "../styles.css";
 
@@ -14,9 +15,13 @@ const ResponseRenderer = ({
   previousPage,
   setPreviousPage,
   renderedSentencesCount,
+  numLanguages,
 }) => {
   const { width } = useWindowSize();
   const [renderedSentences, setRenderedSentences] = useState(null);
+  const { fromLanguage, selectedLanguage } = useContext(LanguageContext);
+  const toLanguage = selectedLanguage.value;
+  const from = fromLanguage.value;
 
   const handleSentenceClick = (index) => {
     setPreviousPage(selectedPage);
@@ -32,20 +37,68 @@ const ResponseRenderer = ({
   const renderPracticePage = () => {
     switch (previousPage) {
       case "One":
-        return (
-          <>
+        if (
+          toLanguage === "Chinese" ||
+          toLanguage === "Japanese" ||
+          toLanguage === "Korean" ||
+          toLanguage === "Russian" ||
+          toLanguage === "Arabic" ||
+          toLanguage === "Hindi"
+        ) {
+          return (
+            <>
+              <p className="primary-language">
+                {sentences[0][selectedSentenceIndex]}
+              </p>
+              <p className="secondary-language">
+                {sentences[1][selectedSentenceIndex]}
+              </p>
+
+              <p className="third-language">
+                {sentences[2][selectedSentenceIndex]}
+              </p>
+            </>
+          );
+        } else if (
+          toLanguage === "English" ||
+          toLanguage === "Spanish" ||
+          toLanguage === "French" ||
+          toLanguage === "German" ||
+          toLanguage === "Italian" ||
+          toLanguage === "Portuguese" ||
+          toLanguage === "Vietnamese"
+        ) {
+          return (
+            <>
+              <p className="primary-language">
+                {sentences[0][selectedSentenceIndex]}
+              </p>
+              <p className="secondary-language">
+                {sentences[1][selectedSentenceIndex]}
+              </p>
+            </>
+          );
+        } else {
+          return (
             <p className="primary-language">
               {sentences[0][selectedSentenceIndex]}
             </p>
-            <p className="secondary-language">
-              {sentences[1][selectedSentenceIndex]}
-            </p>
-            <p className="third-language">
-              {sentences[2][selectedSentenceIndex]}
-            </p>
-          </>
-        );
+          );
+        }
+
+
+
+
+
       case "Two":
+        if (
+          toLanguage === "Chinese" ||
+          toLanguage === "Japanese" ||
+          toLanguage === "Korean" ||
+          toLanguage === "Russian" ||
+          toLanguage === "Arabic" ||
+          toLanguage === "Hindi"
+        ) {
         return (
           <>
             <p className="primary-language">
@@ -56,6 +109,14 @@ const ResponseRenderer = ({
             </p>
           </>
         );
+        } else {
+          return (
+            <p className="primary-language">
+              {sentences[0][selectedSentenceIndex]}
+            </p>
+          );
+        }
+        
       case "Three":
         return (
           <p className="primary-language">
@@ -96,31 +157,47 @@ const ResponseRenderer = ({
         )}
       <div>
         <p className="primary-language">{sentences[0][index]}</p>
-        {selectedPage !== "Three" && (
-          <p className="secondary-language">{sentences[1][index]}</p>
-        )}
-        {selectedPage === "One" && (
-          <p className="third-language">{sentences[2][index]}</p>
-        )}
-        {(width <= 740 || selectedPage === "Three") && generatedResponse !== "Not enough credits!" && (
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              marginBottom: "15px",
-            }}
-          >
-            <button
-              className="practice-button"
-              onClick={() => handleSentenceClick(index)}
+        {selectedPage !== "Three" &&
+          toLanguage !== from &&
+          (selectedPage !== "Two" ||
+            !(
+              toLanguage === "English" ||
+              toLanguage === "Spanish" ||
+              toLanguage === "French" ||
+              toLanguage === "German" ||
+              toLanguage === "Italian" ||
+              toLanguage === "Portuguese" ||
+              toLanguage === "Vietnamese"
+            )) && <p className="secondary-language">{sentences[1][index]}</p>}
+        {selectedPage === "One" &&
+          (toLanguage === "Chinese" ||
+            toLanguage === "Japanese" ||
+            toLanguage === "Korean" ||
+            toLanguage === "Russian" ||
+            toLanguage === "Arabic" ||
+            toLanguage === "Hindi") && (
+            <p className="third-language">{sentences[2][index]}</p>
+          )}
+        {(width <= 740 || selectedPage === "Three") &&
+          generatedResponse !== "Not enough credits!" && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginBottom: "15px",
+              }}
             >
-              <div className="practice-icon">
-                <LiaBookReaderSolid />
-              </div>
-            </button>
-          </div>
-        )}
+              <button
+                className="practice-button"
+                onClick={() => handleSentenceClick(index)}
+              >
+                <div className="practice-icon">
+                  <LiaBookReaderSolid />
+                </div>
+              </button>
+            </div>
+          )}
         <div
           style={{
             justifyContent: "center",

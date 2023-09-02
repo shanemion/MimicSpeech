@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import ChineseResponseGenerator from "../../features/generate-page/generators/ChineseResponseGenerator";
 
 import LanguageContext from "../../services/language/LanguageContext";
+import CompletionGenerator from "../../features/generate-page/generators/CompletionGenerator";
 
-export const Navigator = ({ typeResponse, setTypeResponse }) => {
+export const Navigator = ({ typeResponse, setTypeResponse, userPrompt, setUserPrompt, responseLength, setResponseLength }) => {
   const { selectedLanguage } = useContext(LanguageContext);
 
   if (!selectedLanguage) {
@@ -14,24 +14,17 @@ export const Navigator = ({ typeResponse, setTypeResponse }) => {
   return (
     <>
       <div>
-      {(language === "Chinese" || language === null) && (
-        <ChineseResponseGenerator
+   
+        <CompletionGenerator
           typeResponse={typeResponse}
           setTypeResponse={setTypeResponse}
+          userPrompt={userPrompt}
+          setUserPrompt={setUserPrompt}
+          responseLength={responseLength}
+          setResponseLength={setResponseLength}
         />
-      )}
-      {language === "English" && <ChineseResponseGenerator
-          typeResponse={typeResponse}
-          setTypeResponse={setTypeResponse}
-        />}
-      {language === "Japanese" && <ChineseResponseGenerator
-          typeResponse={typeResponse}
-          setTypeResponse={setTypeResponse}
-        />}
-      {language === "Vietnamese" && <ChineseResponseGenerator
-          typeResponse={typeResponse}
-          setTypeResponse={setTypeResponse}
-        />}
+      
+
       </div>
     </>
   );

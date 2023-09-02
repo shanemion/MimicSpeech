@@ -143,13 +143,13 @@ export const AuthProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  const saveResponse = async (userId, response, language) => {
+  const saveResponse = async (userId, response, language, fromLanguage, selectedLanguage, userPrompt, responseLength) => {
     try {
       const responsesRef = collection(db, "users", userId, "responses");
       const numSentences =
         parseInt(localStorage.getItem("numSentences"), 10) || 3;
       const responseId = localStorage.getItem("responseId");
-
+  
       // Only add TTS and USER wav files if the response has been saved
       let ttsAudioBase64 = null;
       let userWavsBase64 = null;
@@ -157,20 +157,25 @@ export const AuthProvider = ({ children }) => {
         ttsAudioBase64 = localStorage.getItem("TTS_audio");
         userWavsBase64 = JSON.parse(localStorage.getItem("USER_wavs") || "[]");
       }
-
+  
       const docRef = await addDoc(responsesRef, {
         ...response,
         TTSwav: ttsAudioBase64,
         USERwav: userWavsBase64,
         language,
         numSentences,
+        fromLanguage: fromLanguage,  // Assuming fromLanguage is an object with a `value` property
+        selectedLanguage: selectedLanguage,  // Assuming selectedLanguage is an object with a `value` property
+        userPrompt: userPrompt || "",
+        responseLength: responseLength || 3,
       });
-
+  
       return docRef.id;
     } catch (error) {
       console.error("Error saving response:", error);
     }
   };
+  
 
   const fetchSavedResponses = async (userId) => {
     const responsesRef = collection(db, "users", userId, "responses");
@@ -240,7 +245,6 @@ export const AuthProvider = ({ children }) => {
     getDownloadURL,
     deleteObject,
     signInWithGoogle,
-    // signInWithGitHub,
     fetchCredits,
     fetchFirstName,
     fetchLastName,

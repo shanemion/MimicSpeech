@@ -81,9 +81,9 @@ const SelectedVoice = (selectedLanguage, selectedGender) => {
 
   if (language === "Arabic") {
     if (gender === "Man") {
-      return "ar-EG-SalmaNeural";
+      return "ar-LB-RamiNeural";
     }
-    return "ar-SA-ZariyahNeural";
+    return "ar-LB-LaylaNeural";
   }
 
   if (language === "Hindi") {
@@ -96,16 +96,9 @@ const SelectedVoice = (selectedLanguage, selectedGender) => {
 
   if (language === "Portuguese") {
     if (gender === "Man") {
-      return "pt-BR-FranciscaNeural";
+      return "pt-BR-FranciscoNeural";
     }
-    return "pt-BR-FranciscoNeural";
-  }
-
-  if (language === "Tagalog") {
-    if (gender === "Man") {
-      return "fil-PH-AlingNeural";
-    }
-    return "fil-PH-AlingNeural";
+    return "pt-BR-FranciscaNeural";
   }
 
   console.log("none")

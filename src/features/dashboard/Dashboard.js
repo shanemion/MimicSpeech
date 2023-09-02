@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../services/firebase/FirebaseAuth";
-import DashboardLanguage from "./components/DashboardLanguage";
+import DashboardToLanguage from "./components/DashboardToLanguage";
+import DashboardFromLanguage from "./components/DashboardFromLanguage";
+
 import PricingModal from "./pricing/PricingModal";
 import PricingContext from "../../services/pricing/PricingContext";
 import "./Dashboard.css";
@@ -93,7 +95,8 @@ const Dashboard = () => {
         <div className="dashboard-body">
           <h1>Dashboard</h1>
           <div className="dashboard-language-selector">
-            <DashboardLanguage />
+            <DashboardFromLanguage />
+            <DashboardToLanguage />
           </div>
 
           <button
