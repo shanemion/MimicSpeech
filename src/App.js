@@ -10,7 +10,7 @@ import LanguageProvider from "./services/language/LanguageProvider";
 import Login from "./features/registration/Login";
 import Register from "./features/registration/Register";
 import { AuthProvider } from "./services/firebase/FirebaseAuth";
-import SavedResponses from "./components/SavedResponses";
+import SavedResponses from "./features/saved-responses/SavedResponses";
 import { SavedResponseProvider } from "./services/saved/SavedContext";
 import { SavedAudioProvider } from "./services/saved/SavedAudioContext";
 import LandingPage from "./features/landing-page/LandingPage";

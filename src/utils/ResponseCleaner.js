@@ -1,5 +1,5 @@
 const isChinese = (str) => {
-  const re = /^[\u4e00-\u9fa5。.，:.]+$/; // Added the English period (.) and colon (:)
+  const re = /^[\u4e00-\u9fa5.,:;!?'"()。、・！？：；「」『』（）]+$/; // Added the English period (.) and colon (:)
   return re.test(str);
 };
 // English
@@ -88,7 +88,7 @@ export const ResponseCleaner = (
 
   response = response.trim();
   response = response.replace(
-    /中文：|拼音：|English:|Japanese: |Romaji: /g,
+    /中文：|拼音：|English:|Japanese: |Romaji: |第一句：|第二句：|第三句：/g,
     ""
   );
   response = response.replace(/。/g, ".");
@@ -176,21 +176,26 @@ export const ResponseCleaner = (
     .slice(0, numSentences)
     .every(isVietnamese);
 
-
+    const removeCommas = (sentence) => {
+      const replacedStr = sentence.replace(/[，،,]/g, ".");
+      const splitSentences = replacedStr.split(".").filter(Boolean); // filter(Boolean) removes empty strings
+      const sentencesWithPeriods = splitSentences.map((s) => s.trim() + "."); // Add period back to each sentence
+      return sentencesWithPeriods;
+    };
     
-  const removeCommas = (sentence) => {
-    const str = sentence[0];
-    const replacedStr = str.replace(/[，،,]/g, ".");
-    const splitSentences = replacedStr.split(".").filter(Boolean); // filter(Boolean) removes empty strings
-    const sentencesWithPeriods = splitSentences.map((s) => s.trim() + "."); // Add period back to each sentence
-    return sentencesWithPeriods;
-  };
-
-  if (numSentences === 1 && sentencesWithPeriod.length <= 1) {
-    console.log("sentenceswithperiod", sentencesWithPeriod);
-    sentencesWithPeriod = removeCommas(sentencesWithPeriod);
-    console.log("sentenceswithoutcommas", sentencesWithPeriod);
-  }
+    if (numSentences === 1 && sentencesWithPeriod.length <= 1) {
+      console.log("sentenceswithperiod", sentencesWithPeriod);
+      sentencesWithPeriod = removeCommas(sentencesWithPeriod[0]);
+      console.log("sentenceswithoutcommas", sentencesWithPeriod);
+    }
+    
+    if ((sentencesWithPeriod.length === numSentences / 3) || (sentencesWithPeriod.length === numSentences / 2)) {
+      // Applying removeCommas on each sentence and flattening the array
+      sentencesWithPeriod = sentencesWithPeriod.flatMap(sentence => removeCommas(sentence));
+    }
+    
+    console.log(sentencesWithPeriod.length);  // Should log the length of the array, expected to be 9 for your example
+    
 
   if (allChinese) {
     // Variant format

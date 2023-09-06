@@ -7,7 +7,7 @@ const GeneratePrompt = ({ fromLanguage, selectedLanguage, userPrompt, responseLe
   
       if (toLanguage === "Chinese") {
         prompt = `
-          Return a reenactment in simplified Mandarin Chinese, pinyin, and ${origLanguage} on ${userPrompt}.
+          Return a reenactment in simplified Mandarin, pinyin, and ${origLanguage} on ${userPrompt}.
           In your response, make the sentences fluid and humanlike. Avoid using overly complex grammar patterns and semicolons.
           The completion should be ${responseLength * 3} sentences long: ${responseLength} sentences in Chinese, then ${responseLength} sentences Pinyin, then ${responseLength} in ${origLanguage}.`;
       } else if (toLanguage === "Korean") {

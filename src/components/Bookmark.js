@@ -78,19 +78,21 @@ const Bookmark = ({
   //   checkSavedResponse();
   //   // Add setIsSaved to the dependency array
   // }, [currentUser, initialResponseId, getResponseById, setIsSaved]);
-  
-
 
   const handleClick = async () => {
     // console.log("isSaved:", isSaved, "setIsSaved:", setIsSaved);
+    console.log("Before handleClick: ", { isSaved, responseId });
 
     if (currentUser) {
       if (isSaved) {
         if (responseId) {
           console.log("DelresponseId:", responseId);
           await deleteSavedResponse(currentUser.uid, responseId);
-          setIsSaved(!isSaved);
+          setIsSaved(false);
+          console.log("isSaved After handleClick: ", { isSaved, responseId });
+
         }
+
       } else {
         const responseId = await saveResponse(
           currentUser.uid,
@@ -102,6 +104,12 @@ const Bookmark = ({
           responseLength
         );
         setResponseId(responseId); // Save response ID
+        console.log("responseId:", responseId)
+        localStorage.setItem("currentDocId", responseId);
+        console.log("currentDocId:", localStorage.getItem("currentDocId"))
+  
+        console.log("After handleClick: ", { isSaved, responseId });
+
         setIsSaved(true);
       }
     } else {

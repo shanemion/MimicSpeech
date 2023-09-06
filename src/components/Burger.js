@@ -3,6 +3,7 @@ import { slide as Menu } from "react-burger-menu";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../services/firebase/FirebaseAuth";
 import "../styles.css";
+import { rgb } from "d3";
 
 export const Burger = () => {
   const navigate = useNavigate();
@@ -55,7 +56,7 @@ export const Burger = () => {
       opacity: "0.9",
     },
     bmMenu: {
-      background: "pink",
+      background: rgb(220, 220, 220),
       padding: "2.5em 1.5em 0",
       fontSize: "1.15em",
     },
@@ -103,79 +104,13 @@ export const Burger = () => {
 
   return (
     <Menu
-      ref={menuRef} 
+      ref={menuRef}
       isOpen={isOpen}
       onStateChange={handleStateChange}
       styles={styles}
       right
     >
-      <Link
-        id="home"
-        className="menu-item"
-        to="/"
-        onClick={closeMenu}
-        style={linkStyle}
-      >
-        Home
-      </Link>
-      <Link
-        id="features"
-        className="menu-item"
-        to="/features"
-        onClick={closeMenu}
-        style={linkStyle}
-      >
-        Features
-      </Link>
-      <Link
-        id="pricing"
-        className="menu-item"
-        to="/pricing"
-        onClick={closeMenu}
-        style={linkStyle}
-      >
-        Pricing
-      </Link>
-      <Link
-        id="testimonials"
-        className="menu-item"
-        to="/testimonials"
-        onClick={closeMenu}
-        style={linkStyle}
-      >
-        Testimonials
-      </Link>
-      <Link
-        id="contact-us"
-        className="menu-item"
-        to="/contact"
-        onClick={closeMenu}
-        style={linkStyle}
-      >
-        Contact Us
-      </Link>
-      {currentUser ? (
-        <>
-          <Link
-            id="saved"
-            className="menu-item"
-            to="/saved"
-            onClick={closeMenu}
-            style={linkStyle}
-          >
-            View Saved
-          </Link>
-          <Link
-
-            id="logout"
-            className="menu-item"
-            onClick={handleLogout}
-            style={linkStyle}
-          >
-            Logout
-          </Link>
-        </>
-      ) : (
+      {!currentUser && (
         <>
           <Link
             id="login"
@@ -187,10 +122,8 @@ export const Burger = () => {
             Login
           </Link>
           <Link
-
             id="signup"
             className="menu-item"
-            
             to="/signup"
             onClick={closeMenu}
             style={linkStyle}
@@ -199,7 +132,49 @@ export const Burger = () => {
           </Link>
         </>
       )}
-
+      {currentUser && (
+        <Link
+          id="dashboard"
+          className="menu-item"
+          to="/dashboard"
+          onClick={closeMenu}
+          style={linkStyle}
+        >
+          Dashboard
+        </Link>
+      )}
+      <Link
+        id="pricing"
+        className="menu-item"
+        to="/pricing"
+        onClick={closeMenu}
+        style={linkStyle}
+      >
+        Pricing Plans
+      </Link>
+      <div styles={{ height: "100px" }}></div>
+      {currentUser && (
+        <>
+          <Link
+            id="saved"
+            className="menu-item"
+            to="/saved"
+            onClick={closeMenu}
+            style={linkStyle}
+          >
+            Saved Responses
+          </Link>
+          <Link
+            id="logout"
+            className="menu-item"
+            onClick={handleLogout}
+            style={linkStyle}
+          >
+            Logout
+          </Link>
+        </>
+      
+      )}
     </Menu>
   );
 };

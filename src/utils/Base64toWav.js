@@ -1,5 +1,6 @@
 const writeWavFile = (base64Audio) => {
     // Decode the base64 string
+    console.log("base64Audio", base64Audio)
     const audioData = atob(base64Audio.split(',')[1]);
     const arrayBuffer = new Uint8Array(audioData.length);
   

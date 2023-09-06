@@ -24,11 +24,19 @@ import GeneratePrompt from "./prompts/Prompts";
 import GenerateOptions from "./components/GenerateOptions";
 import writeWavFile from "../../../utils/Base64toWav";
 import { useSavedResponse } from "../../../services/saved/SavedContext";
+import { listAll } from "@firebase/storage";
 
-const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUserPrompt, responseLength, setResponseLength }) => {
+const CompletionGenerator = ({
+  typeResponse,
+  setTypeResponse,
+  userPrompt,
+  setUserPrompt,
+  responseLength,
+  setResponseLength,
+}) => {
   // Utils
   const { width } = useWindowSize();
-  const { ref, storage, deleteObject } = useAuth();
+  const { ref, storage, deleteObject, uploadBytes, getDownloadURL } = useAuth();
   const {
     currentUser,
     fetchCredits,
@@ -39,7 +47,8 @@ const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUse
   const { updateTTSwav } = useAuth();
 
   // Contexts
-  const { selectedLanguage, selectedGender, fromLanguage } = useContext(LanguageContext);
+  const { selectedLanguage, selectedGender, fromLanguage } =
+    useContext(LanguageContext);
   const [typedResponse, setTypedResponse] = useTypedResponse();
   const { pricingState, setPricingState } = useContext(PricingContext);
   const { isSaved, setIsSaved } = useSavedResponse();
@@ -79,7 +88,6 @@ const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUse
   const [isRecordingListLoading, setIsRecordingListLoading] = useState(false);
   const [isGPTLoading, setIsGPTLoading] = useState(false);
   const [numLanguages, setNumLanguages] = useState(2);
-
 
   // State for audio recorder / analysis
   const [uniqueAudioID, setUniqueAudioID] = useState("");
@@ -133,8 +141,8 @@ const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUse
     if (newValue > 6) {
       newValue = 6;
     }
-    if (newValue < 1) {
-      newValue = 1;
+    if (newValue < 2) {
+      newValue = 2;
     }
     setResponseLength(newValue);
     localStorage.setItem("numSentences", newValue.toString());
@@ -171,14 +179,6 @@ const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUse
     });
 
     console.log(prompt);
-
-    if (selectedLanguage.value === "Chinese") {
-      setNumLanguages(3);
-    } else {
-      setNumLanguages(2);
-    }
-
-    console.log("numLanguages", numLanguages);
 
     const openai = new OpenAI({
       apiKey: process.env.REACT_APP_OPENAI_KEY,
@@ -258,6 +258,20 @@ const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUse
       .catch((error) => {
         console.error("Some delete operations failed:", error);
       });
+
+    const deleteUnsavedAudios = async (userId) => {
+      // Get the list of audio blobs stored in Firebase Storage
+      const listRef = ref(storage, `/synthesizedAudios/${currentUser.uid}/`);
+      const { items } = await listAll(listRef);
+
+      // Delete each item in the folder
+      for (const item of items) {
+        await deleteObject(item);
+      }
+    };
+
+    deleteUnsavedAudios(currentUser.uid);
+
     setSynthesizedPitchData([]);
     setRecordedAudios([]);
     setPracticeData({});
@@ -265,88 +279,108 @@ const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUse
     setRecordedPracticeAudios([]);
   };
 
-  const handleTTS = async (textToRead, selectedLanguage, selectedGender, rate) => {
+  const docId = localStorage.getItem("currentDocId");
+  console.log("docIda", docId);
 
-    const identifier = `${textToRead}-${selectedLanguage}-${selectedGender}-${rate}`;
-
-
-    let audioData = JSON.parse(localStorage.getItem("TTS_audio_data")) || {};
-    let base64 = audioData[identifier];
   
-    // Check if the audio for this text already exists
-    if (base64) {
-      base64 = encodeURIComponent(base64); // Encode the base64 string
-      updateTTSwav(currentUser.uid, identifier, base64); // Update Firestore or any other database
-      const playAudioFromBase64 = (base64) => {
 
+  // useEffect(() => {
+  //   const moveFiles = async () => {
+  //     // The folder where your synthesized audio files are originally saved
+  //     const originalFolderRef = ref(storage, `${docId}/synthesizedAudios/${currentUser.uid}`);
       
-        if (base64) {
-          const audioURL = writeWavFile(base64);  // Assuming writeWavFile returns a Blob URL
-          const audio = new Audio(audioURL);
-          audio.play();
-        } else {
-          console.error("No audio found for this identifier");
-        }
-      };
-      playAudioFromBase64(base64);
-      
-    } else {
-      // If the audio doesn't exist, generate it
-      try {
-        const audioBlob = await SpeakText(
-          textToRead,
-          selectedLanguage,
-          selectedGender,
-          rate,
-          identifier
-        );
+  //     try {
+  //       // List all files in the folder
+  //       const res = await listAll(originalFolderRef);
+        
+  //       for (const itemRef of res.items) {
+  //         // Download the file to a blob
+  //         const fileURL = await getDownloadURL(itemRef);
+  //         const response = await fetch(fileURL);
+  //         const blob = await response.blob();
+          
+  //         // Extract the file name from the itemRef
+  //         const fileName = itemRef.name;
+          
+  //         // Upload the blob to the new location
+  //         const newFolderRef = ref(
+  //           storage,
+  //           `savedSynthesizedAudios/${docId}/${currentUser.uid}/${fileName}`
+  //         );
+  //         await uploadBytes(newFolderRef, blob);
+          
+  //         // Delete the original file
+  //         await deleteObject(itemRef);
+  //       }
+  //     } catch (error) {
+  //       console.error("Error moving files:", error);
+  //     }
+  //   };
+
+  //   moveFiles();
+  // }, [isSaved, docId, storage, ref, currentUser.uid, getDownloadURL, uploadBytes, deleteObject]);
+
+  const handleTTS = async (
+    textToRead,
+    selectedLanguage,
+    selectedGender,
+    rate
+  ) => {
+    if (!textToRead) {
+      alert("Please enter some text to read.");
+      return;
+    }
+    if (!selectedLanguage) {
+      alert("Please select a language.");
+      return;
+    }
+    if (!selectedGender) {
+      alert("Please select a voice.");
+      return;
+    }
+
+    const identifier = `${currentUser.uid}_${textToRead}-${selectedLanguage.value}-${selectedGender.value}-${rate}`;
+    console.log("identifier", identifier);
+    console.log("docId", docId);
   
-        // Now, audioData[identifier] should contain the newly generated base64 audio
-        base64 = audioData[identifier];
+    const storageRef = ref(
+      storage,
+      `/synthesizedAudios/${currentUser.uid}/${identifier}.wav`
+    );
   
-        if (base64) {
-          base64 = encodeURIComponent(base64); // Encode the base64 string
-          updateTTSwav(currentUser.uid, identifier, base64); // Update Firestore or any other database
-          // Do other things with your audio, like playing it
+    // Step 1: Check if the audio for this text already exists
+    try {
+      const audioURL = await getDownloadURL(storageRef);
+      // If we get here, it means the audio already exists.
+      console.log("Audio exists, playing from storage...");
+      const audio = new Audio(audioURL);
+      audio.play();
+    } catch (error) {
+      // getDownloadURL will throw an error if the file doesn't exist, catch it here
+      if (error.code === "storage/object-not-found") {
+        console.log("Audio does not exist, generating...");
+  
+        // Step 2: Generate and upload the audio if it doesn't exist
+        try {
+          const audioBlob = await SpeakText(
+            textToRead,
+            selectedLanguage,
+            selectedGender,
+            rate,
+            identifier
+          );
+  
+          await uploadBytes(storageRef, audioBlob);
+        } catch (error) {
+          console.error("Error generating or uploading TTS:", error);
         }
-      } catch (error) {
-        console.error("Error generating TTS:", error);
+      } else {
+        // Handle other errors
+        console.error("An unknown error occurred:", error);
       }
     }
   };
 
-  // const handleTTS = async (
-  //   textToRead,
-  //   selectedLanguage,
-  //   selectedGender,
-  //   rate
-  // ) => {
-  //   console.log();
-  //   try {
-  //     const audioUrlFromTTS = await SpeakText(
-  //       textToRead,
-  //       selectedLanguage,
-  //       selectedGender,
-  //       rates[speed]
-  //     );
-
-  //     let base64 = localStorage.getItem("TTS_audio");
-
-  //     base64 = encodeURIComponent(base64); // Encode the base64 string
-  //     const responseId = localStorage.getItem("responseId");
-  //     if (responseId !== null) {
-  //       updateTTSwav(currentUser.uid, responseId, base64); // Update Firestore
-  //     } else {
-  //       // Save to local storage only
-  //       localStorage.setItem("TTS_audio", base64);
-  //     }
-  //     setAudioURL(audioUrlFromTTS);
-  //     localStorage.setItem("audioURL", audioUrlFromTTS);
-  //     console.log("TTS Audio URL:", audioUrlFromTTS);
-  //   } catch (error) {
-  //     console.error("Error generating TTS:", error);
-  //   }
-  // };
 
   const playAudio = (url) => {
     const audioElement = new Audio(url);
@@ -414,12 +448,18 @@ const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUse
     fromLanguage,
   ]);
 
-  const sentences = ResponseCleaner(generatedResponse, responseLength, numLanguages, selectedLanguage, fromLanguage);
+  const sentences = ResponseCleaner(
+    generatedResponse,
+    responseLength,
+    numLanguages,
+    selectedLanguage,
+    fromLanguage
+  );
 
   return (
     <div>
       {pricingState && <PricingModal onClose={closePricingModal} />}
-      <GenerateOptions 
+      <GenerateOptions
         typeResponse={typeResponse}
         setTypeResponse={setTypeResponse}
         userPrompt={userPrompt}
@@ -468,7 +508,10 @@ const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUse
               )}
               {generatedResponse === "Not enough credits!" && (
                 <div className="center">
-                  <button className="generate" onClick={() => setPricingState(true)}>
+                  <button
+                    className="generate"
+                    onClick={() => setPricingState(true)}
+                  >
                     Buy more credits!
                   </button>
                 </div>

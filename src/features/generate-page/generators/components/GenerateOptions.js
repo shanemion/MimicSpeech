@@ -28,7 +28,6 @@ const GenerateOptions = ({
 
   return (
     <div>
-
       <GenerateHeader
         typeResponse={typeResponse}
         setTypeResponse={setTypeResponse}
@@ -54,7 +53,9 @@ const GenerateOptions = ({
           <button
             className="toggle-expand"
             onClick={() => {
-              setShowPlaceholder(!showPlaceholder);
+              setShowPlaceholder(true);
+              // time out function to false
+                setTimeout(() => {setShowPlaceholder(false)}, 280);
               setIsExpanded(!isExpanded);
             }}
           >
@@ -122,13 +123,29 @@ const GenerateOptions = ({
                     className={isGPTLoading ? "generate-disabled" : "generate"}
                     onClick={() => {
                       handleGenerateResponse();
+                      setShowPlaceholder(false);
+
                       setIsExpanded(false);
                     }}
                     disabled={isGPTLoading}
                   >
-                    {isGPTLoading
-                      ? "Scenario Generating..."
-                      : "Generate Scenario"}
+                    {isGPTLoading ? (
+                      "Scenario Generating..."
+                    ) : (
+                      <>
+                        Generate Scenario
+                        <span
+                          style={{
+                            marginLeft: "8px",
+                            verticalAlign: "middle",
+                            position: "relative",
+                            top: ".7px",
+                          }}
+                        >
+                          <AiOutlineSend />
+                        </span>
+                      </>
+                    )}
                   </button>
                 </>
               )}
@@ -138,7 +155,6 @@ const GenerateOptions = ({
         </div>
       </div>
       {showPlaceholder && <div className="placeholder"></div>}
-
     </div>
   );
 };

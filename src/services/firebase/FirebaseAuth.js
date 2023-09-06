@@ -168,6 +168,7 @@ export const AuthProvider = ({ children }) => {
         selectedLanguage: selectedLanguage,  // Assuming selectedLanguage is an object with a `value` property
         userPrompt: userPrompt || "",
         responseLength: responseLength || 3,
+        timestamp: new Date().toISOString(), // Add this line
       });
   
       return docRef.id;
