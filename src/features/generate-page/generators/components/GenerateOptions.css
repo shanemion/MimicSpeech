@@ -1,42 +1,96 @@
-.generate {
-    background-color: white;
-    color: black;
-    border: 2px solid black;
-    border-radius: 8px;
-    font-size: 14px;
-    padding: 12px 25px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    margin-top: 20px;
-    margin-bottom: 30px;
-  }
-  
-  .generate-disabled {
-    pointer-events: none;
-    opacity: 0.4;
-    background-color: white;
-    color: black;
-    border: 2px solid black;
-    border-radius: 8px;
-    font-size: 14px;
-    padding: 12px 25px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    margin-top: 20px;
-    margin-bottom: 30px;
-  }
-  
-  .generate:hover {
-    background-color: black;
-    color: white;
-  }
-  
-  .generate:active {
-    background-color: #333; /* darker version of black */
-    color: #eee; /* darker version of white */
-  }
+.vertical {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
 
-  
+/* Style for generate button */
+.generate,
+.generate-disabled {
+  background-color: #4caf50;
+  color: white;
+  border: 2px solid rgba(159, 255, 186, 0.109);
+  border-radius: 8px;
+  font-size: 14px;
+  padding: 12px 70px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 30px;
+  margin-bottom: 10px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+  position: relative; /* For the loader positioning */
+}
+
+/* Hover effect */
+.generate:hover {
+  background-color: #45a049;
+  color: white;
+}
+
+/* Disabled state */
+.generate-disabled {
+  background-color: white;
+
+  pointer-events: none;
+  opacity: 0.5;
+  box-shadow: none;
+}
+
+/* Loading spinner */
+.generate .spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -8px; /* Half the spinner's height */
+  margin-left: -8px; /* Half the spinner's width */
+}
+
+/* Style for credits */
+.generator-credits {
+  font-size: 14px;
+  color: grey;
+}
+
+.small-generate,
+.small-generate-disabled {
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc; /* Lighter border */
+  border-radius: 12px; /* Increased corner roundness */
+  font-size: 16px; /* Increased font size */
+  padding: 0px 20px; /* Increased padding */
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease,
+    border-color 0.3s ease; /* Added transition for border color */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Added box shadow */
+  margin-top: 50px;
+  width: 25%;
+  margin-left: 10px;
+  height: 40px;
+  line-height: 40px; /* Center the text vertically */
+  margin-top: 48px; /* Adjusted the margin-top */
+  margin-bottom: 10px;
+
+  background-color: #4caf50; /* Green background */
+  color: white;
+}
+
+.small-generate:hover {
+  background-color: #f7f7f7; /* Slightly darker background on hover */
+  border-color: #aaa; /* Darker border on hover */
+  background-color: #45a049; /* Darker green on hover */
+}
+
+.small-generate-disabled {
+  pointer-events: none;
+  opacity: 0.6; /* Lighter opacity */
+  border-color: #eee; /* Lighter border */
+  cursor: not-allowed;
+  box-shadow: none; /* Remove box shadow */
+}
+/*  */
+
 .prompt-input,
 .response-length-input {
   display: flex;
@@ -46,33 +100,24 @@
 }
 
 .prompt-input {
-  width: 70%;
+  width: 75%;
 }
 
 .response-length-input {
   width: 22%;
 }
 
-.button-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem; /* This creates a gap between the buttons */
-  }
-
 .center {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
-  .inputs {
-    display: flex;
-    justify-content: space-between;
-    width: 500px;
-  }
-  
-
+.inputs {
+  display: flex;
+  justify-content: space-between;
+  width: 500px;
+}
 
 .prompt-input label,
 .response-length-input label {
@@ -86,21 +131,126 @@
   height: 40px;
 }
 
+/* New or updated styles */
+.input-label {
+  font-weight: 600;
+  margin-bottom: 10px;
+}
 
-.generator-credits {
-    padding-right: 12px;
+.styled-input {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.1);
+  transition: border 0.3s ease, box-shadow 0.3s ease;
+}
+
+.styled-input:focus {
+  border: 1px solid #007bff;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 1000px) {
+  .prompt-input input {
+    width: 100%; /* nearly full screen width */
+  }
+  .prompt-input {
+    width: 85%;
+    margin-right: 0;
+  }
+  .small-generate {
+    width: 15%;
+    /* margin-left: 0; */
   }
 
-  
+  .inputs {
+    display: flex;
+    justify-content: space-between;
+    width: 90%;
+  }
+  .options-outlined-container {
+    width: 100%;
+  }
+  .response-length-input {
+    width: 25%;
+  }
+}
 
+.toggle-expand {
+  position: absolute;
+  top: -10px;
+  right: 0px;
+  background-color: white;
+  color: black;
+  border: 1px solid black;
+  border-radius: 45px;
+  font-size: 14px;
+  margin-top: 2px;
+  padding: 6px 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.bookmark {
+  position: absolute;
+  top: -10px;
+  right: 40px;
+  margin-top: 2px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+  z-index: 1000;
+}
+
+.options-outlined-container {
+  position: relative;
+  border: 2px solid #ccc;
+  border-radius: 45px;
+  margin: 10px auto 30px auto;
+  width: 50%;
+  height: auto; /* assuming your initial height is automatic */
+  transition: all 0.3s ease-in-out;
+  transform-origin: top center; /* This will be the pivot point for scaling */
+  z-index: 0;
+  top: auto;
+  left: auto;
+  transform: scale(1);
+  padding: 0 0 20px 0;
+}
+
+.expanded-container {
+  position: fixed;
+  left: calc(50% - 31.25%); /* Center horizontally; adjust as necessary */
+  transform: scale(1.25); /* Increase to 125% of the original size */
+  width: 62.5%;
+  height: 50vh; /* Set a specific height */
+  z-index: 1000;
+  background-color: white;
+  border: 2px solid #ccc;
+  border-radius: 45px; /* Rounded corners */
+  padding: 20px;
+  transition: all 0.3s ease-in-out;
+  transform-origin: top center; /* This should match with the original container */
+  box-shadow: 0px 4px 40px 15px rgba(0, 0, 0, 0.5); /* Added spread radius */
+  /* padding: 50px 0 0 0; */
+  display: flex;
+  justify-content: center;
+  align-items: top;
+}
 
 @media (max-width: 768px) {
-    .prompt-input input {
-        width: 90%; /* nearly full screen width */
-      }
-    .inputs {
-        display: flex;
-        justify-content: space-between;
-        width: 90%;
-      }
+  .options-outlined-container {
+    width: 80%;
+  }
+  .expanded-container {
+    left: calc(10%);
+    width: 80%;
+    height: 60%;
+  }
 }
+
+.placeholder {
+    height: 250px;
+    width: 100%;
+    background-color: white;
+  }
+  

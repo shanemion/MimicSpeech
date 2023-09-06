@@ -191,6 +191,7 @@ export const AuthProvider = ({ children }) => {
   const deleteSavedResponse = async (userId, docId) => {
     const docRef = doc(db, "users", userId, "responses", docId);
     await deleteDoc(docRef);
+    console.log("Document successfully deleted!");
   };
 
   const updateTTSwav = async (userId, responseId, ttsAudioBase64) => {

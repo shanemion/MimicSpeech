@@ -22,6 +22,8 @@ import PricingModal from "../../dashboard/pricing/PricingModal";
 import PricingContext from "../../../services/pricing/PricingContext";
 import GeneratePrompt from "./prompts/Prompts";
 import GenerateOptions from "./components/GenerateOptions";
+import writeWavFile from "../../../utils/Base64toWav";
+import { useSavedResponse } from "../../../services/saved/SavedContext";
 
 const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUserPrompt, responseLength, setResponseLength }) => {
   // Utils
@@ -40,6 +42,7 @@ const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUse
   const { selectedLanguage, selectedGender, fromLanguage } = useContext(LanguageContext);
   const [typedResponse, setTypedResponse] = useTypedResponse();
   const { pricingState, setPricingState } = useContext(PricingContext);
+  const { isSaved, setIsSaved } = useSavedResponse();
 
   // State for database and user info
   const [credits, setCredits] = useState(0);
@@ -149,9 +152,9 @@ const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUse
   };
 
   const handleGenerateResponse = async () => {
-    // localStorage.removeItem("TTS_audio"); // Correct key
+    localStorage.removeItem("TTS_audio"); // Correct key
     localStorage.removeItem("USER_wavs"); // Correct key
-
+    setIsSaved(false);
     if (!fromLanguage || !selectedLanguage) {
       alert("Please select a language.");
       return;
@@ -262,38 +265,88 @@ const CompletionGenerator = ({ typeResponse, setTypeResponse, userPrompt, setUse
     setRecordedPracticeAudios([]);
   };
 
-  const handleTTS = async (
-    textToRead,
-    selectedLanguage,
-    selectedGender,
-    rate
-  ) => {
-    console.log();
-    try {
-      const audioUrlFromTTS = await SpeakText(
-        textToRead,
-        selectedLanguage,
-        selectedGender,
-        rates[speed]
-      );
+  const handleTTS = async (textToRead, selectedLanguage, selectedGender, rate) => {
 
-      let base64 = localStorage.getItem("TTS_audio");
+    const identifier = `${textToRead}-${selectedLanguage}-${selectedGender}-${rate}`;
 
+
+    let audioData = JSON.parse(localStorage.getItem("TTS_audio_data")) || {};
+    let base64 = audioData[identifier];
+  
+    // Check if the audio for this text already exists
+    if (base64) {
       base64 = encodeURIComponent(base64); // Encode the base64 string
-      const responseId = localStorage.getItem("responseId");
-      if (responseId !== null) {
-        updateTTSwav(currentUser.uid, responseId, base64); // Update Firestore
-      } else {
-        // Save to local storage only
-        localStorage.setItem("TTS_audio", base64);
+      updateTTSwav(currentUser.uid, identifier, base64); // Update Firestore or any other database
+      const playAudioFromBase64 = (base64) => {
+
+      
+        if (base64) {
+          const audioURL = writeWavFile(base64);  // Assuming writeWavFile returns a Blob URL
+          const audio = new Audio(audioURL);
+          audio.play();
+        } else {
+          console.error("No audio found for this identifier");
+        }
+      };
+      playAudioFromBase64(base64);
+      
+    } else {
+      // If the audio doesn't exist, generate it
+      try {
+        const audioBlob = await SpeakText(
+          textToRead,
+          selectedLanguage,
+          selectedGender,
+          rate,
+          identifier
+        );
+  
+        // Now, audioData[identifier] should contain the newly generated base64 audio
+        base64 = audioData[identifier];
+  
+        if (base64) {
+          base64 = encodeURIComponent(base64); // Encode the base64 string
+          updateTTSwav(currentUser.uid, identifier, base64); // Update Firestore or any other database
+          // Do other things with your audio, like playing it
+        }
+      } catch (error) {
+        console.error("Error generating TTS:", error);
       }
-      setAudioURL(audioUrlFromTTS);
-      localStorage.setItem("audioURL", audioUrlFromTTS);
-      console.log("TTS Audio URL:", audioUrlFromTTS);
-    } catch (error) {
-      console.error("Error generating TTS:", error);
     }
   };
+
+  // const handleTTS = async (
+  //   textToRead,
+  //   selectedLanguage,
+  //   selectedGender,
+  //   rate
+  // ) => {
+  //   console.log();
+  //   try {
+  //     const audioUrlFromTTS = await SpeakText(
+  //       textToRead,
+  //       selectedLanguage,
+  //       selectedGender,
+  //       rates[speed]
+  //     );
+
+  //     let base64 = localStorage.getItem("TTS_audio");
+
+  //     base64 = encodeURIComponent(base64); // Encode the base64 string
+  //     const responseId = localStorage.getItem("responseId");
+  //     if (responseId !== null) {
+  //       updateTTSwav(currentUser.uid, responseId, base64); // Update Firestore
+  //     } else {
+  //       // Save to local storage only
+  //       localStorage.setItem("TTS_audio", base64);
+  //     }
+  //     setAudioURL(audioUrlFromTTS);
+  //     localStorage.setItem("audioURL", audioUrlFromTTS);
+  //     console.log("TTS Audio URL:", audioUrlFromTTS);
+  //   } catch (error) {
+  //     console.error("Error generating TTS:", error);
+  //   }
+  // };
 
   const playAudio = (url) => {
     const audioElement = new Audio(url);

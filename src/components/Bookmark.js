@@ -4,11 +4,25 @@ import { BsBookmark, BsBookmarkFill } from "react-icons/bs";
 import { useSavedResponse } from "../services/saved/SavedContext";
 import LanguageContext from "../services/language/LanguageContext";
 import "../styles.css";
-
-const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language, userPrompt, responseLength }) => {
+import {
+  getFirestore,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+const Bookmark = ({
+  typeResponse,
+  typedResponse,
+  generatedResponse,
+  language,
+  userPrompt,
+  responseLength,
+}) => {
+  const [savedResponses, setSavedResponses] = useState([]);
   const { currentUser, saveResponse, deleteSavedResponse, getResponseById } =
     useAuth();
-    const { isSaved, setIsSaved } = useSavedResponse(); // Get isSaved and setIsSaved from context
+  const { isSaved, setIsSaved } = useSavedResponse(); // Get isSaved and setIsSaved from context
 
   const { fromLanguage, selectedLanguage } = useContext(LanguageContext);
 
@@ -30,41 +44,42 @@ const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language, us
     localStorage.setItem("lastSavedResponse", generatedResponse);
   }, [isSaved, responseId, generatedResponse]);
 
-  // Reset isSaved and responseId when generatedResponse changes and it's not equal to the last generated response
-  useEffect(() => {
-    if (generatedResponse !== lastGeneratedResponse.current) {
-      setIsSaved(false);
-      setResponseId(null);
-    }
-    lastGeneratedResponse.current = generatedResponse; // Update the last generated response
-  }, [generatedResponse]);
+  // // Reset isSaved and responseId when generatedResponse changes and it's not equal to the last generated response
+  // useEffect(() => {
+  //   if (generatedResponse !== lastGeneratedResponse.current) {
+  //     setIsSaved(false);
+  //     setResponseId(null);
+  //   }
+  //   lastGeneratedResponse.current = generatedResponse; // Update the last generated response
+  // }, [generatedResponse]);
 
-  // Reset isSaved and responseId when currentUser changes (when the user logs out)
-  useEffect(() => {
-    if (!currentUser) {
-      setIsSaved(false);
-      setResponseId(null);
-    }
-  }, [currentUser]);
+  // // Reset isSaved and responseId when currentUser changes (when the user logs out)
+  // useEffect(() => {
+  //   if (!currentUser) {
+  //     setIsSaved(false);
+  //     setResponseId(null);
+  //   }
+  // }, [currentUser]);
 
-  useEffect(() => {
-    // When the component mounts, check whether the saved response ID exists in the database
-    const checkSavedResponse = async () => {
-      if (currentUser && initialResponseId) {
-        const response = await getResponseById(
-          currentUser.uid,
-          initialResponseId
-        );
-        if (response) {
-          setIsSaved(true);
-        } else {
-          setIsSaved(false);
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const checkSavedResponse = async () => {
+  //     if (currentUser && initialResponseId) {
+  //       const response = await getResponseById(
+  //         currentUser.uid,
+  //         initialResponseId
+  //       );
+  //       if (response) {
+  //         setIsSaved(true);
+  //       } else {
+  //         setIsSaved(false);
+  //       }
+  //     }
+  //   };
+  //   checkSavedResponse();
+  //   // Add setIsSaved to the dependency array
+  // }, [currentUser, initialResponseId, getResponseById, setIsSaved]);
+  
 
-    checkSavedResponse();
-  }, [currentUser, initialResponseId, getResponseById]);
 
   const handleClick = async () => {
     // console.log("isSaved:", isSaved, "setIsSaved:", setIsSaved);
@@ -72,8 +87,9 @@ const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language, us
     if (currentUser) {
       if (isSaved) {
         if (responseId) {
+          console.log("DelresponseId:", responseId);
           await deleteSavedResponse(currentUser.uid, responseId);
-          setIsSaved(false);
+          setIsSaved(!isSaved);
         }
       } else {
         const responseId = await saveResponse(
@@ -96,9 +112,13 @@ const Bookmark = ({ typeResponse, typedResponse, generatedResponse, language, us
 
   return (
     <div className="bookmark-container">
-      <button onClick={handleClick}>
-        {isSaved ? <BsBookmarkFill /> : <BsBookmark />}
+      <button
+        className={isSaved ? "button-saved" : "button-not-saved"}
+        onClick={handleClick}
+      >
+        <BsBookmarkFill />
       </button>
+
       {showMessage && (
         <div className="login-message">
           Login or Register to save responses!

@@ -109,8 +109,16 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
   return (
     <div className="selectorContainer">
       {/* <AiAndTypeSelector /> */}
-      <FromLanguageSelector />
-      <ToLanguageSelector />
+      <div className="selectorWithLabel">
+        <label>From: </label>
+        <FromLanguageSelector />
+      </div>
+
+      {/* To Language Selector with label */}
+      <div className="selectorWithLabel">
+        <label>To: </label>
+        <ToLanguageSelector />
+      </div>
     </div>
   );
 };

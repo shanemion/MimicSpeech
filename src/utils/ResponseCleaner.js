@@ -2,79 +2,79 @@ const isChinese = (str) => {
   const re = /^[\u4e00-\u9fa5。.，:.]+$/; // Added the English period (.) and colon (:)
   return re.test(str);
 };
-
 // English
 const isEnglish = (str) => {
-  const re = /^[a-zA-Z .:]+$/;
+  const re = /^[a-zA-Z .,:;!?'"()]+$/;
   return re.test(str);
 };
 
 // Spanish
 const isSpanish = (str) => {
-  const re = /^[a-zA-Záéíóúñ .:]+$/;
+  const re = /^[a-zA-Záéíóúñ .,:;!?'"()¿¡]+$/;
   return re.test(str);
 };
 
 // Japanese
 const isJapanese = (str) => {
-  const re = /^[\u3040-\u309F\u30A0-\u30FF\uFF00-\uFFEF\u4E00-\u9FAF .:]+$/;
+  const re =
+    /^[\u3040-\u309F\u30A0-\u30FF\uFF00-\uFFEF\u4E00-\u9FAF .,:;!?'"()。、・！？：；「」『』（）]+$/;
   return re.test(str);
 };
 
 // Vietnamese
 const isVietnamese = (str) => {
-  const re = /^[a-zA-ZàảãáạăằẳẵắặâầẩẫấậđèéẻẽẹêềểễếệìíỉĩịòóỏõọôồốổỗộơờởỡớợùúủũụưừứửữựỳýỷỹỵÁÀẢÃẠĂẰẲẴẮẶÂẦẨẪẤẬĐÈÉẺẼẸÊỀỂỄẾỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỞỠỚỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴ!?,.-;:()"'”“\s]+$/;
+  const re =
+    /^[a-zA-ZàảãáạăằẳẵắặâầẩẫấậđèéẻẽẹêềểễếệìíỉĩịòóỏõọôồốổỗộơờởỡớợùúủũụưừứửữựỳýỷỹỵÁÀẢÃẠĂẰẲẴẮẶÂẦẨẪẤẬĐÈÉẺẼẸÊỀỂỄẾỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỞỠỚỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴ.,;:?!'\"()“”]+$/;
   return re.test(str);
 };
 
 // Korean
 const isKorean = (str) => {
-  const re = /^[\uAC00-\uD7A3 .:]+$/;
+  const re = /^[\uAC00-\uD7A3 .,:;!?'"()]+$/;
   return re.test(str);
 };
 
 // French
 const isFrench = (str) => {
-  const re = /^[a-zA-Zàâçéèêëîïôûùüÿœæ .:]+$/;
+  const re = /^[a-zA-Zàâçéèêëîïôûùüÿœæ .,:;!?'"()«»]+$/;
   return re.test(str);
 };
 
 // German
 const isGerman = (str) => {
-  const re = /^[a-zA-Zäöüß .:]+$/;
+  const re = /^[a-zA-Zäöüß .,:;!?'"()„“]+$/;
   return re.test(str);
 };
 
 // Italian
 const isItalian = (str) => {
-  const re = /^[a-zA-Zàèéìíòóùú .:]+$/;
+  const re = /^[a-zA-Zàèéìíòóùú .,:;!?'"()]+$/;
   return re.test(str);
 };
 
 // Russian
 const isRussian = (str) => {
-  const re = /^[а-яА-ЯёЁ .:]+$/;
+  const re = /^[а-яА-ЯёЁ .,:;!?'"()]+$/;
   return re.test(str);
 };
 
 // Arabic
 const isArabic = (str) => {
-  const re = /^[\u0600-\u06FF .:]+$/;
+  const re = /^[\u0600-\u06FF .,:;!?'"()،؛؟]+$/;
   return re.test(str);
 };
 
 // Hindi
 const isHindi = (str) => {
-  const re = /^[\u0900-\u097F .:]+$/;
+  const re = /^[\u0900-\u097F .,:;!?'"()।॥]+$/;
   return re.test(str);
 };
 
 // Portuguese
 const isPortuguese = (str) => {
-  const re = /^[a-zA-Záâãàçéêíóôõóúü .:]+$/;
+  const re = /^[a-zA-Záâãàçéêíóôõóúü .,:;!?'"()]+$/;
   return re.test(str);
 };
-
 
 export const ResponseCleaner = (
   response,
@@ -146,34 +146,23 @@ export const ResponseCleaner = (
     .slice(0, numSentences)
     .every(isJapanese);
 
-  const allKorean = sentencesWithPeriod
-    .slice(0, numSentences)
-    .every(isKorean);
-
+  const allKorean = sentencesWithPeriod.slice(0, numSentences).every(isKorean);
 
   const allRussian = sentencesWithPeriod
     .slice(0, numSentences)
     .every(isRussian);
 
-  const allArabic = sentencesWithPeriod
-    .slice(0, numSentences)
-    .every(isArabic);
+  const allArabic = sentencesWithPeriod.slice(0, numSentences).every(isArabic);
 
-  const allHindi = sentencesWithPeriod
-    .slice(0, numSentences)
-    .every(isHindi);
+  const allHindi = sentencesWithPeriod.slice(0, numSentences).every(isHindi);
 
   const allPortuguese = sentencesWithPeriod
     .slice(0, numSentences)
     .every(isPortuguese);
 
-  const allFrench = sentencesWithPeriod
-    .slice(0, numSentences)
-    .every(isFrench);
+  const allFrench = sentencesWithPeriod.slice(0, numSentences).every(isFrench);
 
-  const allGerman = sentencesWithPeriod
-    .slice(0, numSentences)
-    .every(isGerman);
+  const allGerman = sentencesWithPeriod.slice(0, numSentences).every(isGerman);
 
   const allItalian = sentencesWithPeriod
     .slice(0, numSentences)
@@ -188,6 +177,21 @@ export const ResponseCleaner = (
     .every(isVietnamese);
 
 
+    
+  const removeCommas = (sentence) => {
+    const str = sentence[0];
+    const replacedStr = str.replace(/[，،,]/g, ".");
+    const splitSentences = replacedStr.split(".").filter(Boolean); // filter(Boolean) removes empty strings
+    const sentencesWithPeriods = splitSentences.map((s) => s.trim() + "."); // Add period back to each sentence
+    return sentencesWithPeriods;
+  };
+
+  if (numSentences === 1 && sentencesWithPeriod.length <= 1) {
+    console.log("sentenceswithperiod", sentencesWithPeriod);
+    sentencesWithPeriod = removeCommas(sentencesWithPeriod);
+    console.log("sentenceswithoutcommas", sentencesWithPeriod);
+  }
+
   if (allChinese) {
     // Variant format
     const primarySentences = sentencesWithPeriod.slice(0, numSentences);
@@ -200,9 +204,22 @@ export const ResponseCleaner = (
       3 * numSentences
     );
     let sentences = [primarySentences, secondarySentences, thirdSentences];
-    console.log("sentencesChineseFilter", sentences)
+    console.log("sentencesChineseFilter", sentences);
     return sentences;
-  } else if (allEnglish || allJapanese || allKorean || allRussian || allArabic || allHindi || allPortuguese || allFrench || allGerman || allItalian || allSpanish || allVietnamese) {
+  } else if (
+    allEnglish ||
+    allJapanese ||
+    allKorean ||
+    allRussian ||
+    allArabic ||
+    allHindi ||
+    allPortuguese ||
+    allFrench ||
+    allGerman ||
+    allItalian ||
+    allSpanish ||
+    allVietnamese
+  ) {
     // Expected format
     const groupedSentences = [];
 
@@ -224,13 +241,13 @@ export const ResponseCleaner = (
         3 * numSentences
       );
       let sentences = [primarySentences, secondarySentences, thirdSentences];
-      console.log("sentencesChineseFilter", sentences)
+      console.log("sentencesChineseFilter", sentences);
       return sentences;
     } else if (toLanguage === origLanguage) {
       const primarySentences = sentencesWithPeriod.slice(0, numSentences);
-      
+
       let sentences = [primarySentences];
-      console.log("sentencesChineseFilter", sentences)
+      console.log("sentencesChineseFilter", sentences);
       return sentences;
     } else {
       const primarySentences = sentencesWithPeriod.slice(0, numSentences);
@@ -238,9 +255,9 @@ export const ResponseCleaner = (
         numSentences,
         2 * numSentences
       );
-      
+
       let sentences = [primarySentences, secondarySentences];
-      console.log("sentencesChineseFilter", sentences)
+      console.log("sentencesChineseFilter", sentences);
       return sentences;
     }
   } else {

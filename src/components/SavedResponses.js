@@ -8,6 +8,7 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+import { useSavedResponse } from "../services/saved/SavedContext";
 import LanguageContext from "../services/language/LanguageContext";
 
 const SavedResponses = ({
@@ -17,6 +18,7 @@ const SavedResponses = ({
   setResponseLength
 }) => {
   const { currentUser, deleteSavedResponse } = useAuth();
+  const { isSaved, setIsSaved } = useSavedResponse(); // Get isSaved and setIsSaved from context
   const [savedResponses, setSavedResponses] = useState([]);
   const navigate = useNavigate();
   const {
@@ -28,7 +30,7 @@ const SavedResponses = ({
 
   useEffect(() => {
     fetchResponses();
-  }, [currentUser]); // Changed [[currentUser]] to [currentUser]
+  }, [currentUser]); 
 
   const fetchResponses = async () => {
     const db = getFirestore();
@@ -59,6 +61,8 @@ const SavedResponses = ({
     console.log("1", userPrompt)
     setResponseLength(response.responseLength);
     navigate("/generator");
+    setIsSaved(true); 
+
   };
 
   return (

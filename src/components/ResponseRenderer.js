@@ -86,10 +86,6 @@ const ResponseRenderer = ({
           );
         }
 
-
-
-
-
       case "Two":
         if (
           toLanguage === "Chinese" ||
@@ -116,7 +112,7 @@ const ResponseRenderer = ({
             </p>
           );
         }
-        
+
       case "Three":
         return (
           <p className="primary-language">
@@ -137,14 +133,14 @@ const ResponseRenderer = ({
         alignItems: "center",
       }}
     >
-      {width > 740 &&
+      {width > 940 &&
         selectedPage !== "Three" &&
         generatedResponse !== "Not enough credits!" && (
           <button
             style={{
               position: "absolute",
-              left: "5px",
-              top: "20px",
+              left: "-50px",
+              top: "50px",
               transform: "translateY(-50%)",
             }}
             className="practice-button"
@@ -178,7 +174,7 @@ const ResponseRenderer = ({
             toLanguage === "Hindi") && (
             <p className="third-language">{sentences[2][index]}</p>
           )}
-        {(width <= 740 || selectedPage === "Three") &&
+        {(width <= 940 || selectedPage === "Three") &&
           generatedResponse !== "Not enough credits!" && (
             <div
               style={{

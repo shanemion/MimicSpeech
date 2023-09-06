@@ -23,9 +23,8 @@ import { TypedResponseProvider } from "./services/type-response/TypedResponseCon
 function App() {
   const [typeResponse, setTypeResponse] = useState(false);
   const [userPrompt, setUserPrompt] = useState(
-    
+    localStorage.getItem("userPrompt") || ""
   );
-  console.log(userPrompt)
   const [responseLength, setResponseLength] = useState(
     parseInt(localStorage.getItem("numSentences"), 10) || 3
   );
