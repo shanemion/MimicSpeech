@@ -9,12 +9,26 @@
     box-sizing: border-box;
   }
 
-  .logo {
-    padding-left: 20px;
-    padding-right: 90px;
-    cursor: pointer;
+  .landing-footer {
+    background-color: #e0e0e0;
+    color: white;
+    padding: 20px;
+    text-align: center;
+  }
+
+  #landing-footer > body {
+    margin-bottom: 0px;
 
   }
+
+  .logo {
+    padding-left: 20px;
+    padding-right: 20px;
+    width: 300px;
+    height: auto;
+    cursor: pointer;
+  }
+  
   .header {
     display: flex;
     justify-content: space-between;
@@ -107,7 +121,8 @@
     align-items: center;
     justify-content: center;
     height: 100vh;
-    color: rgb(25, 50, 60);
+    /* color: rgb(25, 50, 60); */
+    color: #3a506b;
     text-align: center; /* Add this line to center the text */
   }
   

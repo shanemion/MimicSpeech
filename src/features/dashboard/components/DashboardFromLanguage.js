@@ -8,27 +8,27 @@ const DashboardFromLanguage = () => {
   const customStyles = {
     control: (base, state) => ({
       ...base,
-      backgroundColor: "#f4f4f4",  // Lighter background for better readability
+      backgroundColor: "#f4f4f4", // Lighter background for better readability
       padding: "10px 20px",
-      borderRadius: "12px",  // Reduced for a more modern look
-      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",  // Subtle shadow for depth
-      borderColor: state.isFocused ? "#A5A5A5" : "#ccc",  // Conditional border color
+      borderRadius: "12px", // Reduced for a more modern look
+      boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
+      borderColor: state.isFocused ? "#A5A5A5" : "#ccc", // Conditional border color
       "&:hover": {
-        borderColor: state.isFocused ? "#A5A5A5" : "#ccc"  // Hover state
+        borderColor: state.isFocused ? "#A5A5A5" : "#ccc", // Hover state
       },
       width: "100%",
       height: "auto",
-      fontSize: "16px",  // Increased font size for better readability
+      fontSize: "16px", // Increased font size for better readability
     }),
-    
+
     // Dropdown indicator icon
     dropdownIndicator: (base, state) => ({
       ...base,
-      color: "#333",  // Darker color for better contrast
-      transition: "all .2s ease",  // Smooth transition for hover and active states
+      color: "#333", // Darker color for better contrast
+      transition: "all .2s ease", // Smooth transition for hover and active states
       "&:hover": {
-        color: "#555"  // Slightly darker on hover
-      }
+        color: "#555", // Slightly darker on hover
+      },
     }),
   };
 
@@ -57,16 +57,23 @@ const DashboardFromLanguage = () => {
   };
 
   return (
-    <Select
-      styles={customStyles}
-      // components={{ DropdownIndicator: customDropdownIndicator }}
+    <div>
+      <label
+        style={{ fontSize: "16px", fontWeight: "bold", marginBottom: "40px" }}
+      >
+        From Language:
+      </label>
 
-      value={fromLanguage}
-      onChange={handleChange}
-      options={languageOptions}
-      isSearchable={true}
-      placeholder="Choose a Language"
-    />
+      <Select
+        styles={customStyles}
+        // components={{ DropdownIndicator: customDropdownIndicator }}
+        value={fromLanguage}
+        onChange={handleChange}
+        options={languageOptions}
+        isSearchable={true}
+        placeholder="From Language"
+      />
+    </div>
   );
 };
 

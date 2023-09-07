@@ -29,6 +29,7 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
+import { local } from "d3";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -148,20 +149,10 @@ export const AuthProvider = ({ children }) => {
       const responsesRef = collection(db, "users", userId, "responses");
       const numSentences =
         parseInt(localStorage.getItem("numSentences"), 10) || 3;
-      const responseId = localStorage.getItem("responseId");
-  
-      // Only add TTS and USER wav files if the response has been saved
-      let ttsAudioBase64 = null;
-      let userWavsBase64 = null;
-      if (responseId !== null) {
-        ttsAudioBase64 = localStorage.getItem("TTS_audio");
-        userWavsBase64 = JSON.parse(localStorage.getItem("USER_wavs") || "[]");
-      }
   
       const docRef = await addDoc(responsesRef, {
         ...response,
-        TTSwav: ttsAudioBase64,
-        USERwav: userWavsBase64,
+
         language,
         numSentences,
         fromLanguage: fromLanguage,  // Assuming fromLanguage is an object with a `value` property
@@ -170,7 +161,10 @@ export const AuthProvider = ({ children }) => {
         responseLength: responseLength || 3,
         timestamp: new Date().toISOString(), // Add this line
       });
-  
+    
+      localStorage.setItem("responseId", docRef.id);
+      console.log("Document written with ID: ", docRef.id);
+
       return docRef.id;
     } catch (error) {
       console.error("Error saving response:", error);
@@ -192,6 +186,7 @@ export const AuthProvider = ({ children }) => {
   const deleteSavedResponse = async (userId, docId) => {
     const docRef = doc(db, "users", userId, "responses", docId);
     await deleteDoc(docRef);
+    localStorage.removeItem("responseId");
     console.log("Document successfully deleted!");
   };
 

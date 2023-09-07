@@ -94,9 +94,13 @@ const Dashboard = () => {
         </div>
         <div className="dashboard-body">
           <h1>Dashboard</h1>
+          <div>
           <div className="dashboard-language-selector">
             <DashboardFromLanguage />
+          </div>
+          <div className="dashboard-language-selector">
             <DashboardToLanguage />
+          </div>
           </div>
 
           <button

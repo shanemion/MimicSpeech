@@ -59,8 +59,8 @@ const LandingPage = () => {
         canvas.position(0, 0); // Position it at the top-left corner
         canvas.style("z-index", "-1"); // Place it behind the content
 
-        wave1 = new Wave(0.02, p.height / 1.5, p.color(242, 84, 91));
-        wave2 = new Wave(0.03, p.height / 1.5, p.color(108, 145, 191));
+        wave1 = new Wave(0.02, p.height / 1.5, p.color(0, 191, 179));
+        wave2 = new Wave(0.03, p.height / 1.5, p.color(58, 80, 107));
       }
     };
 
@@ -74,8 +74,12 @@ const LandingPage = () => {
     };
 
     function drawGradient() {
-      let topColor = p.color(243, 247, 240);
-      let middleColor = p.color(243, 247, 240);
+      // let topColor = p.color(11, 19, 43);
+      // let topColor = p.color(58, 80, 107);
+      let topColor = p.color(255, 255, 255);
+
+
+      let middleColor = p.color(187, 255, 249);
       let bottomColor = p.color(255, 255, 255);
 
 
@@ -354,11 +358,10 @@ const LandingPage = () => {
       </section>
 
       {/* Footer Section */}
-      <footer className="footer">
+      <footer className="landing-footer">
+        <img src="/images/logov00.png" alt="Logo" className="logo" />
         <div className="footer-links">
-          {/* <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Service</a>
-          <a href="#">About Us</a> */}
+        <a href="https://github.com/shanemion/MimicSpeech/tree/main" target="_blank" rel="noopener noreferrer">Check it out on GitHub</a>
         </div>
         <div className="social-media">
           {/* Add your social media icons here */}

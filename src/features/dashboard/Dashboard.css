@@ -1,7 +1,7 @@
 .dashboard {
   display: flex;
   z-index: 5000;
-  background-color: #4a4a4a;
+  background-color: white;
 }
 
 .sidebar-wrapper {
@@ -96,14 +96,14 @@
   flex-direction: column;
   justify-content: center;
   align-items: left;
-  background-color: #4a4a4a;
+  /* background-color: #4caf50; */
   padding: 20px;
 }
 
 .dashboard-body h1 {
   font-size: 48px;
   font-weight: 600;
-  color: #fff;
+  color: #0b132b;
 }
 
 .dashboard-body-buttons {
@@ -170,7 +170,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #4a4a4a;
+  /* background-color: #4caf50; */
 }
 
 .dashboard-language-selector {

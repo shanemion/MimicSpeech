@@ -133,7 +133,7 @@ const ResponseRenderer = ({
         alignItems: "center",
       }}
     >
-      {width > 940 &&
+      {width > 1070 &&
         selectedPage !== "Three" &&
         generatedResponse !== "Not enough credits!" && (
           <button
@@ -174,7 +174,7 @@ const ResponseRenderer = ({
             toLanguage === "Hindi") && (
             <p className="third-language">{sentences[2][index]}</p>
           )}
-        {(width <= 940 || selectedPage === "Three") &&
+        {(width <= 1070 || selectedPage === "Three") &&
           generatedResponse !== "Not enough credits!" && (
             <div
               style={{

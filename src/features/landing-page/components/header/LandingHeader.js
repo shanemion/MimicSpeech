@@ -25,7 +25,15 @@ const LandingHeader = () => {
   return (
     <header className="header">
       <div className="logo">
-        <h2 onClick={() => navigate("/")}>MimicSpeech</h2>
+        <div style={{display: "flex", flexDirection: "row"}}>
+          <img
+            src="/images/logov00.png"
+            alt="Logo"
+            style={{ width: 90, height: "auto", marginRight: 10 }}
+            ß
+          />
+          <h2 onClick={() => navigate("/")}>MimicSpeech</h2>
+        </div>
       </div>
       <nav>
         <ul className="nav-links">

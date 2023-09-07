@@ -512,7 +512,7 @@
   width: 100%;
 }
 
-@media (max-width: 1300px) {
+@media (max-width: 1500px) {
   .outlined-container {
     width: 100%;
     padding: 10px;

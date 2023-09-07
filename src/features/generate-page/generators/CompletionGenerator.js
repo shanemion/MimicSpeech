@@ -136,6 +136,10 @@ const CompletionGenerator = ({
     localStorage.setItem("userPrompt", newValue);
   };
 
+  useEffect(() => {
+    localStorage.setItem("userPrompt", userPrompt);
+  }, [userPrompt]);
+
   const handleResponseLengthChange = (event) => {
     let newValue = parseInt(event.target.value, 10);
     if (newValue > 6) {
@@ -279,36 +283,34 @@ const CompletionGenerator = ({
     setRecordedPracticeAudios([]);
   };
 
-  const docId = localStorage.getItem("currentDocId");
+  const docId = localStorage.getItem("responseId");
   console.log("docIda", docId);
-
-  
 
   // useEffect(() => {
   //   const moveFiles = async () => {
   //     // The folder where your synthesized audio files are originally saved
   //     const originalFolderRef = ref(storage, `${docId}/synthesizedAudios/${currentUser.uid}`);
-      
+
   //     try {
   //       // List all files in the folder
   //       const res = await listAll(originalFolderRef);
-        
+
   //       for (const itemRef of res.items) {
   //         // Download the file to a blob
   //         const fileURL = await getDownloadURL(itemRef);
   //         const response = await fetch(fileURL);
   //         const blob = await response.blob();
-          
+
   //         // Extract the file name from the itemRef
   //         const fileName = itemRef.name;
-          
+
   //         // Upload the blob to the new location
   //         const newFolderRef = ref(
   //           storage,
   //           `savedSynthesizedAudios/${docId}/${currentUser.uid}/${fileName}`
   //         );
   //         await uploadBytes(newFolderRef, blob);
-          
+
   //         // Delete the original file
   //         await deleteObject(itemRef);
   //       }
@@ -342,12 +344,19 @@ const CompletionGenerator = ({
     const identifier = `${currentUser.uid}_${textToRead}-${selectedLanguage.value}-${selectedGender.value}-${rate}`;
     console.log("identifier", identifier);
     console.log("docId", docId);
-  
-    const storageRef = ref(
-      storage,
-      `/synthesizedAudios/${currentUser.uid}/${identifier}.wav`
-    );
-  
+    let storageRef;
+    if (isSaved) {
+      storageRef = ref(
+        storage,
+        `/savedSynthesizedAudios/${currentUser.uid}/${identifier}.wav`
+      );
+    } else {
+      storageRef = ref(
+        storage,
+        `/synthesizedAudios/${currentUser.uid}/${identifier}.wav`
+      );
+    }
+
     // Step 1: Check if the audio for this text already exists
     try {
       const audioURL = await getDownloadURL(storageRef);
@@ -359,7 +368,7 @@ const CompletionGenerator = ({
       // getDownloadURL will throw an error if the file doesn't exist, catch it here
       if (error.code === "storage/object-not-found") {
         console.log("Audio does not exist, generating...");
-  
+
         // Step 2: Generate and upload the audio if it doesn't exist
         try {
           const audioBlob = await SpeakText(
@@ -369,7 +378,7 @@ const CompletionGenerator = ({
             rate,
             identifier
           );
-  
+
           await uploadBytes(storageRef, audioBlob);
         } catch (error) {
           console.error("Error generating or uploading TTS:", error);
@@ -380,7 +389,6 @@ const CompletionGenerator = ({
       }
     }
   };
-
 
   const playAudio = (url) => {
     const audioElement = new Audio(url);

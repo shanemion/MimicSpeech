@@ -19,51 +19,26 @@ const Bookmark = ({
   userPrompt,
   responseLength,
 }) => {
-  const [savedResponses, setSavedResponses] = useState([]);
-  const { currentUser, saveResponse, deleteSavedResponse, getResponseById } =
+  const { currentUser, saveResponse, deleteSavedResponse } =
     useAuth();
   const { isSaved, setIsSaved } = useSavedResponse(); // Get isSaved and setIsSaved from context
 
   const { fromLanguage, selectedLanguage } = useContext(LanguageContext);
 
-  const initialResponseId = localStorage.getItem("responseId");
-
-  // isSaved is initially false if currentUser is null
-
-  const [responseId, setResponseId] = useState(
-    localStorage.getItem("responseId")
-  ); // Store response ID
   const [showMessage, setShowMessage] = useState(false); // To control showing of pop-up message
 
-  const lastGeneratedResponse = useRef(generatedResponse); // Use a ref to store the last generated response
 
-  // Save changes to localStorage
+  // Reset isSaved and responseId when currentUser changes (when the user logs out)
   useEffect(() => {
-    localStorage.setItem("isSaved", isSaved.toString());
-    localStorage.setItem("responseId", responseId);
-    localStorage.setItem("lastSavedResponse", generatedResponse);
-  }, [isSaved, responseId, generatedResponse]);
-
-  // // Reset isSaved and responseId when generatedResponse changes and it's not equal to the last generated response
-  // useEffect(() => {
-  //   if (generatedResponse !== lastGeneratedResponse.current) {
-  //     setIsSaved(false);
-  //     setResponseId(null);
-  //   }
-  //   lastGeneratedResponse.current = generatedResponse; // Update the last generated response
-  // }, [generatedResponse]);
-
-  // // Reset isSaved and responseId when currentUser changes (when the user logs out)
-  // useEffect(() => {
-  //   if (!currentUser) {
-  //     setIsSaved(false);
-  //     setResponseId(null);
-  //   }
-  // }, [currentUser]);
+    if (!currentUser) {
+      setIsSaved(false);
+      localStorage.removeItem("responseId");
+    }
+  }, [currentUser]);
 
   // useEffect(() => {
   //   const checkSavedResponse = async () => {
-  //     if (currentUser && initialResponseId) {
+  //     if (currentUser && responseId) {
   //       const response = await getResponseById(
   //         currentUser.uid,
   //         initialResponseId
@@ -76,21 +51,22 @@ const Bookmark = ({
   //     }
   //   };
   //   checkSavedResponse();
-  //   // Add setIsSaved to the dependency array
   // }, [currentUser, initialResponseId, getResponseById, setIsSaved]);
 
   const handleClick = async () => {
     // console.log("isSaved:", isSaved, "setIsSaved:", setIsSaved);
-    console.log("Before handleClick: ", { isSaved, responseId });
+    let currResponse = localStorage.getItem("responseId")
+    console.log("Before handleClick: ", { isSaved, currResponse });
 
     if (currentUser) {
       if (isSaved) {
-        if (responseId) {
-          console.log("DelresponseId:", responseId);
-          await deleteSavedResponse(currentUser.uid, responseId);
+        if (currResponse !== null) {
+          console.log("DelresponseId:", currResponse);
+          await deleteSavedResponse(currentUser.uid, currResponse);
+          console.log("delted responseId:", currResponse);
           setIsSaved(false);
-          console.log("isSaved After handleClick: ", { isSaved, responseId });
-
+          localStorage.removeItem("responseId");
+          console.log("isSaved After handleClick: ", { isSaved, currResponse });
         }
 
       } else {
@@ -102,14 +78,8 @@ const Bookmark = ({
           selectedLanguage,
           userPrompt,
           responseLength
-        );
-        setResponseId(responseId); // Save response ID
-        console.log("responseId:", responseId)
-        localStorage.setItem("currentDocId", responseId);
-        console.log("currentDocId:", localStorage.getItem("currentDocId"))
-  
-        console.log("After handleClick: ", { isSaved, responseId });
-
+        );  
+        localStorage.setItem("responseId", responseId);
         setIsSaved(true);
       }
     } else {

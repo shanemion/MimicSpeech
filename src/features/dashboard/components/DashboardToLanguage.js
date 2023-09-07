@@ -57,16 +57,22 @@ const DashboardToLanguage = () => {
   };
 
   return (
+    <div>
+      <label
+        style={{ fontSize: "16px", fontWeight: "bold", marginBottom: "40px" }}
+      >
+        To Language:
+      </label>
     <Select
       styles={customStyles}
       // components={{ DropdownIndicator: customDropdownIndicator }}
-
       value={selectedLanguage}
       onChange={handleChange}
       options={languageOptions}
       isSearchable={true}
-      placeholder="Choose a Language"
+      placeholder="Choose a Language to Practice!"
     />
+    </div>
   );
 };
 

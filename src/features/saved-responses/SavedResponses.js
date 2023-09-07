@@ -55,8 +55,10 @@ const SavedResponses = ({
   };
 
   const handleUseResponse = (response) => {
-    localStorage.setItem("currentDocId", response.id);
+    console.log("response", response)
+    localStorage.setItem("responseId", response.id);
     localStorage.setItem("generatedResponse", response.text);
+    console.log("generatedResponse", response.text)
     localStorage.setItem("responseLanguage", response.language);
     localStorage.setItem("numSentences", response.numSentences);
     setFromLanguage(response.fromLanguage);
