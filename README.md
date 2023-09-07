@@ -8,7 +8,7 @@ Up next to implement: Adding backend security/rates to prevent API/storage/TTS a
 
 Current Design before theming and redesign. All functionality visible in proper working condition.
 
-![image](https://github.com/shanemion/MimicSpeech/assets/110140524/2ccabae8-c2a0-4455-b315-f31334023146)
+![image](https://github.com/shanemion/MimicSpeech/assets/110140524/61ccf5d0-9118-4b21-9a60-605bee9df301)
 ![image](https://github.com/shanemion/MimicSpeech/assets/110140524/cb04c353-3843-465f-9e75-c5587c9f4bb4)
 
 
