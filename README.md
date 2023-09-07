@@ -24,8 +24,8 @@ Current Design before theming and redesign. All functionality visible in proper 
 ![image](https://github.com/shanemion/MimicSpeech/assets/110140524/f6b17432-f9ac-4fb4-abb1-cac18a9f6e82)
 ![image](https://github.com/shanemion/MimicSpeech/assets/110140524/7cb1ca8b-0ca3-4c7e-bbf0-4044598200dc)
 
-![image](https://github.com/shanemion/MimicSpeech/assets/110140524/a59541cf-c9b8-4602-87f8-6b578505a959)
-![image](https://github.com/shanemion/MimicSpeech/assets/110140524/2c69dea7-42d1-426f-b2ec-4ea8970bef98)
+![image](https://github.com/shanemion/MimicSpeech/assets/110140524/6e06aa43-1af1-453c-8820-b92769c778fd)
+![image](https://github.com/shanemion/MimicSpeech/assets/110140524/8abaa55e-db75-4edd-ba18-bcc4799ce7bc)
 
 
 
