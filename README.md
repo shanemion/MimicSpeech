@@ -6,8 +6,9 @@ Has support for translation all ways between a pool of Chinese, English, Spanish
 
 Up next to implement: Adding backend security/rates to prevent API/storage/TTS abuse. Adding preset responses for free trials/examples to Dashboard. Finalizing theme. Incorporate / utilize Microsoft Speech to Text analysis tools to return per word accuracy rating and mouth visual of speech.
 
-Current Design before theming and redesign. All functionality visible in proper working condition.
+Current Design before theming and redesign. All functionality visible in proper working condition. Logo made with Figma!!
 
+![image](https://github.com/shanemion/MimicSpeech/assets/110140524/f1d4c157-246d-4898-9be2-de90ae2fcb2b)
 ![image](https://github.com/shanemion/MimicSpeech/assets/110140524/61ccf5d0-9118-4b21-9a60-605bee9df301)
 ![image](https://github.com/shanemion/MimicSpeech/assets/110140524/cb04c353-3843-465f-9e75-c5587c9f4bb4)
 
