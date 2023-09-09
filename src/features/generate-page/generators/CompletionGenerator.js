@@ -22,9 +22,9 @@ import PricingModal from "../../dashboard/pricing/PricingModal";
 import PricingContext from "../../../services/pricing/PricingContext";
 import GeneratePrompt from "./prompts/Prompts";
 import GenerateOptions from "./components/GenerateOptions";
-import writeWavFile from "../../../utils/Base64toWav";
 import { useSavedResponse } from "../../../services/saved/SavedContext";
 import { listAll } from "@firebase/storage";
+import { PitchChartXAxis } from "../../../components/PitchChartXAxis";
 
 const CompletionGenerator = ({
   typeResponse,
@@ -573,6 +573,14 @@ const CompletionGenerator = ({
                   isRecordingListLoading={isRecordingListLoading}
                   selectedPage={selectedPage}
                   selectedSentenceIndex={selectedSentenceIndex}
+                  mainString={mainString}
+                  selectedLanguage={selectedLanguage}
+                />
+                <PitchChartXAxis
+                  selectedPage={selectedPage}
+                  renderedSentencesCount={renderedSentencesCount}
+                  mainString={mainString}
+                  selectedLanguage={selectedLanguage}
                 />
                 <div className="recordings-list">
                   <RecordedAudios

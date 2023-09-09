@@ -37,7 +37,15 @@ const ResponseRenderer = ({
   const renderPracticePage = () => {
     switch (previousPage) {
       case "One":
-        if (
+        if (from === toLanguage) {
+          return (
+            <>
+              <p className="primary-language">
+                {sentences[0][selectedSentenceIndex]}
+              </p>
+            </>
+          );
+        } else if (
           toLanguage === "Chinese" ||
           toLanguage === "Japanese" ||
           toLanguage === "Korean" ||
@@ -95,16 +103,16 @@ const ResponseRenderer = ({
           toLanguage === "Arabic" ||
           toLanguage === "Hindi"
         ) {
-        return (
-          <>
-            <p className="primary-language">
-              {sentences[0][selectedSentenceIndex]}
-            </p>
-            <p className="secondary-language">
-              {sentences[1][selectedSentenceIndex]}
-            </p>
-          </>
-        );
+          return (
+            <>
+              <p className="primary-language">
+                {sentences[0][selectedSentenceIndex]}
+              </p>
+              <p className="secondary-language">
+                {sentences[1][selectedSentenceIndex]}
+              </p>
+            </>
+          );
         } else {
           return (
             <p className="primary-language">

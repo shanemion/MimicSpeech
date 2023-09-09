@@ -10,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { useSavedResponse } from "../../services/saved/SavedContext";
 import LanguageContext from "../../services/language/LanguageContext";
 import './SavedResponses.css';
+import { listAll } from "@firebase/storage";
 
 
 const SavedResponses = ({
@@ -21,6 +22,8 @@ const SavedResponses = ({
   const { currentUser, deleteSavedResponse } = useAuth();
   const { isSaved, setIsSaved } = useSavedResponse();
   const [savedResponses, setSavedResponses] = useState([]);
+  const { ref, storage, deleteObject } = useAuth();
+
   const navigate = useNavigate();
   const {
     fromLanguage,
@@ -51,6 +54,20 @@ const SavedResponses = ({
 
   const handleDelete = async (id) => {
     await deleteSavedResponse(currentUser.uid, id);
+
+    const deleteUnsavedAudios = async (userId) => {
+      // Get the list of audio blobs stored in Firebase Storage
+      const listRef = ref(storage, `/savedSynthesizedAudios/${currentUser.uid}/`);
+      const { items } = await listAll(listRef);
+
+      // Delete each item in the folder
+      for (const item of items) {
+        await deleteObject(item);
+      }
+    };
+
+    deleteUnsavedAudios(currentUser.uid);
+
     fetchResponses();
   };
 

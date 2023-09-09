@@ -76,14 +76,14 @@ const Dashboard = () => {
           <button onClick={() => navigate("/saved-responses")}>
             Saved Responses
           </button>
-          </div>
-          <div className="sidebar-footer">
-            <h3>Current Plan: {/* {currentUser.plan} */}</h3>
-            <span className="plan-credits">{credits} Credits Remaining</span>
-            <button className="dashboard-footer-button" onClick={openPricing}>
-              Manage Plan
-            </button>
-          </div>
+        </div>
+        <div className="sidebar-footer">
+          <h3>Current Plan: {/* {currentUser.plan} */}</h3>
+          <span className="plan-credits">{credits} Credits Remaining</span>
+          <button className="dashboard-footer-button" onClick={openPricing}>
+            Manage Plan
+          </button>
+        </div>
       </div>
 
       <div className="main-content">
@@ -95,12 +95,12 @@ const Dashboard = () => {
         <div className="dashboard-body">
           <h1>Dashboard</h1>
           <div>
-          <div className="dashboard-language-selector">
-            <DashboardFromLanguage />
-          </div>
-          <div className="dashboard-language-selector">
-            <DashboardToLanguage />
-          </div>
+            <div className="dashboard-language-selector">
+              <DashboardFromLanguage />
+            </div>
+            <div className="dashboard-language-selector">
+              <DashboardToLanguage />
+            </div>
           </div>
 
           <button

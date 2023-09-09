@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from "react";
 import Chart from "chart.js/auto";
 import "../styles.css";
+import { PitchChartXAxis } from "./PitchChartXAxis";
 
 const filterOutliers = (data) => {
   const sortedData = [...data].sort((a, b) => a - b);
@@ -25,6 +26,8 @@ const PitchChart = ({
   isRecordingListLoading,
   selectedPage,
   selectedSentenceIndex,
+  mainString,
+  selectedLanguage,
 }) => {
   const canvasRef = useRef(null);
   const colors = [
@@ -118,7 +121,7 @@ const PitchChart = ({
     const chart = new Chart(ctx, {
       type: "line",
       data: {
-        labels: filteredSynthesizedData.map((_, index) => index),
+        labels: [],
         datasets: datasets,
       },
       options: {
@@ -148,7 +151,8 @@ const PitchChart = ({
     selectedPage,
     generatedResponse,
     practiceData,
-    selectedSentenceIndex
+    selectedSentenceIndex,
+    mainString
   ]);
 
   return (
