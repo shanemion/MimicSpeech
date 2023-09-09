@@ -246,6 +246,8 @@ export const AuthProvider = ({ children }) => {
     fetchFirstName,
     fetchLastName,
     deleteCredits,
+    deleteDoc,
+    doc
   };
 
   return (

@@ -32,6 +32,7 @@ const GenerateOptions = ({
         typeResponse={typeResponse}
         setTypeResponse={setTypeResponse}
       />
+      <div style={{height: "15px"}}></div>
       <div
         className={`options-outlined-container ${
           isExpanded ? "expanded-container" : ""

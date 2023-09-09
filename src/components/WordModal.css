@@ -1,0 +1,164 @@
+.modal-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+  }
+  
+  .modal {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    max-width: 90%;
+    width: 500px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .text-close-button {
+    position: absolute;
+    top: 20px;
+    right: 16px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .modal-body {
+    margin-top: 10px;
+    max-height: 480px; /* Set your desired max height */
+    overflow-y: auto; /* Make it scrollable */
+  }
+  
+  
+  .definition-container {
+    margin-bottom: 10px;
+  }
+  
+  .phonetics {
+    color: grey;
+    font-weight: 600;
+  }
+  
+  .definition {
+    font-weight: 600;
+  }
+  
+  .example {
+    color: grey;
+  }
+  
+  .loading {
+    text-align: center;
+  }
+  
+  .hoverable-word {
+    transition: background-color 0.1s ease;
+  }
+  
+  .hoverable-word:hover {
+    background-color: #cffffd; 
+    border-radius: 4px; 
+
+  }
+
+  .audio-button {
+    margin-top: 10px;
+    padding: 8px 16px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+  }
+
+  .audio-button:hover {
+    background-color: #f2f2f2;
+  }
+  
+  .show-hide-button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 8px 16px;
+    background-color: #ffffff;
+    color: #000000;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s ease;
+  }
+  
+  .show-hide-button:hover {
+    background-color: #f2f2f2;
+  }
+
+  .modal-button-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .recording-button, .not-recording-button, .playback-button, .disabled-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .recording-button {
+    background-color: #FF4B4B;
+    color: white;
+  }
+  
+  .recording-button:hover {
+    background-color: #FF3B3B;
+  }
+  
+  .not-recording-button {
+    background-color: #0EAD69;
+    color: white;
+  }
+  
+  .not-recording-button:hover {
+    background-color: #0DAA5B;
+  }
+  
+  .playback-button {
+    background-color: #007BFF;
+    color: white;
+  }
+  
+  .playback-button:not(.disabled-button):hover {
+    background-color: #0069D9;
+  }
+  
+  .disabled-button {
+    background-color: #C4C4C4;
+    color: #808080;
+    cursor: not-allowed;
+  }
+
+  .disabled-button:hover {
+    background-color: #C4C4C4;
+  }

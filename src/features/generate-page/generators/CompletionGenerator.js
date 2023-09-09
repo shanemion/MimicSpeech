@@ -98,6 +98,7 @@ const CompletionGenerator = ({
   const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(null);
   const [previousPage, setPreviousPage] = useState(null);
   const [uniquePracticeAudioID, setUniquePracticeAudioID] = useState("");
+  const [initialLoader, setInitialLoader] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -166,6 +167,10 @@ const CompletionGenerator = ({
   const handleGenerateResponse = async () => {
     localStorage.removeItem("TTS_audio"); // Correct key
     localStorage.removeItem("USER_wavs"); // Correct key
+    if (generatedResponse === "") {
+      setInitialLoader(true);
+    }
+
     setIsSaved(false);
     if (!fromLanguage || !selectedLanguage) {
       alert("Please select a language.");
@@ -202,6 +207,7 @@ const CompletionGenerator = ({
         // const responseText = "one. two. three. four. five. six.";
 
         setGeneratedResponse(responseText);
+        setInitialLoader(false);
         localStorage.setItem("generatedResponse", responseText);
         console.log("Response from API:", response.choices[0].text);
 
@@ -480,6 +486,9 @@ const CompletionGenerator = ({
         credits={credits}
         isGPTLoading={isGPTLoading}
       />
+      {initialLoader && (
+        <LoaderIcon type={"spin"} style={{ marginTop: 40, marginBottom: 20 }} />
+      )}
       {generatedResponse && !typeResponse && (
         <div>
           <div className="outlined-container">

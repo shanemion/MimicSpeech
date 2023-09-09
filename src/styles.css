@@ -119,6 +119,8 @@
 
 .primary-language {
   display: flex;
+  flex-wrap: wrap;  /* Add this line */
+
   justify-content: center;
   align-items: center;
   font-size: 18px;
@@ -375,7 +377,6 @@
   cursor: pointer;
   outline: none;
   font-size: 15px; /* Adjust this value to make the icon bigger or smaller */
-  vertical-align: middle; /* Add this line */
 }
 
 .icon-button {
@@ -547,4 +548,13 @@
   width: 26px;
   border: none;
   outline: none;
+}
+
+.sentence-container {
+  word-break: break-word;
+}
+
+.hoverable-word {
+  white-space: normal; /* Allow the text to wrap */
+  overflow-wrap: break-word; /* Break the word if necessary */
 }

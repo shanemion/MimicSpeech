@@ -4,6 +4,7 @@ import { LiaBookReaderSolid } from "react-icons/lia";
 import LanguageContext from "../services/language/LanguageContext";
 
 import "../styles.css";
+import Modal from "./WordModal";
 
 const ResponseRenderer = ({
   sentences,
@@ -23,6 +24,9 @@ const ResponseRenderer = ({
   const toLanguage = selectedLanguage.value;
   const from = fromLanguage.value;
 
+  const [showModal, setShowModal] = useState(false);
+  const [selectedWord, setSelectedWord] = useState("");
+
   const handleSentenceClick = (index) => {
     setPreviousPage(selectedPage);
     setSelectedSentenceIndex(index);
@@ -34,6 +38,39 @@ const ResponseRenderer = ({
     setSelectedPage(previousPage);
   };
 
+  const handleWordClick = (word) => {
+    setSelectedWord(word);
+    setShowModal(true);
+  };
+
+  const renderClickableWords = (sentence) => {
+    if (["Chinese", "Japanese"].includes(toLanguage)) {
+      // For Chinese and Japanese, each character is often a word
+      return sentence.split("").map((word, index) => (
+        <span
+          key={index}
+          className="hoverable-word"
+          style={{ cursor: "pointer" }}
+          onClick={() => handleWordClick(word)}
+        >
+          {word}
+        </span>
+      ));
+    } else {
+      const words = sentence.split(" "); // For other languages, split by word
+      return words.map((word, index) => (
+        <span
+          key={index}
+          className="hoverable-word"
+          style={{ cursor: "pointer", paddingRight: "0.25em" }}
+          onClick={() => handleWordClick(word)}
+        >
+          {word + " "}
+        </span>
+      ));
+    }
+  };
+
   const renderPracticePage = () => {
     switch (previousPage) {
       case "One":
@@ -41,7 +78,7 @@ const ResponseRenderer = ({
           return (
             <>
               <p className="primary-language">
-                {sentences[0][selectedSentenceIndex]}
+                {renderClickableWords(sentences[0][selectedSentenceIndex])}
               </p>
             </>
           );
@@ -56,7 +93,7 @@ const ResponseRenderer = ({
           return (
             <>
               <p className="primary-language">
-                {sentences[0][selectedSentenceIndex]}
+                {renderClickableWords(sentences[0][selectedSentenceIndex])}
               </p>
               <p className="secondary-language">
                 {sentences[1][selectedSentenceIndex]}
@@ -79,7 +116,7 @@ const ResponseRenderer = ({
           return (
             <>
               <p className="primary-language">
-                {sentences[0][selectedSentenceIndex]}
+                {renderClickableWords(sentences[0][selectedSentenceIndex])}
               </p>
               <p className="secondary-language">
                 {sentences[1][selectedSentenceIndex]}
@@ -89,7 +126,7 @@ const ResponseRenderer = ({
         } else {
           return (
             <p className="primary-language">
-              {sentences[0][selectedSentenceIndex]}
+              {renderClickableWords(sentences[0][selectedSentenceIndex])}
             </p>
           );
         }
@@ -160,7 +197,9 @@ const ResponseRenderer = ({
           </button>
         )}
       <div>
-        <p className="primary-language">{sentences[0][index]}</p>
+        <p className="primary-language">
+          {renderClickableWords(sentences[0][index])}
+        </p>
         {selectedPage !== "Three" &&
           toLanguage !== from &&
           (selectedPage !== "Two" ||
@@ -247,7 +286,16 @@ const ResponseRenderer = ({
     setRenderedSentences(renderSentences(sentences, selectedPage));
   }, [generatedResponse, selectedPage, renderedSentencesCount, width]);
 
-  return <div className="center">{renderedSentences}</div>;
+  return (
+    <div className="center">
+      <div className="render-sentence-container">{renderedSentences}</div>
+      <Modal
+        show={showModal}
+        onHide={() => setShowModal(false)}
+        word={selectedWord}
+      />
+    </div>
+  );
 };
 
 export default ResponseRenderer;
