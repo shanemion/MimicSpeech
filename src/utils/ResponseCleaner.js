@@ -184,9 +184,9 @@ export const ResponseCleaner = (
     };
     
     if (numSentences === 1 && sentencesWithPeriod.length <= 1) {
-      console.log("sentenceswithperiod", sentencesWithPeriod);
+      // console.log("sentenceswithperiod", sentencesWithPeriod);
       sentencesWithPeriod = removeCommas(sentencesWithPeriod[0]);
-      console.log("sentenceswithoutcommas", sentencesWithPeriod);
+      // console.log("sentenceswithoutcommas", sentencesWithPeriod);
     }
     
     if ((sentencesWithPeriod.length === numSentences / 3) || (sentencesWithPeriod.length === numSentences / 2)) {
@@ -194,7 +194,7 @@ export const ResponseCleaner = (
       sentencesWithPeriod = sentencesWithPeriod.flatMap(sentence => removeCommas(sentence));
     }
     
-    console.log(sentencesWithPeriod.length);  // Should log the length of the array, expected to be 9 for your example
+    // console.log(sentencesWithPeriod.length);  // Should log the length of the array, expected to be 9 for your example
     
 
   if (allChinese) {
@@ -209,7 +209,7 @@ export const ResponseCleaner = (
       3 * numSentences
     );
     let sentences = [primarySentences, secondarySentences, thirdSentences];
-    console.log("sentencesChineseFilter", sentences);
+    // console.log("sentencesChineseFilter", sentences);
     return sentences;
   } else if (
     allEnglish ||
@@ -246,13 +246,13 @@ export const ResponseCleaner = (
         3 * numSentences
       );
       let sentences = [primarySentences, secondarySentences, thirdSentences];
-      console.log("sentencesChineseFilter", sentences);
+      // console.log("sentencesChineseFilter", sentences);
       return sentences;
     } else if (toLanguage === origLanguage) {
       const primarySentences = sentencesWithPeriod.slice(0, numSentences);
 
       let sentences = [primarySentences];
-      console.log("sentencesChineseFilter", sentences);
+      // console.log("sentencesChineseFilter", sentences);
       return sentences;
     } else {
       const primarySentences = sentencesWithPeriod.slice(0, numSentences);
@@ -262,7 +262,7 @@ export const ResponseCleaner = (
       );
 
       let sentences = [primarySentences, secondarySentences];
-      console.log("sentencesChineseFilter", sentences);
+      // console.log("sentencesChineseFilter", sentences);
       return sentences;
     }
   } else {
@@ -289,7 +289,7 @@ export const ResponseCleaner = (
 
       let sentences = [primarySentences, secondarySentences, thirdSentences];
 
-      console.log("sentencesChineseThreeL", sentences);
+      // console.log("sentencesChineseThreeL", sentences);
       return sentences;
     } else if (toLanguage === origLanguage) {
       for (let i = 0; i < sentencesWithPeriod.length; i += 3) {
@@ -298,7 +298,7 @@ export const ResponseCleaner = (
       const primarySentences = groupedSentences.map((group) => group[0]);
       let sentences = [primarySentences];
 
-      console.log("sentencesEqual", sentences);
+      // console.log("sentencesEqual", sentences);
 
       return sentences;
     } else {
@@ -312,7 +312,7 @@ export const ResponseCleaner = (
       const secondarySentences = groupedSentences.map((group) => group[1]);
       let sentences = [primarySentences, secondarySentences];
 
-      console.log("sentencesTwoL", sentences);
+      // console.log("sentencesTwoL", sentences);
       return sentences;
     }
   }

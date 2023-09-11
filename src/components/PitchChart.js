@@ -1,7 +1,8 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useContext } from "react";
+import { useAuth } from "../services/firebase/FirebaseAuth";
+import LanguageContext from "../services/language/LanguageContext";
 import Chart from "chart.js/auto";
 import "../styles.css";
-import { PitchChartXAxis } from "./PitchChartXAxis";
 
 const filterOutliers = (data) => {
   const sortedData = [...data].sort((a, b) => a - b);
@@ -27,8 +28,11 @@ const PitchChart = ({
   selectedPage,
   selectedSentenceIndex,
   mainString,
-  selectedLanguage,
+  rates,
+  speed,
 }) => {
+  const { currentUser } = useAuth();
+  const { selectedLanguage, selectedGender } = useContext(LanguageContext);
   const canvasRef = useRef(null);
   const colors = [
     "red",
@@ -51,11 +55,18 @@ const PitchChart = ({
     let activeRecordedAudios = [];
 
     if (selectedPage === "Practice") {
+      const synthesizedKey = `${currentUser.uid}_${mainString}-${selectedLanguage.value}-${selectedGender.value}-${rates[speed]}`;
       const key = `${selectedPage}-${selectedSentenceIndex}`;
       // console.log("Key:", key)
+      if (practiceData && practiceData[key] && Array.isArray(practiceData[key].synthesizedPracticePitchData)) {
+        const entry = practiceData[key].synthesizedPracticePitchData.find(e => e.id === synthesizedKey);
+        if (entry) {
+          activeSynthesizedPitchData = entry.data;
+        }
+      }
+  
       if (practiceData && practiceData[key]) {
-        activeSynthesizedPitchData =
-          practiceData[key].synthesizedPracticePitchData || [];
+        
         activeRecordedPitchData =
           practiceData[key].recordedPracticePitchData || [];
         activeRecordedAudios = practiceData[key].recordedPracticeAudios || [];
@@ -121,7 +132,7 @@ const PitchChart = ({
     const chart = new Chart(ctx, {
       type: "line",
       data: {
-        labels: [],
+        labels: filteredSynthesizedData.map((_, index) => index),
         datasets: datasets,
       },
       options: {
@@ -152,8 +163,14 @@ const PitchChart = ({
     generatedResponse,
     practiceData,
     selectedSentenceIndex,
+    selectedLanguage,
+    selectedGender,
+    rates,
+    speed,
+    currentUser,
     mainString
   ]);
+
 
   return (
     <div>

@@ -13,6 +13,9 @@ export const RecordedAudios = ({
   isRecordingListLoading,
   selectedPage,
   selectedSentenceIndex,
+  mainString,
+  rates,
+  speed
 }) => {
   const handleDelete = (audioId) => {
     deleteAudio(audioId);
@@ -58,6 +61,9 @@ export const RecordedAudios = ({
             recordedPitchData={recordedPitchData[index]}
             selectedPage={selectedPage}
             selectedSentenceIndex={selectedSentenceIndex}
+            mainString={mainString}
+            rates={rates}
+            speed={speed}
           />
         </div>
       ))}

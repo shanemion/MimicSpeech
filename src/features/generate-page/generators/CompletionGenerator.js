@@ -98,7 +98,13 @@ const CompletionGenerator = ({
   const [selectedSentenceIndex, setSelectedSentenceIndex] = useState(null);
   const [previousPage, setPreviousPage] = useState(null);
   const [uniquePracticeAudioID, setUniquePracticeAudioID] = useState("");
+  const [
+    uniquePracticeSynthesizedPitchID,
+    setUniquePracticeSynthesizedPitchID,
+  ] = useState("");
   const [initialLoader, setInitialLoader] = useState(false);
+  const [isAnalyzeButtonDisabled, setIsAnalyzeButtonDisabled] = useState(true);
+  const [recAllowAnalyze, setRecAllowAnalyze] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -292,42 +298,6 @@ const CompletionGenerator = ({
   const docId = localStorage.getItem("responseId");
   console.log("docIda", docId);
 
-  // useEffect(() => {
-  //   const moveFiles = async () => {
-  //     // The folder where your synthesized audio files are originally saved
-  //     const originalFolderRef = ref(storage, `${docId}/synthesizedAudios/${currentUser.uid}`);
-
-  //     try {
-  //       // List all files in the folder
-  //       const res = await listAll(originalFolderRef);
-
-  //       for (const itemRef of res.items) {
-  //         // Download the file to a blob
-  //         const fileURL = await getDownloadURL(itemRef);
-  //         const response = await fetch(fileURL);
-  //         const blob = await response.blob();
-
-  //         // Extract the file name from the itemRef
-  //         const fileName = itemRef.name;
-
-  //         // Upload the blob to the new location
-  //         const newFolderRef = ref(
-  //           storage,
-  //           `savedSynthesizedAudios/${docId}/${currentUser.uid}/${fileName}`
-  //         );
-  //         await uploadBytes(newFolderRef, blob);
-
-  //         // Delete the original file
-  //         await deleteObject(itemRef);
-  //       }
-  //     } catch (error) {
-  //       console.error("Error moving files:", error);
-  //     }
-  //   };
-
-  //   moveFiles();
-  // }, [isSaved, docId, storage, ref, currentUser.uid, getDownloadURL, uploadBytes, deleteObject]);
-
   const handleTTS = async (
     textToRead,
     selectedLanguage,
@@ -366,6 +336,12 @@ const CompletionGenerator = ({
     // Step 1: Check if the audio for this text already exists
     try {
       const audioURL = await getDownloadURL(storageRef);
+      if (selectedPage !== "Practice") {
+        localStorage.setItem("TTS_audio", audioURL);
+      } else {
+        setPracticeData({ ...practiceData, [identifier]: audioURL });
+      }
+      // setTTSAudio(audioURL);
       // If we get here, it means the audio already exists.
       console.log("Audio exists, playing from storage...");
       const audio = new Audio(audioURL);
@@ -386,6 +362,15 @@ const CompletionGenerator = ({
           );
 
           await uploadBytes(storageRef, audioBlob);
+          const audioURL = await getDownloadURL(storageRef);
+          if (selectedPage !== "Practice") {
+            localStorage.setItem("TTS_audio", audioURL);
+          } else {
+            setPracticeData({ ...practiceData, [identifier]: audioURL });
+            console.log("practiceDataRetry", audioURL);
+          }
+          console.log("Audio generated and uploaded successfully!");
+
         } catch (error) {
           console.error("Error generating or uploading TTS:", error);
         }
@@ -394,6 +379,7 @@ const CompletionGenerator = ({
         console.error("An unknown error occurred:", error);
       }
     }
+    setUniquePracticeSynthesizedPitchID(identifier);
   };
 
   const playAudio = (url) => {
@@ -550,6 +536,8 @@ const CompletionGenerator = ({
             previousPage={previousPage}
             selectedSentenceIndex={selectedSentenceIndex}
             setUniquePracticeAudioID={setUniquePracticeAudioID}
+            setRecAllowAnalyze={setRecAllowAnalyze}
+            setIsAnalyzeButtonDisabled={setIsAnalyzeButtonDisabled}
           />
           <div>
             <AnalyzeButton
@@ -567,6 +555,14 @@ const CompletionGenerator = ({
               selectedPage={selectedPage}
               selectedSentenceIndex={selectedSentenceIndex}
               uniquePracticeAudioID={uniquePracticeAudioID}
+              uniquePracticeSynthesizedPitchID={
+                uniquePracticeSynthesizedPitchID
+              }
+              isAnalyzeButtonDisabled={isAnalyzeButtonDisabled}
+              setIsAnalyzeButtonDisabled={setIsAnalyzeButtonDisabled}
+              mainString={mainString}
+              rates={rates}
+              speed={speed}
             />
             <div className="chart-and-list">
               <div className="recording-and-graph">
@@ -583,7 +579,8 @@ const CompletionGenerator = ({
                   selectedPage={selectedPage}
                   selectedSentenceIndex={selectedSentenceIndex}
                   mainString={mainString}
-                  selectedLanguage={selectedLanguage}
+                  rates={rates}
+                  speed={speed}
                 />
                 <PitchChartXAxis
                   selectedPage={selectedPage}
@@ -604,6 +601,9 @@ const CompletionGenerator = ({
                     isRecordingListLoading={isRecordingListLoading}
                     selectedPage={selectedPage}
                     selectedSentenceIndex={selectedSentenceIndex}
+                    mainString={mainString}
+                    rates={rates}
+                    speed={speed}
                   />
                 </div>
               </div>

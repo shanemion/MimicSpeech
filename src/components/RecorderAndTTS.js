@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import Countdown from "./Countdown";
 import Recorder from 'recorder-js';
-import "../styles.css";
+import "./AudioRecorder.css";
 
 export const BothRecordAndTTS = ({
   sendToTTS,
@@ -9,6 +9,7 @@ export const BothRecordAndTTS = ({
   stopRecording,
   startRecording,
   isRecording,
+  tempAudioURL,
 }) => {
   const [seconds, setSeconds] = useState(3);
   const [showCountdown, setShowCountdown] = useState(false);
@@ -59,13 +60,13 @@ export const BothRecordAndTTS = ({
   };
 
   return (
-    <div className="response-options">
-      <button className={isRecording ? "recording" : "not-recording" } onClick={handleButtonClick}>
+    <div className="audio-recorder-button-container">
+      <button className={isRecording ? "recording-button" : "not-recording-button" } onClick={handleButtonClick}>
         {isRecording
           ? "Stop Recording"
           : "Record alongside TTS!"}
       </button>
-      <button className="response-option" onClick={playBackBoth}>
+      <button className={tempAudioURL ? "playback-button" : "disabled-button"} onClick={tempAudioURL ? playBackBoth : () => alert('Make sure to record your voice first!')}>
         Playback alongside TTS!
       </button>
       {showCountdown && <Countdown seconds={seconds} setSeconds={setSeconds} />}

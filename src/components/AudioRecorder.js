@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { BothRecordAndTTS } from "./RecorderAndTTS.js";
 import { useAuth } from "../services/firebase/FirebaseAuth";
 import Recorder from "recorder-js"; // Import Recorder.js
-import "../styles.css";
+import "./AudioRecorder.css";
 
 const AudioRecorder = ({
   sendToTTS,
@@ -12,7 +12,9 @@ const AudioRecorder = ({
   selectedPage,
   previousPage,
   selectedSentenceIndex,
-  setUniquePracticeAudioID
+  setUniquePracticeAudioID,
+  setRecAllowAnalyze,
+  setIsAnalyzeButtonDisabled,
 }) => {
   const [isRecording, setIsRecording] = useState(false);
   const [tempAudioURL, setTempAudioURL] = useState("");
@@ -75,8 +77,11 @@ const AudioRecorder = ({
         setIsAnalyzeButtonLoading(false);
         setTempAudioURL(audioURL);
         localStorage.setItem("user_audio_url", audioURL);
+        console.log("audioURL", audioURL);
+        console.log(localStorage.getItem("user_audio_url"))
       });
       setIsRecording(false);
+      setIsAnalyzeButtonDisabled(false);
     }
   };
 
@@ -97,17 +102,16 @@ const AudioRecorder = ({
 
   return (
     <div>
-      <div className="response-options">
+      <div className="audio-recorder-button-container">
         <button
-          className={isRecording ? "recording" : "not-recording"}
+          className={isRecording ? "recording-button" : "not-recording-button"}
           onClick={isRecording ? stopRecording : startRecording}
         >
-          {isRecording ? "Stop Recording" : "Record"}
+          {isRecording ? "Stop Recording" : "Start Recording"}
         </button>
         <button
-          className={!tempAudioURL ? "disabled" : "response-option"}
-          onClick={playRecordedAudio}
-          disabled={!tempAudioURL}
+          className={tempAudioURL ? "playback-button" : "disabled-button"}
+          onClick={tempAudioURL ? playRecordedAudio : () => alert('Make sure to record your voice first!')}
         >
           Playback
         </button>
@@ -117,6 +121,7 @@ const AudioRecorder = ({
         stopRecording={stopRecording}
         startRecording={startRecording}
         isRecording={isRecording}
+        tempAudioURL={tempAudioURL}
       />
     </div>
   );

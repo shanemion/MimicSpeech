@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
+import { useAuth } from "../services/firebase/FirebaseAuth";
+import LanguageContext from "../services/language/LanguageContext";
 
 const filterOutliers = (data) => {
     const sortedData = [...data].sort((a, b) => a - b);
@@ -11,19 +13,33 @@ const filterOutliers = (data) => {
     return data.filter((value) => value >= lowerBound && value <= upperBound);
   };
 
-const PitchAccuracy = ({ practiceData, synthesizedPitchData, recordedPitchData, selectedPage, selectedSentenceIndex }) => {
+const PitchAccuracy = ({ practiceData, synthesizedPitchData, recordedPitchData, selectedPage, selectedSentenceIndex, mainString, rates, speed }) => {
 
-
+  const { currentUser } = useAuth();
+  const { selectedLanguage, selectedGender } = useContext(LanguageContext);
   let activePitchData = [];
   let activeRecordedPitchData = [];
 
   if (selectedPage === "Practice") {
     const key = `${selectedPage}-${selectedSentenceIndex}`;
-    if (practiceData && practiceData[key]) {
-      activePitchData = practiceData[key].synthesizedPracticePitchData || [];
-      activeRecordedPitchData = practiceData[key].recordedPracticePitchData.data || [];
+    const synthesizedKey = `${currentUser.uid}_${mainString}-${selectedLanguage.value}-${selectedGender.value}-${rates[speed]}`;
+  
+    if (practiceData && practiceData[key] ) {
+  // Check if the object at `practiceData[key]` contains a field called `synthesizedPracticePitchData`
+  if (Array.isArray(practiceData[key].synthesizedPracticePitchData)) {
+    
+              const entry = practiceData[key].synthesizedPracticePitchData.find(e => e.id === synthesizedKey);
+
+              // If the entry was found, retrieve its `data` field
+              if (entry) {
+                activePitchData = entry.data;
+              }
+            }
+    
+      // This line should work fine as you mentioned
+      activeRecordedPitchData = practiceData[key].recordedPracticePitchData.flatMap(e => e.data) || [];
     }
-  } else {
+  }else {
     activePitchData = synthesizedPitchData || [];
     activeRecordedPitchData = recordedPitchData.data || [];
   }

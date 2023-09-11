@@ -20,7 +20,7 @@ const ResponseRenderer = ({
 }) => {
   const { width } = useWindowSize();
   const [renderedSentences, setRenderedSentences] = useState(null);
-  const { fromLanguage, selectedLanguage } = useContext(LanguageContext);
+  const { fromLanguage, selectedLanguage, selectedGender, setSelectedGender } = useContext(LanguageContext);
   const toLanguage = selectedLanguage.value;
   const from = fromLanguage.value;
 
@@ -28,6 +28,7 @@ const ResponseRenderer = ({
   const [selectedWord, setSelectedWord] = useState("");
 
   const handleSentenceClick = (index) => {
+    setSelectedGender("Man")
     setPreviousPage(selectedPage);
     setSelectedSentenceIndex(index);
     setSelectedPage("Practice");

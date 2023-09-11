@@ -1,0 +1,59 @@
+.analyze-button {
+  display: flex;
+  justify-content: center;
+  padding: 20px;
+  margin-bottom: 50px;
+}
+
+.analyze-button-not-disabled {
+  background-color: #0ead69; /* Green */
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.analyze-button-not-disabled:hover {
+  background-color: #0daa5b; /* Darker green on hover */
+}
+
+.analyze-button-disabled {
+  background-color: #ccc; /* Grey */
+  color: white;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: not-allowed; /* The "not-allowed" cursor makes it clear the button is disabled */
+  font-size: 16px;
+}
+
+.analyze-button-disabled:hover {
+    background-color: #ccc; /* Same as the disabled button */
+  }
+
+.tooltip-container {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip-text {
+  display: none;
+  background-color: #333;
+  color: #fff;
+  text-align: center;
+  padding: 8px;
+  border-radius: 4px;
+  position: absolute;
+  z-index: 5;
+  top: 105%;
+  left: 34%;
+  margin-left: -60px;
+  width: 180px;
+}
+
+.tooltip-container:hover .tooltip-text {
+  display: block;
+  /* visibility: visible; */
+}

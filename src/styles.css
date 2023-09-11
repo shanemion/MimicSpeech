@@ -491,12 +491,6 @@
   }
 }
 
-.analyze-button {
-  display: flex;
-  justify-content: center;
-  padding: 20px;
-}
-
 .outlined-container {
   border: 2px solid #ccc; /* This gives a thin outline */
   border-radius: 16px; /* This rounds the edges slightly */

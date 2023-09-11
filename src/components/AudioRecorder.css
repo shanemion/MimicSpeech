@@ -1,0 +1,53 @@
+.audio-recorder-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+
+.recording-button, .not-recording-button, .playback-button, .disabled-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  .recording-button {
+    background-color: #FF4B4B;
+    color: white;
+  }
+  
+  .recording-button:hover {
+    background-color: #FF3B3B;
+  }
+  
+  .not-recording-button {
+    background-color: #0EAD69;
+    color: white;
+  }
+  
+  .not-recording-button:hover {
+    background-color: #0DAA5B;
+  }
+  
+  .playback-button {
+    background-color: #007BFF;
+    color: white;
+  }
+  
+  .playback-button:not(.disabled-button):hover {
+    background-color: #0069D9;
+  }
+  
+  .disabled-button {
+    background-color: #C4C4C4;
+    color: #808080;
+    cursor: not-allowed;
+  }
+
+  .disabled-button:hover {
+    background-color: #C4C4C4;
+  }
