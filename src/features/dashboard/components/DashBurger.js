@@ -76,7 +76,7 @@ export const DashBurger = () => {
       top: "32px",
     },
     bmBurgerBars: {
-      background: "#fff",
+      background: "black",
     },
     bmCrossButton: {
       height: "24px",
@@ -90,11 +90,11 @@ export const DashBurger = () => {
       top: 0,
       bottom: 0,
       zIndex: "20000",
-      opacity: ".9",
-      width: "350px"
+      opacity: ".99",
+      width: "350px",
     },
     bmMenu: {
-      background: "rgba(0, 0, 0, 0.9)",
+      background: "rgba(220, 220, 220, 1)",
       padding: "2.5em 1.5em 0",
       fontSize: "1.15em",
     },
@@ -102,14 +102,14 @@ export const DashBurger = () => {
       fill: "#373a47",
     },
     bmItemList: {
-      color: "#b8b7ad",
+      color: "black",
       padding: "0.8em",
     },
     bmItem: {
       display: "block",
     },
     bmOverlay: {
-      background: "rgba(0, 0, 0, 0.3)",
+      background: "rgba(0, 0, 0, 0.5)",
       top: 0,
       bottom: 0,
       left: 0,
@@ -118,7 +118,7 @@ export const DashBurger = () => {
 
   const linkStyle = {
     display: "block",
-    padding: "6px",
+    padding: "10px 6px 6px 0",
     textDecoration: "underline",
     cursor: "pointer",
     fontFamily:
@@ -134,7 +134,6 @@ export const DashBurger = () => {
     closeMenu();
   };
 
-
   return (
     <Menu
       ref={menuRef}
@@ -147,29 +146,42 @@ export const DashBurger = () => {
         {firstName} {lastName}
       </h2>
       <span>{credits} Credits</span>
-      <Link to="/generator" onClick={closeMenu}>
+      <Link to="/generator" style={linkStyle} onClick={closeMenu}>
         AI Prompt Generator
       </Link>
-      <Link to="/translator" onClick={closeMenu}>
+      <Link to="/saved-responses" style={linkStyle} onClick={closeMenu}>
+        Saved Responses
+      </Link>
+      {/* <Link to="/translator" onClick={closeMenu}>
         Sentence Translator
       </Link>
       <Link to="/text-input" onClick={closeMenu}>
         Input Custom Text
-      </Link>
-      <Link to="/prompt-history" onClick={closeMenu}>
-        View Prompt History
-      </Link>
-      <Link to="/saved-responses" onClick={closeMenu}>
-        Saved Responses
-      </Link>
-      <div style={{display: "flex", justifyContent: "center", alignItems: "center"}}>
-      <div className="sidebar-footer">
-        <h3>Current Plan: {/* {currentUser.plan} */}</h3>
-        <span className="plan-credits">{credits} Credits Remaining</span>
-        <button className="dashboard-footer-button" onClick={() => {openPricing(); closeMenu()}}>
-          Manage Plan
-        </button>
-      </div>
+      </Link> */}
+      {/* <Link to="/words" onClick={closeMenu}>
+        Saved Words
+      </Link> */}
+
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div className="sidebar-footer">
+          <h3>Current Plan: {/* {currentUser.plan} */}</h3>
+          <span className="plan-credits">{credits} Credits Remaining</span>
+          <button
+            className="dashboard-footer-button"
+            onClick={() => {
+              openPricing();
+              closeMenu();
+            }}
+          >
+            Manage Plan
+          </button>
+        </div>
       </div>
     </Menu>
   );

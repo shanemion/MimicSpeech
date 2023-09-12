@@ -334,20 +334,6 @@
 }
 
 
-.recorded-audios-list {
-  margin-top: 20px;
-  display: flex;
-  justify-content: end;
-  align-items: start;
-}
-
-.recorded-audio-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 4px;
-}
-
 .tts-and-slider {
   display: flex;
   justify-content: center;

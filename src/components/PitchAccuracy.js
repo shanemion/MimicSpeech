@@ -3,18 +3,26 @@ import { useAuth } from "../services/firebase/FirebaseAuth";
 import LanguageContext from "../services/language/LanguageContext";
 
 const filterOutliers = (data) => {
-    const sortedData = [...data].sort((a, b) => a - b);
-    const q1 = sortedData[Math.floor(sortedData.length / 4)];
-    const q3 = sortedData[Math.floor(3 * sortedData.length / 4)];
-    const iqr = q3 - q1;
-    const lowerBound = q1 - 1.5 * iqr;
-    const upperBound = q3 + 1.5 * iqr;
-  
-    return data.filter((value) => value >= lowerBound && value <= upperBound);
-  };
+  const sortedData = [...data].sort((a, b) => a - b);
+  const q1 = sortedData[Math.floor(sortedData.length / 4)];
+  const q3 = sortedData[Math.floor((3 * sortedData.length) / 4)];
+  const iqr = q3 - q1;
+  const lowerBound = q1 - 1.5 * iqr;
+  const upperBound = q3 + 1.5 * iqr;
 
-const PitchAccuracy = ({ practiceData, synthesizedPitchData, recordedPitchData, selectedPage, selectedSentenceIndex, mainString, rates, speed }) => {
+  return data.filter((value) => value >= lowerBound && value <= upperBound);
+};
 
+const PitchAccuracy = ({
+  practiceData,
+  synthesizedPitchData,
+  recordedPitchData,
+  selectedPage,
+  selectedSentenceIndex,
+  mainString,
+  rates,
+  speed,
+}) => {
   const { currentUser } = useAuth();
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
   let activePitchData = [];
@@ -23,23 +31,26 @@ const PitchAccuracy = ({ practiceData, synthesizedPitchData, recordedPitchData, 
   if (selectedPage === "Practice") {
     const key = `${selectedPage}-${selectedSentenceIndex}`;
     const synthesizedKey = `${currentUser.uid}_${mainString}-${selectedLanguage.value}-${selectedGender.value}-${rates[speed]}`;
-  
-    if (practiceData && practiceData[key] ) {
-  // Check if the object at `practiceData[key]` contains a field called `synthesizedPracticePitchData`
-  if (Array.isArray(practiceData[key].synthesizedPracticePitchData)) {
-    
-              const entry = practiceData[key].synthesizedPracticePitchData.find(e => e.id === synthesizedKey);
 
-              // If the entry was found, retrieve its `data` field
-              if (entry) {
-                activePitchData = entry.data;
-              }
-            }
-    
+    if (practiceData && practiceData[key]) {
+      // Check if the object at `practiceData[key]` contains a field called `synthesizedPracticePitchData`
+      if (Array.isArray(practiceData[key].synthesizedPracticePitchData)) {
+        const entry = practiceData[key].synthesizedPracticePitchData.find(
+          (e) => e.id === synthesizedKey
+        );
+
+        // If the entry was found, retrieve its `data` field
+        if (entry) {
+          activePitchData = entry.data;
+        }
+      }
+
       // This line should work fine as you mentioned
-      activeRecordedPitchData = practiceData[key].recordedPracticePitchData.flatMap(e => e.data) || [];
+      activeRecordedPitchData =
+        practiceData[key].recordedPracticePitchData.flatMap((e) => e.data) ||
+        [];
     }
-  }else {
+  } else {
     activePitchData = synthesizedPitchData || [];
     activeRecordedPitchData = recordedPitchData.data || [];
   }
@@ -173,9 +184,9 @@ const PitchAccuracy = ({ practiceData, synthesizedPitchData, recordedPitchData, 
           else if (distance <= 20) scalingFactor = 0.65;
           else if (distance <= 25) scalingFactor = 0.45;
           else if (distance <= 30) scalingFactor = 0.25;
-            else if (distance <= 35) scalingFactor = 0.15;
-            else if (distance <= 40) scalingFactor = 0.1;
-            else if (distance <= 45) scalingFactor = 0.05;
+          else if (distance <= 35) scalingFactor = 0.15;
+          else if (distance <= 40) scalingFactor = 0.1;
+          else if (distance <= 45) scalingFactor = 0.05;
           else scalingFactor = 0; // for distances far from the safe zone
 
           totalPercentAccuracy += scalingFactor;

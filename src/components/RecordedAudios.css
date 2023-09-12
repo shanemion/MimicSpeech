@@ -1,0 +1,48 @@
+.audio-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.recording-title {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.styled-button {
+  background-color: #007bff;
+  border: none;
+  color: white;
+  padding: 10px;
+  /* margin: 0 5px; */
+  border-radius: 5px;
+  cursor: pointer;
+  width: 72px;
+}
+
+.styled-button:hover {
+  background-color: #0056b3;
+}
+
+.delete-button {
+  background-color: #dc3545;
+  margin-right: 10px;
+}
+
+.delete-button:hover {
+  background-color: #c82333;
+}
+
+.recorded-audios-list {
+  margin-top: 20px;
+  display: flex;
+  justify-content: end;
+  align-items: start;
+}
+
+.recorded-audio-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}

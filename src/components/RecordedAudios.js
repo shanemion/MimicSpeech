@@ -1,6 +1,7 @@
 import React from "react";
 import PitchAccuracy from "./PitchAccuracy";
 import LoaderIcon from "react-loader-icon";
+import './RecordedAudios.css'
 
 export const RecordedAudios = ({
   practiceData,
@@ -52,9 +53,9 @@ export const RecordedAudios = ({
       </div>
       {recordings.map((audio, index) => (
         <div key={audio.id} className="recorded-audio-item">
-          <p>Recording {index + 1}</p>
-          <button onClick={() => playAudio(audio.url)}>Play</button>
-          <button onClick={() => handleDelete(audio.id)}>Delete</button>
+          <p>Recording {index + 1}:</p>
+          <button className="styled-button" onClick={() => playAudio(audio.url)}>Play</button>
+          <button className="styled-button delete-button" onClick={() => handleDelete(audio.id)}>Delete</button>
           <PitchAccuracy
             practiceData={practiceData}
             synthesizedPitchData={synthesizedPitchData}

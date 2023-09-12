@@ -29,15 +29,6 @@ const AnalyzeButton = ({
   const { currentUser } = useAuth();
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
 
-  useEffect(() => {
-    const identifier = `${currentUser.uid}_${mainString}-${selectedLanguage.value}-${selectedGender.value}-${rates[speed]}`;
-    if (practiceData[identifier]) {
-      // Your dependent logic here
-      // This will execute whenever the `practiceData` has been updated and includes the key `identifier`
-      console.log("Data exists for:", identifier);
-    }
-  }, [practiceData, currentUser, mainString, selectedLanguage, selectedGender, rates, speed]);
-
 
   useEffect(() => {
     localStorage.setItem("user_audio_url", "");

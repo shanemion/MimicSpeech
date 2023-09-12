@@ -216,6 +216,7 @@ const Modal = ({ show, onHide, word }) => {
           setDictAudioUrl(data[0].phonetics[0]?.audio || "");
         } catch (error) {
           console.error("An error occurred while fetching data:", error);
+          setLoading(false);
         } finally {
           setLoading(false);
         }
@@ -229,7 +230,7 @@ const Modal = ({ show, onHide, word }) => {
   };
 
   const renderDefinitions = () => {
-    if (loading) {
+    if (loading && toLanguage === "English") {
       return <div className="loading">Loading...</div>;
     }
 

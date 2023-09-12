@@ -3,13 +3,36 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../../services/firebase/FirebaseAuth';
 import PricingContext from '../../../../services/pricing/PricingContext';
 import './PopupMenu.css';
+import { doc, getDoc } from 'firebase/firestore';
 
 const PopupMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const popupRef = useRef(null); // Create a ref
-  const { logout } = useAuth();
+  const { db, logout, currentUser } = useAuth();
   const { setPricingState } = useContext(PricingContext);
   const navigate = useNavigate();
+  const [firstName, setFirstName] = useState("");
+  const [firstLetter, setFirstLetter] = useState("");
+
+
+  useEffect(() => {
+    // Fetch existing data from Firestore when the component mounts
+    const fetchData = async () => {
+      try {
+        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setFirstName(userData.firstName);
+          setFirstLetter(firstName[0].toUpperCase())
+
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+    };
+    fetchData();
+  }, [currentUser, db, firstName, setFirstName, setFirstLetter, firstLetter]);
+
 
   useEffect(() => {
     // Function to check if clicked outside of menu
@@ -27,7 +50,7 @@ const PopupMenu = () => {
     };
   }, []); // Empty dependency array means this useEffect runs once when component mounts
 
-  const handleEditAccount = () => navigate("/edit-account");
+  const handleEditAccount = () => navigate("/account");
   const handleManagePlan = () => navigate("/manage-plan");
   const handleUpdatePlan = () => navigate("/update-plan");
   const handleLogout = async () => {
@@ -43,7 +66,7 @@ const PopupMenu = () => {
   return (
     <div className="profile-container" ref={popupRef}>
       <div className="profile-icon" onClick={() => setIsOpen(!isOpen)}>
-        S
+        {firstLetter}
       </div>
       {isOpen && (
         <div className="popup-menu">

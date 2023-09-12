@@ -55,6 +55,8 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [googleSignInPending, setGoogleSignInPending] = useState(false);
+
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -62,13 +64,15 @@ export const AuthProvider = ({ children }) => {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
-      password
+      password,
+
     );
     await setDoc(doc(db, "users", userCredential.user.uid), {
       ...additionalData,
-      credits: 0,  // Initialize credits to 0
+      credits: 10,  
       firstName: "",
       lastName: "",
+      plan: "free",
     });
     setCurrentUser(userCredential.user);
   };
@@ -89,18 +93,37 @@ export const AuthProvider = ({ children }) => {
 
   // Initialize Google Auth Provider
   const googleProvider = new GoogleAuthProvider();
-
-  // Function to handle Google Sign-In
+  googleProvider.setCustomParameters({
+    prompt: 'select_account'
+  });
+  
   const signInWithGoogle = async () => {
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
-      setCurrentUser(user);
-      navigate("/generator");
+  
+      // Check if the user is new and doesn't exist in Firestore
+      const userDoc = await getDoc(doc(db, "users", user.uid));
+      if (!userDoc.exists()) {
+        // Initialize credits and plan
+        await setDoc(doc(db, "users", user.uid), {
+          credits: 10,
+          firstName: "",
+          lastName: "",
+          plan: "free",
+        });
+        // Enter into the intermediate step for Google Sign-In
+        setGoogleSignInPending(true);
+      } else {
+        // User already registered, navigate directly
+        setCurrentUser(user);
+        navigate("/dashboard");
+      }
     } catch (error) {
       console.error(error);
     }
   };
+  
 
   const fetchCredits = async (userId) => {
     const userRef = doc(db, "users", userId);
@@ -118,6 +141,12 @@ export const AuthProvider = ({ children }) => {
     const userRef = doc(db, "users", userId);
     const userDoc = await getDoc(userRef);
     return userDoc.data().lastName || "";
+  };
+
+  const fetchPlan = async (userId) => {
+    const userRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userRef);
+    return userDoc.data().plan || "free";
   };
 
   const deleteCredits = async (userId, amount) => {
@@ -245,9 +274,14 @@ export const AuthProvider = ({ children }) => {
     fetchCredits,
     fetchFirstName,
     fetchLastName,
+    fetchPlan,
     deleteCredits,
     deleteDoc,
-    doc
+    doc,
+    googleSignInPending,
+    setGoogleSignInPending,
+    getDoc,
+    setDoc
   };
 
   return (

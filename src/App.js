@@ -18,6 +18,7 @@ import PricingPage from "./features/landing-page/components/pricing/PricingPage"
 import PaymentSuccessPage from "./features/landing-page/components/pricing/PaymentSuccessPage";
 import { PricingProvider } from "./services/pricing/PricingContext";
 import Dashboard from "./features/dashboard/Dashboard";
+import EditAccount from "./features/dashboard/components/EditAccount";
 import { TypedResponseProvider } from "./services/type-response/TypedResponseContext";
 
 function App() {
@@ -75,6 +76,10 @@ function App() {
                                 setResponseLength={setResponseLength}
                               />
                             }
+                          />
+                          <Route
+                            path="/account"
+                            element={<EditAccount />}
                           />
                         </Routes>
                       </div>
