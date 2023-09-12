@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../../services/firebase/FirebaseAuth";
 import PricingContext from "../../../services/pricing/PricingContext";
 import PricingModal from "../pricing/PricingModal";
+import LanguageContext from "../../../services/language/LanguageContext";
 import "../Dashboard.css";
 
 export const DashBurger = () => {
@@ -16,6 +17,7 @@ export const DashBurger = () => {
   const [credits, setCredits] = useState(0);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const { fromLanguage, selectedLanguage } = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchUserCredits = async () => {
@@ -113,6 +115,7 @@ export const DashBurger = () => {
       top: 0,
       bottom: 0,
       left: 0,
+      // marginRight: "900px",
     },
   };
 
@@ -146,8 +149,24 @@ export const DashBurger = () => {
         {firstName} {lastName}
       </h2>
       <span>{credits} Credits</span>
-      <Link to="/generator" style={linkStyle} onClick={closeMenu}>
+
+      <Link
+        to={selectedLanguage && fromLanguage ? "/generator" : "/dashboard"}
+        style={linkStyle}
+        onClick={
+          selectedLanguage && fromLanguage
+            ? () => navigate("/generator")
+            : () => {
+                navigate("/dashboard");
+                alert("Please select languages to practice!");
+              }
+        }
+      >
         AI Prompt Generator
+      </Link>
+
+      <Link to="/dashboard" style={linkStyle} onClick={closeMenu}>
+        Dashboard
       </Link>
       <Link to="/saved-responses" style={linkStyle} onClick={closeMenu}>
         Saved Responses

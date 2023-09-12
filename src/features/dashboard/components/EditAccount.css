@@ -39,9 +39,7 @@
     background-color: #d8d8d8;
 
   }
-  
-  /* ... rest of your CSS */
-  
+
   
   .edit-account-input {
     font-size: 1rem;
@@ -71,6 +69,7 @@
     margin-top: 1rem;
     color: #007bff;
     font-size: 1rem;
+    margin-left: 7px;
   }
 
   .delete-account-button {
@@ -182,11 +181,16 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-
+    background-color: pink
+    
   }
 
   .account-popup {
     position: absolute;
     top: 20px;
     right: 20px;
+    /* width: 900px; You can change this */
+    z-index: 1001; /* higher than other z-index values in your layout */
+
+
   }

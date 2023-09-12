@@ -85,7 +85,6 @@
   margin-left: 350px; /* Add left margin equal to the width of the sidebar */
 
   width: 100%;
-  padding: 20px;
 }
 
 .dashboard-body {
@@ -211,4 +210,15 @@
   .dashboard-body-buttons {
     width: 100%;
   }
+}
+
+.dashboard-popup {
+  position: relative;
+  top: 20px;
+  right: 20px;
+  /* width: 900px; You can change this */
+  z-index: 1001; /* higher than other z-index values in your layout */
+  margin-bottom: 40px;
+
+
 }

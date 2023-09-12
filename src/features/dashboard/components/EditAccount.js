@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { getDoc, setDoc, doc } from "firebase/firestore";
 import { useAuth } from "../../../services/firebase/FirebaseAuth"; // Add updatePassword here
@@ -15,6 +15,8 @@ import PricingModal from "../pricing/PricingModal";
 import PopupMenu from "./popup-menu/PopupMenu";
 import { DashBurger } from "./DashBurger";
 import useWindowSize from "../../../utils/WindowSize";
+import LanguageContext from "../../../services/language/LanguageContext";
+import LoaderIcon from "react-loader-icon";
 
 const EditAccount = () => {
   const { currentUser, db, fetchPlan, fetchCredits } = useAuth(); // Assuming useAuth hook provides currentUser and Firestore database instance
@@ -33,6 +35,7 @@ const EditAccount = () => {
   const [isVerified, setIsVerified] = useState(false);
   const [confirmNewPassword, setConfirmNewPassword] = useState("");
   const { width } = useWindowSize();
+    const { fromLanguage, selectedLanguage } = useContext(LanguageContext);
 
   const closePricingModal = () => {
     setPricingState(false);
@@ -190,12 +193,17 @@ const EditAccount = () => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div style={{marginTop: "40vh"}}> 
+        <LoaderIcon type="bubbles" color="#000000" />
+    </div>;
   }
 
   return (
     <>
       <div className="account-main-container">
+        <div className="account-dashboard-header">
+          {width < 1000 && <DashBurger />}
+        </div>
         {pricingState && <PricingModal onClose={closePricingModal} />}
         {width > 1000 && (
           <div className="account-sidebar-wrapper">
@@ -204,6 +212,13 @@ const EditAccount = () => {
                 {firstName} {lastName}
               </h2>
               <span>{credits} Credits</span>
+              <button onClick={
+              selectedLanguage && fromLanguage
+                ? () => navigate("/generator")
+                : () => {navigate("/dashboard"); alert("Please select languages to practice!")}
+            }>
+                AI Prompt Generator
+              </button>
               <button onClick={() => navigate("/dashboard")}>Dashboard</button>
               <button onClick={() => navigate("/saved")}>
                 Saved Responses
@@ -271,13 +286,28 @@ const EditAccount = () => {
                     onChange={(e) => setCurrentPassword(e.target.value)}
                   />
                 </label>
-                <button
-                  type="button"
-                  className="verify-password"
-                  onClick={handleVerifyPassword}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    width: "150px",
+                  }}
                 >
-                  Verify Password
-                </button>
+                  <button
+                    type="button"
+                    className="verify-password"
+                    onClick={handleVerifyPassword}
+                  >
+                    Verify Password
+                  </button>
+                  {/* <button
+                    className="delete-account-button"
+                    type="button"
+                    onClick={handleDeleteAccount}
+                  >
+                    Delete Account
+                  </button> */}
+                </div>
               </>
             ) : (
               <>
@@ -366,11 +396,8 @@ const EditAccount = () => {
             )}
           </form>
           <Link className="edit-account-backlink" to="/dashboard">
-            Go Back to Dashboard
+            Back to Dashboard
           </Link>
-        </div>
-        <div className="account-dashboard-header">
-          {width < 1000 && <DashBurger />}
         </div>
       </div>
       <div className="account-popup">

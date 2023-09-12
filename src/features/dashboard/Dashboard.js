@@ -77,6 +77,7 @@ const Dashboard = () => {
           <button onClick={() => navigate("/generator")}>
             AI Prompt Generator
           </button>
+            <button onClick={() => navigate("/dashboard")}>Dashboard</button>
           <button onClick={() => navigate("/saved")}>Saved Responses</button>
           {/* <button onClick={() => navigate("/translator")}>
             Sentence Translator
@@ -99,7 +100,9 @@ const Dashboard = () => {
         <div className="dashboard-header">
           {width < 1000 && <DashBurger />}
           <div style={{ height: "1px" }}></div>
+          <div className="dashboard-popup">
           <PopupMenu />
+          </div>
         </div>
         <div className="dashboard-body">
           <h1>Dashboard</h1>
@@ -117,11 +120,12 @@ const Dashboard = () => {
             onClick={
               selectedLanguage && fromLanguage
                 ? () => navigate("/generator")
-                : () => alert("Please select languages to practice!")
+                : () => {navigate("/dashboard"); alert("Please select languages to practice!")}
             }
           >
             Go to AI Prompt Generator
           </button>
+          
           <div className="dashboard-body-buttons">
             <button
               className="dashboard-nav-button"
