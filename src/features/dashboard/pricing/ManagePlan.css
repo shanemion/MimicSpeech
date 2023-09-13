@@ -1,0 +1,51 @@
+.manage-container {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    padding: 1rem;
+    max-width: 600px;
+    font-family: Arial, sans-serif;
+    margin-top: 80px;
+}
+
+.manage-title {
+    font-size: 2rem;
+    color: #333;
+    margin-bottom: 1rem;
+}
+
+.manage-plan-detail {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+    width: 350px;
+}
+
+.manage-button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 0.7rem;
+    margin: 1rem 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.manage-button:hover {
+    background-color: #45a049;
+}
+
+.manage-cancel-button {
+    color: #ff4d4d;
+    padding: 0.7rem;
+    margin: 0.3rem 0;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.manage-cancel-button:hover {
+    background-color: #cc0000;
+}

@@ -3,6 +3,7 @@ import Pricing from './Pricing';
 import './PricingModal.css';
 
 const PricingModal = ({ onClose }) => {
+
   return (
     <div className="pricing-modal">
       <div className="pricing-modal-content">

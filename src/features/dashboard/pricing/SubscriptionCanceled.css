@@ -1,0 +1,51 @@
+/* SubscriptionCanceled.css */
+
+/* General Container */
+.subscription-updated-container {
+    width: 100%;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 2em;
+    text-align: center;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Titles */
+  .success-title {
+    font-size: 2em;
+    margin-bottom: 1em;
+    color: #4CAF50; /* Green */
+  }
+  
+  /* Message Text */
+  .success-message {
+    font-size: 1em;
+    margin-bottom: 1em;
+    line-height: 1.5em;
+    color: #333;
+  }
+  
+  /* Highlight the Plan Name */
+  .plan-name {
+    font-weight: 600;
+    color: #007bff; /* Blue */
+  }
+  
+  /* Dashboard Button */
+  .dashboard-button {
+    padding: 10px 20px;
+    font-size: 1em;
+    color: #fff;
+    background-color: #007bff; /* Blue */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .dashboard-button:hover {
+    background-color: #0056b3; /* Darker Blue */
+  }
+  

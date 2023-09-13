@@ -64,7 +64,7 @@ def create_checkout_session():
             },
             mode='subscription',
             success_url='http://localhost:3000/payment-success?plan={}'.format(plan),
-            cancel_url='http://localhost:3000/',
+            cancel_url='http://localhost:3000/dashboard',
         )
         return jsonify({'id': checkout_session.id})
     except Exception as e:

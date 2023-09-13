@@ -72,7 +72,7 @@ const PopupMenu = () => {
         <div className="popup-menu">
           <button onClick={handleEditAccount}>Edit Account</button>
           <button onClick={handleManagePlan}>Manage Plan</button>
-          <button onClick={handleUpdatePlan}>Update Plan</button>
+          {/* <button onClick={handleUpdatePlan}>Update Plan</button> */}
           <button onClick={handleLogout}>Logout</button>
         </div>
       )}
