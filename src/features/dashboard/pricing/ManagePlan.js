@@ -165,7 +165,7 @@ const ManagePlan = () => {
           Input Custom Text
         </button> */}
               {/* <button onClick={() => navigate("/words")}>Saved Words</button> */}
-              <div style={{ height: "40vh" }}></div>
+              <div style={{ height: "36vh" }}></div>
               <div className="sidebar-footer">
                 <h3>Current Plan: {plan}</h3>
                 <span className="plan-credits">
@@ -195,6 +195,17 @@ const ManagePlan = () => {
               }}
             >
               Upgrade Plan!
+            </button>
+          )}
+          {(plan === "Unlimited") && (
+            <button
+              className="manage-button"
+              onClick={() => {
+                navigate("/dashboard");
+                setPricingState(true);
+              }}
+            >
+              Change Plan
             </button>
           )}
           {(plan === "Pro" || plan === "Unlimited") && (

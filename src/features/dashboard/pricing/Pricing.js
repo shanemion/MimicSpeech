@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import './Pricing.css';
-import checkmark from './icons8-checkmark-48.png';
-import { useAuth } from '../../../services/firebase/FirebaseAuth';
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "./Pricing.css";
+import checkmark from "./icons8-checkmark-48.png"; // adjust the filename if needed
+import { useAuth } from "../../../services/firebase/FirebaseAuth";
 
 const useStripe = () => {
   useEffect(() => {
+    // Only add the script if it doesn't already exist in the document
     if (!window.Stripe) {
-      const script = document.createElement('script');
-      script.src = 'https://js.stripe.com/v3/';
+      const script = document.createElement("script");
+      script.src = "https://js.stripe.com/v3/";
       script.async = true;
       document.body.appendChild(script);
     }
@@ -16,22 +17,41 @@ const useStripe = () => {
 };
 
 const Pricing = () => {
+  const { currentUser, fetchPlan } = useAuth();
+
+  const [plan, setPlan] = useState(null);
+
+  useEffect(() => {
+    const fetchUserPlan = async () => {
+      const userPlan = await fetchPlan(currentUser.uid);
+      setPlan(userPlan);
+    };
+    fetchUserPlan();
+  }, [currentUser.uid, fetchPlan]);
+
   useStripe();
   const navigate = useNavigate();
-  const stripe_pk = 'pk_test_51NkFpwK0jBG5BpilGRgnZGO0Ps2T6lQuUFbY98sOET2vW3vUyLxR52ZVAtHFhOA2ztsu5hsGeQTllGYXI60p9azX00zkyfFtYW';
+  // actual
+  // const stripe_pk = "pk_live_51NkFpwK0jBG5BpilI2pUBCSMePDdEE0ms7LlJjtMjpqHp4w36FcdvJhX1Wl4fZLMeIFkXnnlTHU4CMPkyzQUVxXG00bf7ixAir"
 
-  const { currentUser } = useAuth();
+  // test
+  const stripe_pk =
+    "pk_test_51NkFpwK0jBG5BpilGRgnZGO0Ps2T6lQuUFbY98sOET2vW3vUyLxR52ZVAtHFhOA2ztsu5hsGeQTllGYXI60p9azX00zkyfFtYW";
 
   const handleCheckout = async (plan) => {
-    const response = await fetch('http://127.0.0.1:4242/create-checkout-session', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ plan, user_id: currentUser.uid }),
-    });
-
+    console.log("Sending user_id:", currentUser.uid); // Debug line
+    const response = await fetch(
+      "http://127.0.0.1:4242/create-checkout-session",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ plan, user_id: currentUser.uid }), // Include user ID
+      }
+    );
     const session = await response.json();
+    // Redirect to Stripe Checkout
     const stripe = window.Stripe(stripe_pk);
     stripe.redirectToCheckout({ sessionId: session.id });
   };
@@ -69,9 +89,21 @@ const Pricing = () => {
                 <img src={checkmark} alt="check" />3 sentence responses
               </li>
             </ul>
-            <button className="free-button" disabled onClick={() => navigate("/signup")}>
+            { plan === "free" ? ( 
+            <button
+              className="free-button"
+              disabled
+              onClick={() => navigate("/signup")}
+            >
               Current Plan
-            </button>
+            </button> ) : (
+            <button
+              className="free-button"
+              disabled
+            >
+              Free Plan
+            </button> )}
+
           </div>
 
           {/* Pro Plan */}
@@ -105,12 +137,20 @@ const Pricing = () => {
                 Up to 8 sentence responses
               </li>
             </ul>
+            { plan !== "Pro" ? (
             <button
               className="buy-button"
               onClick={() => handleCheckout("Pro")}
             >
               Buy this plan
-            </button>
+            </button> ) : (
+            <button
+              className="buy-button"
+              onClick={() => handleCheckout("Pro")}
+              disabled={plan === "Pro"}
+            >
+              Current plan
+            </button> )}
           </div>
 
           {/* Unlimited Plan */}
@@ -143,12 +183,20 @@ const Pricing = () => {
                 10 sentence responses
               </li>
             </ul>
+            { plan !== "Unlimited" ? (
             <button
               className="buy-button"
               onClick={() => handleCheckout("Unlimited")}
             >
               Buy this plan
-            </button>
+            </button> ) : (
+            <button
+              className="buy-button"
+              onClick={() => handleCheckout("Unlimited")}
+              disabled={plan === "Unlimited"}
+            >
+              Current plan
+            </button> )}
           </div>
         </div>
       </div>
