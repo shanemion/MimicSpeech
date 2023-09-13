@@ -74,7 +74,11 @@ const Dashboard = () => {
             {firstName} {lastName}
           </h2>
           <span>{credits} Credits</span>
-          <button onClick={() => navigate("/generator")}>
+          <button  onClick={
+              selectedLanguage && fromLanguage
+                ? () => navigate("/generator")
+                : () => {navigate("/dashboard"); alert("Please select languages to practice!")}
+            }>
             AI Prompt Generator
           </button>
             <button onClick={() => navigate("/dashboard")}>Dashboard</button>

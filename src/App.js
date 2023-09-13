@@ -19,6 +19,7 @@ import PaymentSuccessPage from "./features/landing-page/components/pricing/Payme
 import { PricingProvider } from "./services/pricing/PricingContext";
 import Dashboard from "./features/dashboard/Dashboard";
 import EditAccount from "./features/dashboard/components/EditAccount";
+import ManagePlan from "./features/dashboard/pricing/ManagePlan";
 import { TypedResponseProvider } from "./services/type-response/TypedResponseContext";
 
 function App() {
@@ -77,10 +78,8 @@ function App() {
                               />
                             }
                           />
-                          <Route
-                            path="/account"
-                            element={<EditAccount />}
-                          />
+                          <Route path="/account" element={<EditAccount />} />
+                          <Route path="/manage-plan" element={<ManagePlan />} />
                         </Routes>
                       </div>
                     </div>

@@ -40,21 +40,13 @@ const Register = () => {
         username,
         firstName,
         lastName,
+        plan: "free", // Set default plan as free
+        subscriptionId: ""
       };
   
       // Register the user and get the user object
       const user = await register(email, password, additionalData);
-  
-      // Assuming that the user object contains a UID
-      const userDoc = doc(db, "users", user.uid);
-  
-      // Set additional data to Firestore
-      await setDoc(userDoc, {
-        firstName,
-        lastName,
-        username,
-        plan: "free" // Set default plan as free
-      }, { merge: true });
+      console.log("user", user)
   
       if (pricingState && pricingState.fromPricingPage) {
         navigate("/dashboard");
@@ -64,6 +56,7 @@ const Register = () => {
       }
     } catch (error) {
       alert(error);
+      console.log("tree")
     }
   };
   

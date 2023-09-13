@@ -1,15 +1,14 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import "./Pricing.css";
-import checkmark from "./icons8-checkmark-48.png"; // adjust the filename if needed
-import { useAuth } from "../../../services/firebase/FirebaseAuth";
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import './Pricing.css';
+import checkmark from './icons8-checkmark-48.png';
+import { useAuth } from '../../../services/firebase/FirebaseAuth';
 
 const useStripe = () => {
   useEffect(() => {
-    // Only add the script if it doesn't already exist in the document
     if (!window.Stripe) {
-      const script = document.createElement("script");
-      script.src = "https://js.stripe.com/v3/";
+      const script = document.createElement('script');
+      script.src = 'https://js.stripe.com/v3/';
       script.async = true;
       document.body.appendChild(script);
     }
@@ -19,29 +18,20 @@ const useStripe = () => {
 const Pricing = () => {
   useStripe();
   const navigate = useNavigate();
-  // actual
-  // const stripe_pk = "pk_live_51NkFpwK0jBG5BpilI2pUBCSMePDdEE0ms7LlJjtMjpqHp4w36FcdvJhX1Wl4fZLMeIFkXnnlTHU4CMPkyzQUVxXG00bf7ixAir"
+  const stripe_pk = 'pk_test_51NkFpwK0jBG5BpilGRgnZGO0Ps2T6lQuUFbY98sOET2vW3vUyLxR52ZVAtHFhOA2ztsu5hsGeQTllGYXI60p9azX00zkyfFtYW';
 
-  // test
-  const stripe_pk =
-    "pk_test_51NkFpwK0jBG5BpilGRgnZGO0Ps2T6lQuUFbY98sOET2vW3vUyLxR52ZVAtHFhOA2ztsu5hsGeQTllGYXI60p9azX00zkyfFtYW";
-
-  const { currentUser } = useAuth(); // Get current user from Firebase
+  const { currentUser } = useAuth();
 
   const handleCheckout = async (plan) => {
-    console.log("Sending user_id:", currentUser.uid); // Debug line
-    const response = await fetch(
-      "http://127.0.0.1:4242/create-checkout-session",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ plan, user_id: currentUser.uid }), // Include user ID
-      }
-    );
+    const response = await fetch('http://127.0.0.1:4242/create-checkout-session', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ plan, user_id: currentUser.uid }),
+    });
+
     const session = await response.json();
-    // Redirect to Stripe Checkout
     const stripe = window.Stripe(stripe_pk);
     stripe.redirectToCheckout({ sessionId: session.id });
   };

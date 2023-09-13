@@ -65,16 +65,18 @@ export const AuthProvider = ({ children }) => {
       auth,
       email,
       password,
-
     );
+    console.log("userCredential", userCredential)
     await setDoc(doc(db, "users", userCredential.user.uid), {
       ...additionalData,
       credits: 10,  
-      firstName: "",
-      lastName: "",
+      // firstName: "",
+      // lastName: "",
       plan: "free",
+      subscriptionId: "",
     });
     setCurrentUser(userCredential.user);
+ 
   };
 
   const login = async (email, password) => {
@@ -147,6 +149,12 @@ export const AuthProvider = ({ children }) => {
     const userRef = doc(db, "users", userId);
     const userDoc = await getDoc(userRef);
     return userDoc.data().plan || "free";
+  };
+
+  const fetchSubscriptionId = async (userId) => {
+    const userRef = doc(db, "users", userId);
+    const userDoc = await getDoc(userRef);
+    return userDoc.data().subscriptionId || "lol";
   };
 
   const deleteCredits = async (userId, amount) => {
@@ -281,7 +289,8 @@ export const AuthProvider = ({ children }) => {
     googleSignInPending,
     setGoogleSignInPending,
     getDoc,
-    setDoc
+    setDoc,
+    fetchSubscriptionId
   };
 
   return (

@@ -180,9 +180,7 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
-    background-color: pink
-    
+    align-items: center;    
   }
 
   .account-popup {
