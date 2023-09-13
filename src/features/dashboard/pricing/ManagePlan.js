@@ -8,6 +8,8 @@ import { DashBurger } from "../components/DashBurger";
 import PricingModal from "./PricingModal";
 import useWindowSize from "../../../utils/WindowSize";
 import LanguageContext from "../../../services/language/LanguageContext";
+import { getDoc, doc } from "firebase/firestore";
+
 import "./ManagePlan.css";
 
 const ManagePlan = () => {
@@ -19,6 +21,24 @@ const ManagePlan = () => {
     fetchCredits,
     db,
   } = useAuth();
+
+  useEffect(() => {
+    // Fetch existing data from Firestore when the component mounts
+    const fetchData = async () => {
+      try {
+        const userDoc = await getDoc(doc(db, "users", currentUser.uid));
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          setFirstName(userData.firstName);
+          setLastName(userData.lastName);
+        }
+      } catch (error) {
+        console.error("Error fetching user data:", error);
+      }
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [currentUser, db]);
 
   const closePricingModal = () => {
     setPricingState(false);
@@ -121,6 +141,8 @@ const ManagePlan = () => {
                 {firstName} {lastName}
               </h2>
               <span>{credits} Credits</span>
+              <button onClick={() => navigate("/dashboard")}>Dashboard</button>
+
               <button
                 onClick={
                   selectedLanguage && fromLanguage
@@ -133,7 +155,6 @@ const ManagePlan = () => {
               >
                 AI Prompt Generator
               </button>
-              <button onClick={() => navigate("/dashboard")}>Dashboard</button>
               <button onClick={() => navigate("/saved")}>
                 Saved Responses
               </button>

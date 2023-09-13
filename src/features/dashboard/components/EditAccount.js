@@ -212,6 +212,8 @@ const EditAccount = () => {
                 {firstName} {lastName}
               </h2>
               <span>{credits} Credits</span>
+              <button onClick={() => navigate("/dashboard")}>Dashboard</button>
+
               <button onClick={
               selectedLanguage && fromLanguage
                 ? () => navigate("/generator")
@@ -219,7 +221,6 @@ const EditAccount = () => {
             }>
                 AI Prompt Generator
               </button>
-              <button onClick={() => navigate("/dashboard")}>Dashboard</button>
               <button onClick={() => navigate("/saved")}>
                 Saved Responses
               </button>
@@ -230,7 +231,7 @@ const EditAccount = () => {
             Input Custom Text
           </button> */}
               {/* <button onClick={() => navigate("/words")}>Saved Words</button> */}
-              <div style={{ height: "40vh" }}></div>
+              <div style={{ height: "36vh" }}></div>
               <div className="sidebar-footer">
                 <h3>Current Plan: {plan}</h3>
                 <span className="plan-credits">

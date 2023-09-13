@@ -74,6 +74,8 @@ const Dashboard = () => {
             {firstName} {lastName}
           </h2>
           <span>{credits} Credits</span>
+          <button onClick={() => navigate("/dashboard")}>Dashboard</button>
+
           <button  onClick={
               selectedLanguage && fromLanguage
                 ? () => navigate("/generator")
@@ -81,7 +83,6 @@ const Dashboard = () => {
             }>
             AI Prompt Generator
           </button>
-            <button onClick={() => navigate("/dashboard")}>Dashboard</button>
           <button onClick={() => navigate("/saved")}>Saved Responses</button>
           {/* <button onClick={() => navigate("/translator")}>
             Sentence Translator
