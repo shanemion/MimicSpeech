@@ -1,7 +1,14 @@
 .account-main-container {
     display: flex;
+    margin-left: 330px;
 }
 
+@media screen and (max-width: 1000px) {
+    .account-main-container {
+        margin-left: 0;
+    }
+}
+  
 .edit-account-container {
     display: flex;
     flex-direction: column;
@@ -10,6 +17,7 @@
     max-width: 600px;
     /* margin: ; */
     font-family: Arial, sans-serif;
+    
   }
   
   .edit-account-title {
@@ -123,7 +131,7 @@
     /* height: 100vh; */
     background-color: #f4f4f4;
     padding: 40px;
-    max-width: 350px;  /* Prevent it from getting too big */
+    max-width: 290px;  /* Prevent it from getting too big */
     z-index: 1000; /* Optional: to ensure it stays on top of other content */
     box-shadow: #ffffff 0px 0px 10px 0px;
   }

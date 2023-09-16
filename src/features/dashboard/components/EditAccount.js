@@ -17,6 +17,7 @@ import { DashBurger } from "./DashBurger";
 import useWindowSize from "../../../utils/WindowSize";
 import LanguageContext from "../../../services/language/LanguageContext";
 import LoaderIcon from "react-loader-icon";
+import Sidebar from "../../../components/Sidebar";
 
 const EditAccount = () => {
   const { currentUser, db, fetchPlan, fetchCredits } = useAuth(); // Assuming useAuth hook provides currentUser and Firestore database instance
@@ -206,46 +207,41 @@ const EditAccount = () => {
         </div>
         {pricingState && <PricingModal onClose={closePricingModal} />}
         {width > 1000 && (
-          <div className="account-sidebar-wrapper">
-            <div className="sidebar">
-              <h2>
-                {firstName} {lastName}
-              </h2>
-              <span>{credits} Credits</span>
-              <button onClick={() => navigate("/dashboard")}>Dashboard</button>
+          // <div className="account-sidebar-wrapper">
+          //   <div className="sidebar">
+          //     <h2>
+          //       {firstName} {lastName}
+          //     </h2>
+          //     <span>{credits} Credits</span>
+          //     <button onClick={() => navigate("/dashboard")}>Dashboard</button>
 
-              <button onClick={
-              selectedLanguage && fromLanguage
-                ? () => navigate("/generator")
-                : () => {navigate("/dashboard"); alert("Please select languages to practice!")}
-            }>
-                AI Prompt Generator
-              </button>
-              <button onClick={() => navigate("/saved")}>
-                Saved Responses
-              </button>
-              {/* <button onClick={() => navigate("/translator")}>
-            Sentence Translator
-          </button>
-          <button onClick={() => navigate("/text-input")}>
-            Input Custom Text
-          </button> */}
-              {/* <button onClick={() => navigate("/words")}>Saved Words</button> */}
-              <div style={{ height: "36vh" }}></div>
-              <div className="sidebar-footer">
-                <h3>Current Plan: {plan}</h3>
-                <span className="plan-credits">
-                  {credits} Credits Remaining
-                </span>
-                <button
-                  className="dashboard-footer-button"
-                  onClick={openPricing}
-                >
-                  Manage Plan
-                </button>
-              </div>
-            </div>
-          </div>
+          //     <button onClick={
+          //     selectedLanguage && fromLanguage
+          //       ? () => navigate("/generator")
+          //       : () => {navigate("/dashboard"); alert("Please select languages to practice!")}
+          //   }>
+          //       AI Prompt Generator
+          //     </button>
+          //     <button onClick={() => navigate("/saved")}>
+          //       Saved Responses
+          //     </button>
+          //     <div style={{ height: "36vh" }}></div>
+          //     <div className="sidebar-footer">
+          //       <h3>Current Plan: {plan}</h3>
+          //       <span className="plan-credits">
+          //         {credits} Credits Remaining
+          //       </span>
+          //       <button
+          //         className="dashboard-footer-button"
+          //         onClick={openPricing}
+          //       >
+          //         Manage Plan
+          //       </button>
+          //     </div>
+          //   </div>
+          // </div>
+          <Sidebar openPricing={openPricing} />
+
         )}
         <div className="edit-account-container">
           <div style={{ height: "80px" }}></div>

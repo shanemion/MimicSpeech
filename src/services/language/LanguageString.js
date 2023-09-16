@@ -1,107 +1,50 @@
-import React, { useContext } from "react";
-import LanguageContext from "./LanguageContext";
+import React from "react";
 
 const SelectedVoice = (selectedLanguage, selectedGender) => {
-
   const language = selectedLanguage.value;
   const gender = selectedGender.value;
 
   if (language === "Chinese") {
-    if (gender === "Man") {
-      return "zh-CN-YunxiNeural";
-    }
-    return "zh-CN-XiaoxiaoNeural";
+    return gender === "Man" ? "zh-CN-YunxiNeural" : "zh-CN-XiaoxiaoNeural";
   }
-
   if (language === "English") {
-    if (gender === "Man") {
-      return "en-GB-RyanNeural";
-    }
-    console.log("es-US-PalomaNeural")
-    return "en-US-JennyNeural";
+    return gender === "Man" ? "en-GB-RyanNeural" : "en-US-JennyNeural";
   }
-
   if (language === "Japanese") {
-    if (gender === "Man") {
-      return "ja-JP-KeitaNeural";
-    }
-    return "ja-JP-NanamiNeural";
+    return gender === "Man" ? "ja-JP-KeitaNeural" : "ja-JP-NanamiNeural";
   }
-
   if (language === "Vietnamese") {
-    if (gender === "Man") {
-      return "vi-VN-NamMinhNeural";
-    }
-    return "vi-VN-HoaiMyNeural";
+    return gender === "Man" ? "vi-VN-NamMinhNeural" : "vi-VN-HoaiMyNeural";
   }
-
   if (language === "Spanish") {
-    if (gender === "Man") {
-      return "es-ES-AlvaroNeural";
-    }
-    return "es-ES-ElviraNeural";
+    return gender === "Man" ? "es-ES-AlvaroNeural" : "es-ES-ElviraNeural";
   }
-
   if (language === "Korean") {
-    if (gender === "Man") {
-      return "ko-KR-InJoonNeural";
-    }
-    return "ko-KR-SunHiNeural";
+    return gender === "Man" ? "ko-KR-InJoonNeural" : "ko-KR-SunHiNeural";
   }
-
   if (language === "French") {
-    if (gender === "Man") {
-      return "fr-FR-DeniseNeural";
-    }
-    return "fr-FR-HenriNeural";
+    return gender === "Man" ? "fr-FR-HenriNeural" : "fr-FR-DeniseNeural";
   }
-
   if (language === "German") {
-    if (gender === "Man") {
-
-      return "de-DE-ConradNeural";
-    }
-    return "de-DE-KatjaNeural";
-
+    return gender === "Man" ? "de-DE-ConradNeural" : "de-DE-KatjaNeural";
   }
-
   if (language === "Italian") {
-    if (gender === "Man") {
-      return "it-IT-DiegoNeural";
-    }
-    return "it-IT-ElsaNeural";
+    return gender === "Man" ? "it-IT-DiegoNeural" : "it-IT-ElsaNeural";
   }
-
   if (language === "Russian") {
-    if (gender === "Man") {
-      return "ru-RU-DmitryNeural";
-    }
-    return "ru-RU-SvetlanaNeural";
+    return gender === "Man" ? "ru-RU-DmitryNeural" : "ru-RU-SvetlanaNeural";
   }
-
   if (language === "Arabic") {
-    if (gender === "Man") {
-      return "ar-LB-RamiNeural";
-    }
-    return "ar-LB-LaylaNeural";
+    return gender === "Man" ? "ar-LB-RamiNeural" : "ar-LB-LaylaNeural";
   }
-
   if (language === "Hindi") {
-    if (gender === "Man") {
-
-      return "hi-IN-AaravNeural";
-    }
-    return "hi-IN-MadhurNeural";
+    return gender === "Man" ? "hi-IN-AaravNeural" : "hi-IN-MadhurNeural";
   }
-
   if (language === "Portuguese") {
-    if (gender === "Man") {
-      return "pt-BR-FranciscoNeural";
-    }
-    return "pt-BR-FranciscaNeural";
+    return gender === "Man" ? "pt-BR-FranciscoNeural" : "pt-BR-FranciscaNeural";
   }
-
-  console.log("none")
+  
+  console.log("None");
   return null;
 };
 

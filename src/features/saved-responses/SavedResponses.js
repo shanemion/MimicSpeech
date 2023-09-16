@@ -11,6 +11,7 @@ import { useSavedResponse } from "../../services/saved/SavedContext";
 import LanguageContext from "../../services/language/LanguageContext";
 import './SavedResponses.css';
 import { listAll } from "@firebase/storage";
+import LoaderIcon from "react-loader-icon";
 
 
 const SavedResponses = ({
@@ -23,6 +24,7 @@ const SavedResponses = ({
   const { isSaved, setIsSaved } = useSavedResponse();
   const [savedResponses, setSavedResponses] = useState([]);
   const { ref, storage, deleteObject } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
   const {
@@ -50,6 +52,7 @@ const SavedResponses = ({
     responses.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
 
     setSavedResponses(responses);
+    setIsLoading(false);
   };
 
   const handleDelete = async (id) => {
@@ -88,7 +91,16 @@ const SavedResponses = ({
     setIsSaved(true); 
   };
 
+  
+
   const filteredResponses = filterLanguage ? savedResponses.filter(r => r.selectedLanguage.value === filterLanguage) : savedResponses;
+
+
+  if (isLoading) {
+    return <div style={{marginTop: "40vh"}}> 
+        <LoaderIcon type="bubbles" color="#000000" />
+    </div>;
+  }
 
   return (
     <div className="sr-container">

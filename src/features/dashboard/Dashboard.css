@@ -14,7 +14,7 @@
   height: 100vh;
   background-color: #f4f4f4;
   padding: 40px;
-  width: 350px;
+  width: 290px;
   z-index: 1000; /* Optional: to ensure it stays on top of other content */
   box-shadow: #ffffff 0px 0px 10px 0px;
 }
@@ -82,7 +82,7 @@
 }
 
 .main-content {
-  margin-left: 350px; /* Add left margin equal to the width of the sidebar */
+  margin-left: 330px; /* Add left margin equal to the width of the sidebar */
 
   width: 100%;
 }
@@ -114,7 +114,6 @@
   gap: 20px;
 
   max-width: 600px;
-
 }
 
 .dashboard-footer-button {
@@ -159,13 +158,140 @@
   text-align: left;
   border-radius: 16px;
   text-align: center;
-  background-color: #0daa5b;
+  background-color: transparent;
   color: #fff;
-  box-shadow: 0 8px 20px rgba(1, 111, 20, 0.586) !important;
+  box-shadow: 0 8px 20px rgb(0, 0, 0) !important;
+  outline: none;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ai-nav-button-inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  max-width: 500px;
+}
+
+.inner-button {
+  padding: 10px 14px;
+  font-size: 18px;
+  font-weight: 600;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease-in-out;
+}
+
+.inner-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.how-to-button {
+  background-color: #f9f9f9; /* A shade of informational blue */
+  color: #333;
+}
+
+.how-to-button:hover {
+  background-color: #ffe0e0; /* A darker shade for hover */
+}
+
+.start-button {
+  background-color: #00bfb3; 
+  color: white;
+}
+
+.start-button:hover {
+  background-color: #00958b; 
+}
+
+.ai-nav-button::before {
+  content: "";
+  position: absolute; /* Absolute positioning */
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(
+    rgba(58, 80, 107, 0.4),
+    /* Change the opacity as needed */ rgba(58, 80, 107, 0.4)
+  ); /* Apply the gradient overlay */
+  z-index: 1; /* Make sure the gradient is above the image */
+}
+
+.ai-nav-button:hover::before {
+  background: linear-gradient(rgba(58, 80, 107, 0.3), rgba(58, 80, 107, 0.3));
+  z-index: 1;
+}
+
+.ai-nav-button img {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 0;
+  object-fit: cover;
+  transition: transform 0.7s;
+}
+
+.ai-nav-button:hover img {
+  transform: scale(1.2);
 }
 
 .ai-nav-button:hover {
-  background-color: #0ead69;
+  background: none;
+}
+
+.ai-nav-button.clicked {
+  animation: growAndFade 1s ease-in-out forwards;
+  z-index: 999999;
+}
+
+.ai-nav-button.clicked::before {
+  background: linear-gradient(rgba(249, 249, 249, 0.9));
+}
+
+/* @keyframes growAndFade {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  25% {
+    opacity: .6;
+  }
+  50% {
+    opacity: .3;
+  }
+  100% {
+    opacity: .1;
+    transform: scale(20);
+  }
+} */
+@keyframes growAndFade {
+  0% {
+    opacity: 0.4;
+    transform: scale(1);
+  }
+  25% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 0.9;
+    transform: scale(5);
+  }
 }
 
 .dashboard-header {
@@ -180,8 +306,8 @@
   justify-content: left;
   align-items: center;
   gap: 20px;
-  
-  }
+  z-index: 3;
+}
 
 .dashboard-language-selector {
   justify-content: center;
@@ -208,7 +334,6 @@
   .dashboard-nav-button,
   .ai-nav-button {
     width: 100%;
-
   }
   .dashboard-header {
     margin-bottom: 70px;
@@ -225,6 +350,4 @@
   /* width: 900px; You can change this */
   z-index: 1001; /* higher than other z-index values in your layout */
   margin-bottom: 40px;
-
-
 }

@@ -414,6 +414,11 @@ const CompletionGenerator = ({
       textToRead = typedResponse;
     }
 
+    if (selectedGender === null) {
+      alert("Please select a voice.");
+      return;
+    }
+
     console.log("textToRead:", textToRead);
     await handleTTS(textToRead, selectedLanguage, selectedGender, rates[speed]);
   }

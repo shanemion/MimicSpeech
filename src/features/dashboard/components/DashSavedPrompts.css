@@ -1,0 +1,175 @@
+.dash-container {
+    padding: 20px 20px 20px 20px;
+  }
+  
+  .dash-box {
+    background-color: #f3f4f6;
+    padding: 40px 20px 20px 20px;
+    border-radius: 8px;
+    transition: height 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    height: auto;
+    margin-bottom: 20px;
+  }
+  
+  .dash-box.expanded {
+    height: 400px;
+  }
+  
+  .height-220 {
+    height: 300px !important;
+  }
+  
+  .height-200 {
+    height: 240px !important;
+  }
+  
+  .dash-prompt {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .dash-language {
+    color: #4a5568;
+    margin-bottom: 10px;
+  }
+  
+  .dash-sentence {
+    color: #2d3748;
+    margin-bottom: 10px;
+  }
+  
+  .dash-response {
+    color: #2d3748;
+  }
+  
+  .dash-toggle,
+  .dash-use {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    cursor: pointer;
+  }
+  
+  .dash-use {
+    bottom: 45px;
+    right: 10px;
+  }
+  
+  .dash-columns {
+    display: flex;
+    flex-wrap: wrap;  /* Added for responsiveness */
+  }
+  
+  .dash-column {
+    flex: 1;
+    min-width: calc(25% - 20px);  /* Added minimum width */
+    margin-right: 20px;
+  }
+  .dash-toggle {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: white;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    padding: 5px;
+    width: 30px;
+    height: 30px; /* fixed dimensions for circular shape */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .dash-toggle.expanded {
+    background: #eee; 
+  }
+  
+  .dash-toggle:hover {
+    background: #ddd;
+  }
+  
+  .dash-toggle svg {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .dash-use {
+    position: absolute;
+    top: 12px;
+    left: 15px;
+    max-height: 30px;
+    max-width: 140px;
+    background: #00bfb3;
+    color: white;
+    padding: 5px 10px;  /* Reduced padding */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;  /* Reduced font size */
+  }
+  
+  .dash-use:hover {
+    background: #3a506b;
+  }
+
+  .dash-box.expanded {
+    height: 400px; /* You can adjust this value */
+    overflow-y: auto; /* Make the box scrollable */
+    transform: scale(1.2); 
+    transition: height 0.3s ease, transform 0.3s ease; /* Updated to include scaling */
+    z-index: 2; /* Ensure expanded box is above others */
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Add box shadow */
+
+  }
+
+  @keyframes scaleUp {
+    0% {
+      transform: scale(1);
+    }
+    100% {
+      transform: scale(1.2);
+    }
+  }
+  
+  @keyframes scaleDown {
+    0% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .dash-box.expanded {
+    height: 400px;
+    animation: scaleUp 0.5s ease;
+  }
+  
+  .dash-box.collapsed {
+    animation: scaleDown 0.5s ease;
+  }
+
+  .dash-box.expanded::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .dash-box.expanded::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+  }
+  
+  .dash-box.expanded::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+  
+  
+  /* Mobile responsive view */
+  @media (max-width: 1400px) {
+    .dash-column {
+      min-width: calc(50% - 20px);  /* Switch to 2 columns */
+    }
+  }
+  

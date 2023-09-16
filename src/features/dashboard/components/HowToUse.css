@@ -1,0 +1,14 @@
+.how-to-use-main {
+    display: flex;
+    flex-wrap: wrap;
+    /* justify-content: space-between; */
+    margin-bottom: 20px;
+    margin-left: 330px;
+}
+
+@media screen and (max-width: 1000px) {
+    .how-to-use-main {
+        margin-left: 20px;
+    }
+}
+    

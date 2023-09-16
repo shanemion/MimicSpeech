@@ -22,6 +22,7 @@ import EditAccount from "./features/dashboard/components/EditAccount";
 import ManagePlan from "./features/dashboard/pricing/ManagePlan";
 import SubscriptionCanceled from "./features/dashboard/pricing/SubscriptionCanceled";
 import { TypedResponseProvider } from "./services/type-response/TypedResponseContext";
+import HowToUse from "./features/dashboard/components/HowToUse";
 
 function App() {
   const [typeResponse, setTypeResponse] = useState(false);
@@ -48,7 +49,18 @@ function App() {
                           <Route path="/login" element={<Login />} />
                           <Route path="/signup" element={<Register />} />
                           <Route path="/pricing" element={<PricingPage />} />
-                          <Route path="/dashboard" element={<Dashboard />} />
+                          <Route
+                            path="/dashboard"
+                            element={
+                              <Dashboard
+                                userPrompt={userPrompt}
+                                setUserPrompt={setUserPrompt}
+                                responseLength={responseLength}
+                            setResponseLength={setResponseLength}
+                              />
+                            }
+                            
+                          />
                           <Route
                             path="/payment-success"
                             element={<PaymentSuccessPage />}
@@ -81,7 +93,11 @@ function App() {
                           />
                           <Route path="/account" element={<EditAccount />} />
                           <Route path="/manage-plan" element={<ManagePlan />} />
-                          <Route path="/subscription-canceled" element={<SubscriptionCanceled />} />
+                          <Route
+                            path="/subscription-canceled"
+                            element={<SubscriptionCanceled />}
+                          />
+                          <Route path="/how-to-use" element={<HowToUse />} />
                         </Routes>
                       </div>
                     </div>

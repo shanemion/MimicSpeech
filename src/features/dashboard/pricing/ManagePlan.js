@@ -9,6 +9,8 @@ import PricingModal from "./PricingModal";
 import useWindowSize from "../../../utils/WindowSize";
 import LanguageContext from "../../../services/language/LanguageContext";
 import { getDoc, doc } from "firebase/firestore";
+import Sidebar from "../../../components/Sidebar";
+import LoaderIcon from "react-loader-icon";
 
 import "./ManagePlan.css";
 
@@ -21,6 +23,8 @@ const ManagePlan = () => {
     fetchCredits,
     db,
   } = useAuth();
+  const [isLoading, setIsLoading] = useState(true);
+
 
   useEffect(() => {
     // Fetch existing data from Firestore when the component mounts
@@ -50,7 +54,6 @@ const ManagePlan = () => {
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [isLoading, setIsLoading] = useState(true);
 
   const [plan, setPlan] = useState("");
   const [credits, setCredits] = useState(0);
@@ -127,6 +130,12 @@ const ManagePlan = () => {
     }
   };
 
+  if (isLoading) {
+    return <div style={{marginTop: "40vh"}}> 
+        <LoaderIcon type="bubbles" color="#000000" />
+    </div>;
+  }
+
   return (
     <>
       <div className="account-main-container">
@@ -135,62 +144,18 @@ const ManagePlan = () => {
         </div>
         {pricingState && <PricingModal onClose={closePricingModal} />}
         {width > 1000 && (
-          <div className="account-sidebar-wrapper">
-            <div className="sidebar">
-              <h2>
-                {firstName} {lastName}
-              </h2>
-              <span>{credits} Credits</span>
-              <button onClick={() => navigate("/dashboard")}>Dashboard</button>
-
-              <button
-                onClick={
-                  selectedLanguage && fromLanguage
-                    ? () => navigate("/generator")
-                    : () => {
-                        navigate("/dashboard");
-                        alert("Please select languages to practice!");
-                      }
-                }
-              >
-                AI Prompt Generator
-              </button>
-              <button onClick={() => navigate("/saved")}>
-                Saved Responses
-              </button>
-              {/* <button onClick={() => navigate("/translator")}>
-          Sentence Translator
-        </button>
-        <button onClick={() => navigate("/text-input")}>
-          Input Custom Text
-        </button> */}
-              {/* <button onClick={() => navigate("/words")}>Saved Words</button> */}
-              <div style={{ height: "36vh" }}></div>
-              <div className="sidebar-footer">
-                <h3>Current Plan: {plan}</h3>
-                <span className="plan-credits">
-                  {credits} Credits Remaining
-                </span>
-                <button
-                  className="dashboard-footer-button"
-                  onClick={openPricing}
-                >
-                  Manage Plan
-                </button>
-              </div>
-            </div>
-          </div>
+          <Sidebar />
         )}
         <div className="manage-container">
           <h1 className="manage-title">Manage Your Plan</h1>
           <p className="manage-plan-detail">
             Current Plan: {plan ? plan : "Loading..."}
           </p>
-          {(plan === "Free" || plan === "Pro") && (
+          {(plan === "free" || plan === "Pro") && (
             <button
               className="manage-button"
               onClick={() => {
-                navigate("/dashboard");
+                // navigate("/dashboard");
                 setPricingState(true);
               }}
             >

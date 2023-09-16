@@ -171,6 +171,9 @@ export const DashBurger = () => {
       <Link to="/saved-responses" style={linkStyle} onClick={closeMenu}>
         Saved Responses
       </Link>
+      <Link to="/how-to-use" style={linkStyle} onClick={closeMenu}>
+        How to Use
+      </Link>
       {/* <Link to="/translator" onClick={closeMenu}>
         Sentence Translator
       </Link>
