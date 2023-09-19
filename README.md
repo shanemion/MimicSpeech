@@ -9,8 +9,8 @@ Up next to implement: Adding backend security/rates to prevent API/storage/TTS a
 Current Design before theming and redesign. All functionality visible in proper working condition. Logo made with Figma!!
 
 ![image](https://github.com/shanemion/MimicSpeech/assets/110140524/b59f065e-83d5-48e3-a1c8-a8d7f4b05e58)
-![image](https://github.com/shanemion/MimicSpeech/assets/110140524/61ccf5d0-9118-4b21-9a60-605bee9df301)
-![image](https://github.com/shanemion/MimicSpeech/assets/110140524/cb04c353-3843-465f-9e75-c5587c9f4bb4)
+<img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/cc33bdd2-3ea4-4e39-80d0-dfe53bed7f7f">
+<img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/3490f366-7bc3-4649-8313-2c1ff4665eba">
 
 
 ![image](https://github.com/shanemion/MimicSpeech/assets/110140524/7cca574d-5fcb-46e5-8e4c-6f839b1c367c)
