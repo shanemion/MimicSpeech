@@ -6,7 +6,13 @@ import { Burger } from "../../../../components/Burger";
 import { usePricing } from "../../../../services/pricing/PricingContext"; // Import the custom hook
 import { useAuth } from "../../../../services/firebase/FirebaseAuth"; // Import your Auth hook
 
-const LandingHeader = () => {
+const LandingHeader = ({
+  scrollToHome,
+  scrollToFeature,
+  scrollToPricing,
+  scrollToFAQ,
+  scrollToContact,
+}) => {
   const navigate = useNavigate();
   const { width } = useWindowSize();
   const { currentUser } = useAuth(); // Get current user from Firebase
@@ -25,22 +31,28 @@ const LandingHeader = () => {
   return (
     <header className="header">
       <div className="logo">
-        <div style={{display: "flex", flexDirection: "row"}}>
+        <div style={{ display: "flex", flexDirection: "row" }}>
           <img
             src="/images/logov00.png"
             alt="Logo"
             style={{ width: 90, height: "auto", marginRight: 10 }}
             ß
           />
-          <h2 onClick={() => navigate("/")}>MimicSpeech</h2>
+          <h2 onClick={scrollToHome}>MimicSpeech</h2>
         </div>
       </div>
       <nav>
         <ul className="nav-links">
-          <li onClick={() => navigate("/pricing")}>Features</li>
-          <li onClick={() => navigate("/pricing")}>Pricing</li>
-          <li onClick={() => navigate("/pricing")}>FAQs</li>
-          <li onClick={() => navigate("/contact")}>Contact Us</li>
+          <li onClick={scrollToFeature}>Features</li>
+          <li onClick={scrollToPricing}>Pricing</li>
+          <li onClick={scrollToFAQ}>FAQs</li>
+          <li
+            onClick={() => {
+              scrollToContact();
+            }}
+          >
+            Contact Us
+          </li>
         </ul>
       </nav>
       <div>

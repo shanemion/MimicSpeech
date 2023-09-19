@@ -1,5 +1,6 @@
 .content {
   margin-bottom: 20px;
+  
 }
 
 .selectorContainer {
@@ -9,7 +10,8 @@
   margin-bottom: 0;
   padding: 10px;
   border-radius: 8px; /* for smoother corners */
-  z-index: 3;
+  
+  /* z-index: 5; */
 }
 
 .selectorWidth,
@@ -17,8 +19,6 @@
   width: 100%; /* Utilize the available space */
   border-radius: 4px; /* Rounded corners */
   box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2); /* subtle shadow for depth */
-  z-index: 3;
-
 }
 
 .selectorWithLabel {
@@ -26,15 +26,12 @@
   flex-direction: column;
   align-items: flex-start;
   margin: 10px;
-  z-index: 3;
 }
 
 .selectorWithLabel label {
   margin-bottom: 5px;
   font-weight: bold;
   color: #333; /* dark enough for readability */
-  z-index: 3;
-
 }
 
 
@@ -214,6 +211,8 @@
 .page-container {
   position: relative;
   min-height: 100vh;
+  background-image: radial-gradient(circle at center, rgba(255, 255, 255, 1), rgba(173, 216, 230, 0.3), rgba(255, 255, 255, 0));
+
 }
 
 .footer {
@@ -479,17 +478,28 @@
   padding-bottom: 12px;
   margin: 10px auto; /* This adds some space above and below the container */
   width: 70%;
+  background-color: white;
 }
 
 .outlined-subcontainer {
   border: 2px solid #ccc; /* This gives a thin outline */
   border-radius: 4px; /* This rounds the edges slightly */
   /* padding: 5px 0; This adds some space between the content and the border */
-  margin: 10px -2px; /* This adds some space above and below the container */
+  margin: 10px 0; /* This adds some space above and below the container */
   width: 100%;
 }
 
-@media (max-width: 1500px) {
+@media (max-width: 1400px) {
+  .outlined-container {
+    width: 90%;
+    padding: 10px;
+  }
+  .outlined-subcontainer {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1200px) {
   .outlined-container {
     width: 100%;
     padding: 10px;

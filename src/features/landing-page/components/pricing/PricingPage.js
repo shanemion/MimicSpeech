@@ -31,7 +31,7 @@ const PricingPage = () => {
 
   return (
     <div>
-      <LandingHeader />
+      {/* <LandingHeader /> */}
       <div className="pricing-page">
         <h1 className="pricing-title">Pricing Plans</h1>
         <div className="pricing-plans">

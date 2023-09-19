@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import "./DashSavedPrompts.css";
 import { getFirestore, collection, getDocs, query } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
@@ -59,7 +59,12 @@ const DashSavedPrompts = ({
     setIsSaved(true);
   };
 
+  const boxRefs = useRef({});
+
   const toggleExpand = (id) => {
+    if (expandedId !== null && boxRefs.current[expandedId]) {
+      boxRefs.current[expandedId].scrollTop = 0;
+    }
     if (expandedId === id) {
       setIsCollapsing(true);
       setTimeout(() => {
@@ -71,6 +76,25 @@ const DashSavedPrompts = ({
     }
   };
 
+  const captureFirstTwoSentences = (str) => {
+    // This regular expression matches up to two sentences
+    const re = /(.+?[.。!?!？¡।॥،؛„“«»„“‘’“”]+)\s*(.*?[.。!?!？¡।॥،؛„“«»„“‘’“”]+)?/;
+    const match = str.match(re);
+    
+    if (match) {
+      let result = match[1];
+      
+      // Add the second sentence if it exists
+      if (match[2]) {
+        result += " " + match[2];
+      }
+      
+      return result;
+    }
+    
+    return "";
+  };
+
   const filteredResponses = filterLanguage
     ? savedResponses.filter((r) => r.selectedLanguage.value === filterLanguage)
     : savedResponses;
@@ -79,7 +103,7 @@ const DashSavedPrompts = ({
     <div className="dash-container">
       <h1>Your Saved Topics</h1>
       <div className="dash-filter-container">
-      <div style={{ height: "6px" }}></div>
+        <div style={{ height: "6px" }}></div>
 
         <label className="dash-filter-label">Filter by Language: </label>
         <select
@@ -102,70 +126,73 @@ const DashSavedPrompts = ({
       </div>
       <div style={{ height: "20px" }}></div>
       {filteredResponses.length === 0 ? (
-      <div className="dash-empty-message">
-        Nothing here yet, start learning now!
-      </div>
-    ) : (
-      <div className="dash-columns">
-        {Array.from({ length: 4 }, (_, colIndex) => (
-          <div className="dash-column" key={colIndex}>
-            {filteredResponses
-              .filter((_, index) => index % 4 === colIndex)
-              .map((response, index) => {
-                let heightClass;
-                if (colIndex % 2 === 0) {
-                  heightClass = index % 2 === 0 ? "height-220" : "height-200";
-                } else {
-                  heightClass = index % 2 === 0 ? "height-200" : "height-220";
-                }
-                const uniqueIndex = colIndex + index * 4;
-                let additionalClass =
-                  expandedId === uniqueIndex ? "expanded" : "";
-                if (isCollapsing && expandedId === uniqueIndex) {
-                  additionalClass += " collapsed";
-                }
-                return (
-                  <div
-                    key={uniqueIndex}
-                    className={`dash-box ${heightClass} ${additionalClass}`}
-                    style={{ zIndex: expandedId === uniqueIndex ? 2 : 1 }} // Add this line
-                  >
-                    <h2 className="dash-prompt">
-                      {response.userPrompt || "Unnamed Response"}
-                    </h2>
-                    <p className="dash-language">
-                      {response.selectedLanguage.value}
-                    </p>
-                    <p className="dash-sentence">
-                      {response.text.split(/[.。]/)[0] || ""}
-                    </p>
-                    {expandedId === uniqueIndex && (
-                      <p className="dash-response">{response.text}</p>
-                    )}
-                    <button
-                      className={`dash-toggle ${
-                        expandedId === uniqueIndex ? "expanded" : ""
-                      }`}
-                      onClick={() => toggleExpand(uniqueIndex)}
+        <div className="dash-empty-message">
+          Nothing here yet, start learning now!
+        </div>
+      ) : (
+        <div className="dash-columns">
+          {Array.from({ length: 4 }, (_, colIndex) => (
+            <div className="dash-column" key={colIndex}>
+              {filteredResponses
+                .filter((_, index) => index % 4 === colIndex)
+                .map((response, index) => {
+                  let heightClass;
+                  if (colIndex % 2 === 0) {
+                    heightClass = index % 2 === 0 ? "height-220" : "height-200";
+                  } else {
+                    heightClass = index % 2 === 0 ? "height-200" : "height-220";
+                  }
+                  const uniqueIndex = colIndex + index * 4;
+                  let additionalClass =
+                    expandedId === uniqueIndex ? "expanded" : "";
+                  if (isCollapsing && expandedId === uniqueIndex) {
+                    additionalClass += " collapsed";
+                  }
+                  return (
+                    <div
+                      ref={(el) => {
+                        boxRefs.current[uniqueIndex] = el;
+                      }} // Add this line
+                      key={uniqueIndex}
+                      className={`dash-box ${heightClass} ${additionalClass}`}
+                      style={{ zIndex: expandedId === uniqueIndex ? 2 : 1 }} // Add this line
                     >
-                      {expandedId === uniqueIndex ? (
-                        <BiCollapseAlt />
-                      ) : (
-                        <BiExpandAlt />
+                      <h2 className="dash-prompt">
+                        {response.userPrompt || "Unnamed Response"}
+                      </h2>
+                      <p className="dash-language">
+                        {response.selectedLanguage.value}
+                      </p>
+                      <p className="dash-sentence">
+                        {captureFirstTwoSentences(response.text) || ""}
+                      </p>
+                      {expandedId === uniqueIndex && (
+                        <p className="dash-response">{response.text}</p>
                       )}
-                    </button>
-                    <button
-                      className="dash-use"
-                      onClick={() => handleUseResponse(response)}
-                    >
-                      Use this Response
-                    </button>
-                  </div>
-                );
-              })}
-          </div>
-        ))}
-      </div>
+                      <button
+                        className={`dash-toggle ${
+                          expandedId === uniqueIndex ? "expanded" : ""
+                        }`}
+                        onClick={() => toggleExpand(uniqueIndex)}
+                      >
+                        {expandedId === uniqueIndex ? (
+                          <BiCollapseAlt />
+                        ) : (
+                          <BiExpandAlt />
+                        )}
+                      </button>
+                      <button
+                        className="dash-use"
+                        onClick={() => handleUseResponse(response)}
+                      >
+                        Use this Response
+                      </button>
+                    </div>
+                  );
+                })}
+            </div>
+          ))}
+        </div>
       )}
     </div>
   );

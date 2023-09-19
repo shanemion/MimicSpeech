@@ -1,48 +1,53 @@
 .dash-container {
-    padding: 20px 20px 20px 20px;
-  }
-  
-  .dash-box {
-    background-color: #f3f4f6;
-    padding: 40px 20px 20px 20px;
-    border-radius: 8px;
-    transition: height 0.3s ease;
-    position: relative;
-    overflow: hidden;
-    height: auto;
-    margin-bottom: 20px;
-  }
-  
-  .dash-box.expanded {
-    height: 400px;
-  }
-  
-  .height-220 {
-    height: 300px !important;
-  }
-  
-  .height-200 {
-    height: 240px !important;
-  }
-  
-  .dash-prompt {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
-  
-  .dash-language {
-    color: #4a5568;
-    margin-bottom: 10px;
-  }
-  
-  .dash-sentence {
-    color: #2d3748;
-    margin-bottom: 10px;
-  }
-  
-  .dash-response {
-    color: #2d3748;
-  }
+  padding: 20px 20px 20px 20px;
+}
+
+.dash-box {
+  background: linear-gradient(to bottom right, #f7f9fc, #eaf1f9); /* Light blue and white gradient */
+
+  color: #333;
+  padding: 40px 20px 20px 20px;
+  border-radius: 12px;  /* More rounded corners */
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  height: auto;
+  margin-bottom: 20px;
+  border: 4px solid #cfd8dd;  /* Light gray border */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);  /* Subtle box shadow */
+}
+
+.dash-box.expanded {
+  height: 400px;
+}
+
+.height-220 {
+  height: 300px !important;
+}
+
+.height-200 {
+  height: 240px !important;
+}
+
+.dash-prompt {
+  font-size: 18px;
+  margin-bottom: 10px;
+  color: #333  ;
+}
+
+.dash-language {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.dash-sentence {
+  margin-bottom: 10px;
+  color: #333
+}
+
+.dash-response {
+  color: #333
+}
   
   .dash-toggle,
   .dash-use {
@@ -53,6 +58,8 @@
   }
   
   .dash-use {
+    border: 1px solid #cfd8dd;  /* Added border to match the dash-box style */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Added subtle shadow */
     bottom: 45px;
     right: 10px;
   }
@@ -81,10 +88,14 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);  /* Added subtle shadow */
+
   }
   
   .dash-toggle.expanded {
     background: #eee; 
+    /* border: 4px solid #dfe4e8;  Slightly different border for expanded boxes */
+  /* box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);   */
   }
   
   .dash-toggle:hover {
@@ -102,8 +113,9 @@
     left: 15px;
     max-height: 30px;
     max-width: 140px;
-    background: #00bfb3;
-    color: white;
+    background: #f9f9f9;
+    /* color: white; */
+    color: #333;
     padding: 5px 10px;  /* Reduced padding */
     border: none;
     border-radius: 4px;
@@ -112,7 +124,7 @@
   }
   
   .dash-use:hover {
-    background: #3a506b;
+    background: #00bfb3;
   }
 
   .dash-box.expanded {
@@ -146,6 +158,8 @@
   .dash-box.expanded {
     height: 400px;
     animation: scaleUp 0.5s ease;
+    border: 4px solid #f9f9f9;  /* Added a different border color for expanded boxes */
+
   }
   
   .dash-box.collapsed {

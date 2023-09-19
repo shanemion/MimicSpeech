@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import GenerateHeader from "../../header/GenerateHeader";
 import { Selectors } from "../../../../components/Selectors";
 import useWindowSize from "../../../../utils/WindowSize";
@@ -25,6 +25,14 @@ const GenerateOptions = ({
   const { typedResponse } = useContext(LanguageContext);
   const [isExpanded, setIsExpanded] = useState(true); // State for expanded/collapsed settings
   const [showPlaceholder, setShowPlaceholder] = useState(true);
+  const [shouldCollapse, setShouldCollapse] = useState(false);
+
+  useEffect(() => {
+    if (shouldCollapse) {
+        setShowPlaceholder(false);
+        setShouldCollapse(false); // Reset so it can be expanded again later
+    }
+  }, [shouldCollapse]);
 
   return (
     <div>
@@ -32,7 +40,7 @@ const GenerateOptions = ({
         typeResponse={typeResponse}
         setTypeResponse={setTypeResponse}
       />
-      <div style={{height: "15px"}}></div>
+      <div style={{ height: "15px" }}></div>
       <div
         className={`options-outlined-container ${
           isExpanded ? "expanded-container" : ""
@@ -54,9 +62,11 @@ const GenerateOptions = ({
           <button
             className="toggle-expand"
             onClick={() => {
-              setShowPlaceholder(true);
-              // time out function to false
-                setTimeout(() => {setShowPlaceholder(false)}, 280);
+              if (isExpanded) {
+                setShouldCollapse(true); // Explicitly collapsing, so set shouldCollapse to true
+              } else {
+                setShowPlaceholder(true); // Only expand if it is not already expanded
+              }
               setIsExpanded(!isExpanded);
             }}
           >
@@ -93,7 +103,7 @@ const GenerateOptions = ({
                     isGPTLoading ? "small-generate-disabled" : "small-generate"
                   }
                   disabled={isGPTLoading}
-                  onClick={handleGenerateResponse}
+                  onClick={() => {handleGenerateResponse(); setShouldCollapse(true)}}
                 >
                   <AiOutlineSend />
                 </button>
@@ -155,7 +165,7 @@ const GenerateOptions = ({
           </div>
         </div>
       </div>
-      {showPlaceholder && <div className="placeholder"></div>}
+      <div className={`placeholder ${showPlaceholder ? "expanded" : "collapsed"}`}></div>
     </div>
   );
 };

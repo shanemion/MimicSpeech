@@ -14,7 +14,7 @@ export const usePricing = () => {
 
 // Provider component
 export const PricingProvider = ({ children }) => {
-  const [pricingState, setPricingState] = useState(null);
+  const [pricingState, setPricingState] = useState(false);
 
   const value = {
     pricingState,

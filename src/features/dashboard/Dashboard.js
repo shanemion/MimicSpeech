@@ -13,7 +13,7 @@ import useWindowSize from "../../utils/WindowSize";
 import { DashBurger } from "./components/DashBurger";
 import DashSavedPrompts from "./components/DashSavedPrompts";
 import DashFeaturedPrompts from "./components/DashFeaturedPrompts";
-import AiImageButton from "./components/ai-button-100.1.png";
+import AiImageButton from "./components/wavev0.2.png";
 import Sidebar from "../../components/Sidebar";
 
 const Dashboard = ({
@@ -39,7 +39,6 @@ const Dashboard = ({
   const { fromLanguage, selectedLanguage } = useContext(LanguageContext);
   const [buttonClicked, setButtonClicked] = useState(false);
 
-
   const closePricingModal = () => {
     setPricingState(false);
   };
@@ -51,8 +50,8 @@ const Dashboard = ({
   return (
     <div className="dashboard">
       {pricingState && <PricingModal onClose={closePricingModal} />}
- 
-        <Sidebar openPricing={openPricing} />
+
+      <Sidebar openPricing={openPricing} />
       <div className="main-content">
         <div className="dashboard-header">
           {width < 1000 && <DashBurger />}
@@ -88,6 +87,10 @@ const Dashboard = ({
                   }
             }
           >
+            <div className="inner-button-text">
+              <h1 className="inner-button-text-text">Bring Scenarios to Life with Gen AI</h1>
+            </div>
+
             <div className="ai-nav-button-inner">
               <button
                 className="inner-button how-to-button"
@@ -105,8 +108,8 @@ const Dashboard = ({
             <img src={AiImageButton} alt="AI Button" />
           </button>
 
-          <div className="dashboard-body-buttons">
-            <button
+          {/* <div className="dashboard-body-buttons"> */}
+          {/* <button
               className="dashboard-nav-button"
               onClick={() => navigate("/custom-translations")}
               disabled={true}
@@ -119,8 +122,8 @@ const Dashboard = ({
               disabled={true}
             >
               COMING SOON: Sentence Translator
-            </button>
-          </div>
+            </button> */}
+          {/* </div> */}
           <div style={{ height: "20px" }}></div>
 
           <DashSavedPrompts
@@ -129,7 +132,7 @@ const Dashboard = ({
             responseLength={responseLength}
             setResponseLength={setResponseLength}
           />
-          <DashFeaturedPrompts />
+          {/* <DashFeaturedPrompts /> */}
 
           <div style={{ height: "200px" }}></div>
         </div>

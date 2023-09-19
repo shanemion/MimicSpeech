@@ -51,7 +51,9 @@
 
 .slide.active {
   opacity: 1;
-  background-color: white; /* Add this line */
+  /* background-color: white;  */
+  background: none;
+
 }
 
 .card {
@@ -65,7 +67,9 @@
 
 .card.flipped {
   transform: rotateY(180deg);
-  
+  background-color: white;
+  border-radius: 8px;  /* Add slight border-radius */
+
 }
 
 .card-front img {
@@ -83,6 +87,7 @@
   box-shadow: 0px 8px 32px rgba(0, 0, 0, 0.4);
   display: flex;
   flex-direction: column;  
+  background-color: white;
 }
 
 .card-front,
@@ -97,7 +102,8 @@
   justify-content: center;
   border-radius: 8px;
   opacity: 1;  /* Make it not see-through */
-  background-color: white;  /* Add background color */
+  /* background-color: white;   */
+  background: none;
 }
 
 .card-back {

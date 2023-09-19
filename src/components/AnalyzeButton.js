@@ -107,13 +107,17 @@ const AnalyzeButton = ({
               onClick={() => {
                 if (
                   !localStorage.getItem("TTS_audio") ||
-                  !localStorage.getItem("user_audio_url")
+                  !localStorage.getItem("user_audio_url") || 
+                  localStorage.getItem("TTS_audio") === "" ||
+                  localStorage.getItem("user_audio_url") === "" || 
+                  localStorage.getItem("TTS_audio") === null ||
+                  localStorage.getItem("user_audio_url") === null
                   // !practiceData[`${selectedPage}-${selectedSentenceIndex}`]
                   //   ?.recordedPracticePitchData?.length ||
                   // !practiceData[`${selectedPage}-${selectedSentenceIndex}`]
                   //   ?.recordedPracticeAudios?.length
                 ) {
-                  alert("Play TTS and record audio before comparing!!");
+                  alert("Play TTS and record audio before comparing!");
                 } else {
                   setIsRecordingListLoading(true);
                   setIsAnalyzeButtonLoading(true);
@@ -144,24 +148,28 @@ const AnalyzeButton = ({
               if (
                 selectedPage !== "Practice" && (
                 !localStorage.getItem("TTS_audio") ||
-                !localStorage.getItem("user_audio_url")) 
+                !localStorage.getItem("user_audio_url") || 
+                localStorage.getItem("TTS_audio") === "" ||
+                localStorage.getItem("user_audio_url") === "" || 
+                localStorage.getItem("TTS_audio") === null ||
+                localStorage.getItem("user_audio_url") === null)
               ) {
-                alert("Play TTS and record audio before comparing!!!");
-                console.log(localStorage.getItem("TTS_audio"));
-                console.log(localStorage.getItem("user_audio_url"));
-                console.log(
-                  practiceData[`${selectedPage}-${selectedSentenceIndex}`]
-                    ?.recordedPracticePitchData?.length
-                );
-                console.log(
-                  practiceData[`${selectedPage}-${selectedSentenceIndex}`]
-                    ?.recordedPracticeAudios?.length
-                );
-                console.log(
-                  practiceData[
-                    `${currentUser.uid}_${mainString}-${selectedLanguage.value}-${selectedGender.value}-${rates[speed]}`
-                  ]?.synthesizedPracticePitchData?.length
-                );
+                alert("Play TTS and record audio before comparing!");
+                // console.log(localStorage.getItem("TTS_audio"));
+                // console.log(localStorage.getItem("user_audio_url"));
+                // console.log(
+                //   practiceData[`${selectedPage}-${selectedSentenceIndex}`]
+                //     ?.recordedPracticePitchData?.length
+                // );
+                // console.log(
+                //   practiceData[`${selectedPage}-${selectedSentenceIndex}`]
+                //     ?.recordedPracticeAudios?.length
+                // );
+                // console.log(
+                //   practiceData[
+                //     `${currentUser.uid}_${mainString}-${selectedLanguage.value}-${selectedGender.value}-${rates[speed]}`
+                //   ]?.synthesizedPracticePitchData?.length
+                // );
               } else if (
                 selectedPage === "Practice" &&
                 // !practiceData[`${selectedPage}-${selectedSentenceIndex}`]

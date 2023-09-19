@@ -170,6 +170,7 @@
   }
   .options-outlined-container {
     width: 100%;
+    background-color: white;
   }
   .response-length-input {
     width: 25%;
@@ -188,7 +189,7 @@
   margin-top: 2px;
   padding: 6px 8px;
   cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  /* transition: background-color 0.3s ease, color 0.3s ease; */
 }
 
 .bookmark {
@@ -215,6 +216,8 @@
   left: auto;
   transform: scale(1);
   padding: 0 0 20px 0;
+  background-color: white;
+
 }
 
 .expanded-container {
@@ -240,17 +243,34 @@
 @media (max-width: 768px) {
   .options-outlined-container {
     width: 80%;
+    background-color: white;
+
   }
   .expanded-container {
     left: calc(10%);
     width: 80%;
     height: 60%;
+    background-color: white;
+
   }
 }
 
 .placeholder {
-    height: 250px;
-    width: 100%;
-    background-color: white;
-  }
+  height: 1px;
+  width: 100%;
+  background-color: white;
+  transition: height 0.25s ease-in-out;
+}
+
+.placeholder.expanded {
+  height: 530px;
+  background: none;
+
+}
+
+.placeholder.collapsed {
+  height: 1px;
+  background: none;
+}
+
   

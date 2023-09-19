@@ -2,8 +2,9 @@ body {
   margin: 0;
   display: grid;
   min-height: 100vh; 
+  
   grid: auto;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Lato', sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -11,15 +12,33 @@ body {
   /* overflow-x: hidden;  */
   /* width: 100%; 
   max-width: 100%;  */
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+
+
+}
+
+.container {
+  margin-bottom: 0;
+
 }
 
 
+#root {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+
+}
 
 html {
   overflow-x: hidden; /* Hide horizontal scrollbar */
   width: 100%; /* Full-width */
   max-width: 100%; /* Maximum width */
+  height: 100%;
   /* scroll-behavior: smooth; */
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+
 }
 
   

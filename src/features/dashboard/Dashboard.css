@@ -1,7 +1,7 @@
 .dashboard {
   display: flex;
   z-index: 5000;
-  background-color: white;
+  /* background: linear-gradient(to right, lightblue, lightpink); */
 }
 
 .sidebar-wrapper {
@@ -88,7 +88,7 @@
 }
 
 .dashboard-body {
-  background-color: #fff;
+  /* background-color: #fff; */
   display: flex;
   top: 30;
   gap: 20px;
@@ -147,9 +147,9 @@
 }
 
 .ai-nav-button {
-  width: 62%;
-  height: 200px;
-  max-width: 600px;
+  width: 98%;
+  height: 300px;
+  /* max-width: 600px; */
 
   margin: 10px 10px 20px 0px;
 
@@ -173,21 +173,49 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 20px;
+  gap: 14px;
   position: absolute;
-  top: 50%;
+  top: 62.5%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 2;
-  max-width: 500px;
+  /* max-width: 500px; */
+}
+
+.inner-button-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  padding: 0 20px;
+  align-items: center;
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+}
+
+.inner-button-text-text {
+  font-size: 38px !important;
+  font-weight: 600;
+  color: #fff !important;
+}
+
+@media screen and (max-width: 1000px) {
+  .inner-button-text-text {
+    font-size: 28px !important;
+    font-weight: 600;
+    color: #fff !important;
+  }
 }
 
 .inner-button {
-  padding: 10px 14px;
-  font-size: 18px;
+  padding: 16px 32px;
+  font-size: 14px;
   font-weight: 600;
   border: none;
-  border-radius: 12px;
+  border-radius: 24px;
   cursor: pointer;
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease-in-out;
@@ -208,12 +236,12 @@
 }
 
 .start-button {
-  background-color: #00bfb3; 
+  background-color: #00bfb3;
   color: white;
 }
 
 .start-button:hover {
-  background-color: #00958b; 
+  background-color: #00958b;
 }
 
 .ai-nav-button::before {
@@ -242,6 +270,7 @@
   z-index: 0;
   object-fit: cover;
   transition: transform 0.7s;
+  margin: 0;
 }
 
 .ai-nav-button:hover img {
