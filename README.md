@@ -19,13 +19,13 @@ Created to learn React, databases, servers, and putting a project together from 
 <img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/2b4807b4-8df2-48f6-8d86-3b2f125bd516">
 <img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/5f838dec-ac97-49cc-942b-cdb380544278">
 <img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/47796370-8633-4911-b297-3a63a618d12d">
-<img width="254" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/80c2a0cc-7f8a-4b1d-8657-21bbee0be2e7">
-<img width="347" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/15715e5e-22a2-4c1a-9fae-e9c5b9ab5fbb">
 <img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/cf70c300-fc6c-4e2f-929a-d85cafc653b0">
 <img width="1510" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/c7c62b40-71f2-4814-b1b1-897a6943709c">
 <img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/9329a985-5912-4fd8-8b99-69681680e5bf">
 <img width="498" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/d0207b63-8d85-4457-a6e0-78c488972b63">
 <img width="499" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/29e4e111-ceb4-442c-b13f-4994e867d123">
+<img width="254" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/80c2a0cc-7f8a-4b1d-8657-21bbee0be2e7">
+<img width="347" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/15715e5e-22a2-4c1a-9fae-e9c5b9ab5fbb">
 <img width="1084" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/15341fdf-0b7b-4fd5-a6d9-ee974ab9825f">
 <img width="1080" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/05414cec-7314-4af8-b24b-2b588e938616">
 
