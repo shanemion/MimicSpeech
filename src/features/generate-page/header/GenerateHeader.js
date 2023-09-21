@@ -4,6 +4,7 @@ import { Selectors } from "../../../components/Selectors";
 import { Burger } from "../../../components/Burger";
 import AuthButtons from "../../../components/AuthButtons";
 import useWindowSize from "../../../utils/WindowSize";
+import PopupMenu from "../../dashboard/components/popup-menu/PopupMenu";
 
 const GenerateHeader = ({ typeResponse, setTypeResponse }) => {
   const { width } = useWindowSize();
@@ -21,7 +22,9 @@ const GenerateHeader = ({ typeResponse, setTypeResponse }) => {
           )} */}
         </div>
       </div>
-      {width > 1300 ? <AuthButtons /> : <Burger />}
+      <div style={{display: "flex", gap: "8px"}}>
+       <AuthButtons /> <PopupMenu />
+       </div>
     </div>
   );
 };

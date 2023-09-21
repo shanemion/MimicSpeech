@@ -53,6 +53,9 @@ const PopupMenu = () => {
   const handleEditAccount = () => navigate("/account");
   const handleManagePlan = () => navigate("/manage-plan");
   const handleUpdatePlan = () => navigate("/update-plan");
+  const handleSavedResponses = () => navigate("/saved");
+  const handleHowToUse = () => navigate("/how-to-use");
+  const handleDashboard = () => navigate("/dashboard");
   const handleLogout = async () => {
     try {
       await logout();
@@ -72,6 +75,12 @@ const PopupMenu = () => {
         <div className="popup-menu">
           <button onClick={handleEditAccount}>Edit Account</button>
           <button onClick={handleManagePlan}>Manage Plan</button>
+
+          <button onClick={handleDashboard}>Dashboard</button>
+          <button onClick={handleHowToUse}>How to Use</button>
+          <button onClick={handleSavedResponses}>Saved Responses</button>
+
+
           {/* <button onClick={handleUpdatePlan}>Update Plan</button> */}
           <button onClick={handleLogout}>Logout</button>
         </div>

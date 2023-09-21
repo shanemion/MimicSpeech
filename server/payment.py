@@ -27,16 +27,16 @@ CORS(app, resources={
 
 
 # Map plan names to Stripe Price IDs
-# price_ids = {
-#     'Pro': 'price_1NkOHeK0jBG5Bpil2Kew0nhx',
-#     'Unlimited': 'price_1NkOI0K0jBG5BpilFolLW6xR'
-# }
+price_ids = {
+    'Pro': 'price_1NkOHeK0jBG5Bpil2Kew0nhx',
+    'Unlimited': 'price_1NseXeK0jBG5Bpilgy7wo3BS'
+}
 
 # test Stripe Price IDs
-price_ids = {
-    'Pro': 'price_1NkcTLK0jBG5BpilYyTCm9lA',
-    'Unlimited': 'price_1NkcTZK0jBG5Bpil1EJBSW0w'
-}
+# price_ids = {
+#     'Pro': 'price_1NkcTLK0jBG5BpilYyTCm9lA',
+#     'Unlimited': 'price_1NkcTZK0jBG5Bpil1EJBSW0w'
+# }
 
 
 @app.route('/create-checkout-session', methods=['POST'])
@@ -116,7 +116,7 @@ def cancel_subscription():
 
 
 credits_map = {
-    'Pro': 15,
+    'Pro': 30,
     'Unlimited': float('inf')
 }
 

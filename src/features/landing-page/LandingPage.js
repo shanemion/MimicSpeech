@@ -27,6 +27,7 @@ const LandingPage = () => {
   const faqRef = useRef(null);
   const languageRef = useRef(null);
   const contactRef = useRef(null);
+  const wordRef = useRef(null);
 
   const isFeatureVisible = useIntersectionObserver(featureRef);
   const isPricingVisible = useIntersectionObserver(pricingRef);
@@ -37,8 +38,14 @@ const LandingPage = () => {
   const isPracticeVisible = useIntersectionObserver(practiceRef);
   const isFaqVisible = useIntersectionObserver(faqRef);
   const isLanguageVisible = useIntersectionObserver(languageRef);
+  const isContactVisible = useIntersectionObserver(contactRef);
+  const isWordVisible = useIntersectionObserver(wordRef);
 
   const heroRef = useRef();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const scrollToHome = () => {
     const offset = -140;
@@ -162,7 +169,7 @@ const LandingPage = () => {
               <div style={{ width: "50px" }}></div>
               {/* <div> */}
               <img
-                src="/images/v0customprompts.png"
+                src="/images/Interface.png"
                 alt="Custom Prompts"
                 className="sixty-image"
               />
@@ -178,7 +185,7 @@ const LandingPage = () => {
             <div className="feature-content">
               {width > 1000 && (
                 <img
-                  src="/images/v0TTS.png"
+                  src="/images/TTS.png"
                   alt="Natural Text-to-Speech"
                   className="sixty-image"
                 />
@@ -192,7 +199,7 @@ const LandingPage = () => {
 
               {width < 1000 && (
                 <img
-                  src="/images/v0TTS.png"
+                  src="/images/TTS.png"
                   alt="Natural Text-to-Speech"
                   className="sixty-image"
                 />
@@ -255,6 +262,39 @@ const LandingPage = () => {
             </div>
           </div>
           <div style={{ height: 100 }}></div>
+
+          <div
+            className={`feature ${isWordVisible ? "fadeIn" : ""}`}
+            ref={wordRef}
+          >
+            <div className="feature-content">
+              {/* {width > 1000 && (
+                // <div>
+                <img
+                  src="/images/Words.png"
+                  alt="Isolate Words"
+                  className="sixty-image"
+                />
+                // </div>
+              )} */}
+              <div style={{ width: "50px" }}></div>
+
+              <div>
+                <h2>Study New Words</h2>
+                <p>Increase your vocabularly by clicking on new words.</p>
+              </div>
+              {/* {width < 1000 && ( */}
+              <div>
+                <img
+                  src="/images/Words.png"
+                  alt="Practice Mode"
+                  className="sixty-image"
+                />
+              </div>
+              {/* )} */}
+            </div>
+          </div>
+          <div style={{ height: 100 }}></div>
         </div>
       </section>
 
@@ -294,6 +334,21 @@ const LandingPage = () => {
           >
             Check it out on GitHub
           </a>
+          <p>
+          <a
+            href="https://www.linkedin.com/in/shanemion/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Contact Me on LinkedIn
+          </a>
+          </p>
+          <p className="landing-footer-text">
+            For inquiries or questions contact smion@stanford.edu
+          </p>
+          <p className="landing-footer-text">Made from Create React App</p>
+
+          <p className="landing-footer-text">© 2023 MimicSpeech</p>
         </div>
         <div className="social-media">
           {/* Add your social media icons here */}

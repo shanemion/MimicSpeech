@@ -71,7 +71,7 @@ const Pricing = () => {
 
             <ul>
               <li>
-                <img src={checkmark} alt="check" />5 free credits
+                <img src={checkmark} alt="check" />15 free credits
               </li>
               <li>
                 <img src={checkmark} alt="check" />
@@ -118,7 +118,7 @@ const Pricing = () => {
             <ul>
               <li>
                 <img src={checkmark} alt="check" />
-                15 credits a month
+                30 credits a month
               </li>
               <li>
                 <img src={checkmark} alt="check" />
@@ -134,7 +134,7 @@ const Pricing = () => {
               </li>
               <li>
                 <img src={checkmark} alt="check" />
-                Up to 8 sentence responses
+                Up to 3 sentence responses
               </li>
             </ul>
             { plan !== "Pro" ? (
@@ -180,7 +180,7 @@ const Pricing = () => {
               </li>
               <li>
                 <img src={checkmark} alt="check" />
-                10 sentence responses
+                5 sentence responses
               </li>
             </ul>
             { plan !== "Unlimited" ? (

@@ -26,6 +26,10 @@
     text-align: center;
   }
 
+  .landing-footer-text {
+    color: #4a4a4a;
+  }
+
   #landing-footer >  {
     margin-bottom: 0px;
 

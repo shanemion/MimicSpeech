@@ -18,7 +18,7 @@ const PaymentSuccessPage = () => {
     };
 
     fetchUserCredits();
-  }, [currentUser, fetchCredits]);
+  }, [currentUser, fetchCredits, plan]);
 
   return (
     <div className="payment-success-container">

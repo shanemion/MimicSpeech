@@ -40,7 +40,7 @@ const PricingPage = () => {
             <p>$0</p>
             <p>Billed Monthly</p>
             <ul>
-              <li><img src={checkmark} alt="check" className="checkmark"/>5 free credits</li>
+              <li><img src={checkmark} alt="check" className="checkmark"/>15 free credits</li>
               <li><img src={checkmark} alt="check" className="checkmark"/>GPT-3.5 access</li>
               <li><img src={checkmark} alt="check" className="checkmark"/>Natural sounding Text to Speech</li>
               <li><img src={checkmark} alt="check" className="checkmark"/>Option to save responses</li>
@@ -58,11 +58,13 @@ const PricingPage = () => {
             <p>$4.99</p>
             <p>Billed Monthly</p>
             <ul>
-              <li><img src={checkmark} alt="check" className="checkmark"/>15 credits a month</li>
+              <li><img src={checkmark} alt="check" className="checkmark"/>30 credits a month</li>
               <li><img src={checkmark} alt="check" className="checkmark"/>GPT-4 access</li>
               <li><img src={checkmark} alt="check" className="checkmark"/>Natural sounding Text to Speech</li>
+
               <li><img src={checkmark} alt="check" className="checkmark"/>Option to save responses</li>
-              <li><img src={checkmark} alt="check" className="checkmark"/>Up to 8 sentence responses</li>
+              <li><img src={checkmark} alt="check" className="checkmark"/>Up to 3 sentence responses</li>
+
             </ul>
             <button
               className="pricing-button"
@@ -79,8 +81,10 @@ const PricingPage = () => {
               <li><img src={checkmark} alt="check" className="checkmark"/>Unlimited credits</li>
               <li><img src={checkmark} alt="check" className="checkmark"/>GPT-4 access</li>
               <li><img src={checkmark} alt="check" className="checkmark"/>Natural sounding Text to Speech</li>
+
               <li><img src={checkmark} alt="check" className="checkmark"/>Option to save responses</li>
-              <li><img src={checkmark} alt="check" className="checkmark"/>10 sentence responses</li>
+              <li><img src={checkmark} alt="check" className="checkmark"/>Up to 5 sentence responses</li>
+
             </ul>
             <button
               className="pricing-button"

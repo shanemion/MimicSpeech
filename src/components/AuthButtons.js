@@ -22,7 +22,7 @@ export default function AuthButtons() {
       {currentUser ? (
         <>
           <button className="authButton" onClick={() => navigate("/saved")}>View Saved</button>
-          <button className="authButton" onClick={handleLogout}>Logout</button>
+          {/* <button className="authButton" onClick={handleLogout}>Logout</button> */}
         </>
       ) : (
         <>

@@ -43,6 +43,7 @@ const CompletionGenerator = ({
     fetchFirstName,
     fetchLastName,
     deleteCredits,
+    fetchPlan
   } = useAuth();
   const { updateTTSwav } = useAuth();
 
@@ -88,6 +89,8 @@ const CompletionGenerator = ({
   const [isRecordingListLoading, setIsRecordingListLoading] = useState(false);
   const [isGPTLoading, setIsGPTLoading] = useState(false);
   const [numLanguages, setNumLanguages] = useState(2);
+  const [plan, setPlan] = useState("");
+
 
   // State for audio recorder / analysis
   const [uniqueAudioID, setUniqueAudioID] = useState("");
@@ -107,8 +110,23 @@ const CompletionGenerator = ({
   const [recAllowAnalyze, setRecAllowAnalyze] = useState(false);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  useEffect(() => {
     setIsMounted(true);
   }, []);
+
+  useEffect(() => {
+    const fetchUserPlan = async () => {
+      const userPlan = await fetchPlan(currentUser.uid);
+      setPlan(userPlan);
+    };
+
+    fetchUserPlan();
+  }, [currentUser, fetchPlan]);
+
+
 
   const closePricingModal = () => {
     setPricingState(false);
@@ -149,12 +167,22 @@ const CompletionGenerator = ({
 
   const handleResponseLengthChange = (event) => {
     let newValue = parseInt(event.target.value, 10);
-    if (newValue > 6) {
-      newValue = 6;
+    if (plan === "free" || plan === "Pro") {
+    if (newValue > 3) {
+      newValue = 3;
     }
     if (newValue < 2) {
       newValue = 2;
     }
+  } else {
+    if (newValue > 5) {
+      newValue = 5;
+    }
+    if (newValue < 2) {
+      newValue = 2;
+    }
+  }
+
     setResponseLength(newValue);
     localStorage.setItem("numSentences", newValue.toString());
   };

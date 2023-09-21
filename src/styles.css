@@ -225,8 +225,10 @@
 
 @media screen and (max-width: 768px) {
   .titleContainer {
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
+    margin-left: 0px;
+
   }
   .titleContainer > h1 {
     margin-bottom: 20px;

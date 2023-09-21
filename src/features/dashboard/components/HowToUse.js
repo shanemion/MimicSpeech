@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import Sidebar from "../../../components/Sidebar";
 import { useNavigate } from "react-router-dom";
 import PricingModal from "../pricing/PricingModal";
@@ -7,10 +7,17 @@ import PopupMenu from "./popup-menu/PopupMenu";
 import { DashBurger } from "./DashBurger";
 import useWindowSize from "../../../utils/WindowSize";
 import "./HowToUse.css";
+import { useAuth } from "../../../services/firebase/FirebaseAuth";
 
 const HowToUse = () => {
   const { pricingState, setPricingState } = useContext(PricingContext);
   const { width } = useWindowSize();
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
 
   const closePricingModal = () => {
     setPricingState(false);
@@ -21,10 +28,13 @@ const HowToUse = () => {
       {width < 1000 && <DashBurger />}
 
       <div className="how-to-use-main">
-        <Sidebar />
-        <div className="account-popup">
-          <PopupMenu />
-        </div>
+        {currentUser && <Sidebar />}
+        {currentUser && (
+          <div className="account-popup">
+            <PopupMenu />
+          </div>
+        )}
+
         <div>
           <h1 style={{ marginTop: "120px" }}>
             How to use the AI Prompt Generator

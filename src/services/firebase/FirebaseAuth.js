@@ -109,7 +109,7 @@ export const AuthProvider = ({ children }) => {
       if (!userDoc.exists()) {
         // Initialize credits and plan
         await setDoc(doc(db, "users", user.uid), {
-          credits: 10,
+          credits: 15,
           firstName: "",
           lastName: "",
           plan: "free",

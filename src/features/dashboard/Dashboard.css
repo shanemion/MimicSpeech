@@ -12,7 +12,9 @@
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
-  background-color: #f4f4f4;
+  /* background-color: #f4f4f4; */
+  background-color: #00766E;
+
   padding: 40px;
   width: 290px;
   z-index: 1000; /* Optional: to ensure it stays on top of other content */
@@ -22,7 +24,8 @@
 .sidebar {
   display: flex;
   flex-direction: column;
-  background-color: #f4f4f4;
+  background-color: #00766E !important;
+  color: #eee !important;
 }
 
 .sidebar-with-footer {
@@ -70,6 +73,7 @@
   cursor: pointer;
   text-align: left;
   border-bottom: 1px solid #eee;
+  color: #eee;
 }
 
 .sidebar button:last-child {
@@ -149,18 +153,14 @@
 .ai-nav-button {
   width: 98%;
   height: 300px;
-  /* max-width: 600px; */
-
   margin: 10px 10px 20px 0px;
-
   background: none;
   cursor: pointer;
-  text-align: left;
   border-radius: 16px;
   text-align: center;
   background-color: transparent;
   color: #fff;
-  box-shadow: 0 8px 20px rgb(0, 0, 0) !important;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, .4) !important;
   outline: none;
   overflow: hidden;
   position: relative;

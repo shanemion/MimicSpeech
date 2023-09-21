@@ -8,23 +8,54 @@ const Faq = () => {
     {
       question: "What is MimicSpeech?",
       answer:
-        "MimicSpeech is an AI-powered application that helps you learn languages.",
+        "MimicSpeech is an AI-powered application that helps you learn languages. It provides real-time feedback on your pronunciation and grammar, and helps you practice speaking in a foreign language, on any topic of your choosing. It's designed to be fun and easy to use, so you can learn a new language without feeling overwhelmed. Improve your speaking skills today by creating a free account!",
     },
     {
       question: "How does it work?",
       answer:
-        "MimicSpeech uses advanced algorithms to analyze your speech and provide real-time feedback.",
+        "MimicSpeech uses advanced algorithms to analyze your speech and provide real-time feedback. Check out our features on our home page for a visual understanding of what tools we offer! Learn more at https://mimicspeech.com/how-to-use.",
     },
     {
       question: "Is it free?",
       answer:
-        "We offer both free and premium plans. You can choose the one that best suits your needs.",
+        "We offer both free, pro, and unlimited plans. You can choose the one that best suits your needs.",
     },
     {
       question: "How do I get started?",
       answer:
-        "Simply register for an account and you'll be guided through the setup process.",
+        "Simply register for an account and you'll be guided through the setup process. From there, select a language you want to study and start practicing!",
     },
+    {
+      question: "What type of topics can I practice?",
+      answer:
+        "You can practice any topic you want! You can start with topics that interest you, such as hobbies, sports, or food. You can also practice topics that you need to know for school or work.",
+    },
+    {
+      question: "What are some example prompts?",
+      answer:
+        "Typically, prompts are about four to ten words long. For example, 'Traveling to Alaska for the summer,' or 'Cuddling a cute puppy,' or 'Going to the beach with friends.' Or even something on the odd side, like 'A husky watching anime,' or 'A cat playing the piano,' or 'A man climbing the empire state building.' Any of these are great, use your imagination!",
+    },
+    {
+      question: "How do credits work?",
+      answer:
+        "Each group of sentences is worth 1 credit! So a 3 sentence response is 3 credits, the translated sentences do not use credits.",
+    },
+    {
+      question: "How do I upgrade my plan?",
+      answer:
+        "You can upgrade your plan at any time by going to your account settings.",
+    },
+    {
+      question: "How do I cancel my subscription?",
+      answer: 
+        "You can cancel your subscription at any time by going to your account settings.",
+    },
+    {
+      question: "How do I contact support?",
+      answer:
+        "You can contact us at smion@stanford.edu.",
+    },
+
   ];
 
   const toggleAnswer = (index) => {

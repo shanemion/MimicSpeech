@@ -39,6 +39,10 @@ const Dashboard = ({
   const { fromLanguage, selectedLanguage } = useContext(LanguageContext);
   const [buttonClicked, setButtonClicked] = useState(false);
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   const closePricingModal = () => {
     setPricingState(false);
   };

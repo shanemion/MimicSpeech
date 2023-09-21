@@ -6,6 +6,7 @@ import PricingContext from "../../../services/pricing/PricingContext";
 import PricingModal from "../pricing/PricingModal";
 import LanguageContext from "../../../services/language/LanguageContext";
 import "../Dashboard.css";
+import "./DashBurger.css";
 
 export const DashBurger = () => {
   const navigate = useNavigate();
@@ -96,7 +97,8 @@ export const DashBurger = () => {
       width: "350px",
     },
     bmMenu: {
-      background: "rgba(220, 220, 220, 1)",
+      // background: "rgba(220, 220, 220, 1)",
+      background: "#00766E",
       padding: "2.5em 1.5em 0",
       fontSize: "1.15em",
     },
@@ -104,9 +106,10 @@ export const DashBurger = () => {
       fill: "#373a47",
     },
     bmItemList: {
-      color: "black",
+      color: "white",
       padding: "0.8em",
     },
+
     bmItem: {
       display: "block",
     },
@@ -127,7 +130,8 @@ export const DashBurger = () => {
     fontFamily:
       "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
     fontSize: "16px",
-  }; // Inline style for Links
+    color: "white",
+  };
 
   const closeMenu = () => setIsOpen(false); // This function will close the menu
   const handleStateChange = (state) => setIsOpen(state.isOpen);
@@ -152,7 +156,7 @@ export const DashBurger = () => {
 
       <Link
         to={selectedLanguage && fromLanguage ? "/generator" : "/dashboard"}
-        style={linkStyle}
+        className="link"
         onClick={
           selectedLanguage && fromLanguage
             ? () => navigate("/generator")
@@ -165,13 +169,13 @@ export const DashBurger = () => {
         AI Prompt Generator
       </Link>
 
-      <Link to="/dashboard" style={linkStyle} onClick={closeMenu}>
+      <Link to="/dashboard" className="link" onClick={closeMenu}>
         Dashboard
       </Link>
-      <Link to="/saved-responses" style={linkStyle} onClick={closeMenu}>
+      <Link to="/saved" className="link" onClick={closeMenu}>
         Saved Responses
       </Link>
-      <Link to="/how-to-use" style={linkStyle} onClick={closeMenu}>
+      <Link to="/how-to-use" className="link" onClick={closeMenu}>
         How to Use
       </Link>
       {/* <Link to="/translator" onClick={closeMenu}>
