@@ -18,6 +18,8 @@ Created to learn React, databases, servers, and putting a project together from 
 <img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/1900f2d1-724d-4535-86f3-2516047a178b">
 <img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/2b4807b4-8df2-48f6-8d86-3b2f125bd516">
 <img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/5f838dec-ac97-49cc-942b-cdb380544278">
+<img width="1511" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/4902ac82-5cb3-426e-a43a-b307dccc877b">
+<img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/b5fec178-f80b-4fdd-92b3-04c00d655291">
 <img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/47796370-8633-4911-b297-3a63a618d12d">
 <img width="1512" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/cf70c300-fc6c-4e2f-929a-d85cafc653b0">
 <img width="1510" alt="image" src="https://github.com/shanemion/MimicSpeech/assets/110140524/c7c62b40-71f2-4814-b1b1-897a6943709c">
