@@ -13,7 +13,7 @@ import useWindowSize from "../../utils/WindowSize";
 import { DashBurger } from "./components/DashBurger";
 import DashSavedPrompts from "./components/DashSavedPrompts";
 import DashFeaturedPrompts from "./components/DashFeaturedPrompts";
-import AiImageButton from "./components/wavev0.2.png";
+import AiImageButton from "./components/wavev0.3.png";
 import Sidebar from "../../components/Sidebar";
 
 const Dashboard = ({
@@ -92,7 +92,9 @@ const Dashboard = ({
             }
           >
             <div className="inner-button-text">
-              <h1 className="inner-button-text-text">Bring Scenarios to Life with Gen AI</h1>
+              <h1 className="inner-button-text-text">
+                Bring Scenarios to Life with Gen AI
+              </h1>
             </div>
 
             <div className="ai-nav-button-inner">
@@ -129,15 +131,17 @@ const Dashboard = ({
             </button> */}
           {/* </div> */}
           <div style={{ height: "20px" }}></div>
-
+          <DashFeaturedPrompts
+            userPrompt={userPrompt}
+            setUserPrompt={setUserPrompt}
+          />
+          {/* <div style={{ height: "200px" }}></div> */}
           <DashSavedPrompts
             userPrompt={userPrompt}
             setUserPrompt={setUserPrompt}
             responseLength={responseLength}
             setResponseLength={setResponseLength}
           />
-          {/* <DashFeaturedPrompts /> */}
-
           <div style={{ height: "200px" }}></div>
         </div>
       </div>

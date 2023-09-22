@@ -2,13 +2,12 @@
   padding: 20px 20px 20px 20px;
 }
 
-.dash-box {
+.prompt-dash-box {
   background: linear-gradient(
     to bottom right,
     #f7f9fc,
     #eaf1f9
   ); /* Light blue and white gradient */
-
   color: #333;
   padding: 40px 20px 20px 20px;
   border-radius: 12px; /* More rounded corners */
@@ -19,32 +18,20 @@
   margin-bottom: 20px;
   border: 4px solid #cfd8dd; /* Light gray border */
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle box shadow */
+   /* height: 140px; */
+
 }
 
-.dash-box.expanded {
-  height: 400px;
+.height-120 {
+    height: 172px !important;
 }
-
-.height-220 {
-  height: 300px !important;
-}
-
-.height-200 {
-  height: 240px !important;
+  
+  .height-100 {
+    height: 152px !important;
 }
 
 .dash-prompt {
   font-size: 18px;
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.dash-language {
-  margin-bottom: 10px;
-  color: #333;
-}
-
-.dash-sentence {
   margin-bottom: 10px;
   color: #333;
 }
@@ -71,6 +58,8 @@
 .dash-columns {
   display: flex;
   flex-wrap: wrap; /* Added for responsiveness */
+  /* min-width: 260px; */
+
 }
 
 .dash-column {
@@ -78,6 +67,7 @@
   min-width: calc(25% - 20px); /* Added minimum width */
   margin-right: 20px;
 }
+
 .dash-toggle {
   position: absolute;
   top: 12px;
@@ -130,14 +120,14 @@
   background: #00bfb3;
 }
 
-.dash-box.expanded {
-  height: 400px; /* You can adjust this value */
-  overflow-y: auto; /* Make the box scrollable */
-  transform: scale(1.4);
-  transition: height 0.3s ease, transform 0.3s ease; /* Updated to include scaling */
-  z-index: 2; /* Ensure expanded box is above others */
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); /* Add box shadow */
-}
+.prompt-dash-box.expanded {
+      height: 350px;
+      overflow-y: auto; 
+      transform: scale(1.4); 
+      transition: height 0.3s ease, transform 0.3s ease;
+      z-index: 2; 
+      box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2); 
+    } 
 
 @keyframes scaleUp {
   0% {
@@ -157,73 +147,73 @@
   }
 }
 
-.dash-box.expanded {
-  height: 400px;
+.prompt-dash-box.expanded {
+  height: 350px;
   animation: scaleUp 0.5s ease;
   border: 4px solid #f9f9f9; /* Added a different border color for expanded boxes */
 }
 
-.dash-box.collapsed {
+.prompt-dash-box.collapsed {
   animation: scaleDown 0.5s ease;
 }
-
-.dash-box.expanded::-webkit-scrollbar {
-  width: 6px;
-}
-
-.dash-box.expanded::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-
-.dash-box.expanded::-webkit-scrollbar-thumb:hover {
-  background: #555;
-}
+  
+    .prompt-dash-box.expanded::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .prompt-dash-box.expanded::-webkit-scrollbar-thumb {
+      background: #888;
+      border-radius: 4px;
+    }
+    
+    .prompt-dash-box.expanded::-webkit-scrollbar-thumb:hover {
+      background: #555;
+    }
+    
 
 .dash-filter-wrapper {
-  position: relative;
-  display: inline-block;
-  padding-left: 4px;
-}
+    position: relative;
+    display: inline-block;
+    padding-left: 4px;
+  }
+  
+  .dash-filter-select {
+    padding: 8px 10px;
+    padding-right: 30px; 
 
-.dash-filter-select {
-  padding: 8px 10px;
-  border: 1px solid #ced4da;
-  border-radius: 5px;
-  background-color: #ffffff;
-  appearance: none; /* This removes the default styles for the dropdown in some browsers */
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  transition: box-shadow 0.3s ease, border 0.3s ease;
-}
-
-.dash-filter-select:hover {
-  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
-}
-
-.dash-filter-select:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
-}
-
-/* Custom dropdown arrow */
-.dash-filter-wrapper::after {
-  /* content: "▼"; */
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  pointer-events: none; /* so it doesn't interfere with the click event of select */
-  color: #888;
-}
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    background-color: #ffffff;
+    appearance: none; /* This removes the default styles for the dropdown in some browsers */
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease, border 0.3s ease;
+  }
+  
+  .dash-filter-select:hover {
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+  }
+  
+  .dash-filter-select:focus {
+    outline: none;
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.5);
+  }
+  
+  /* Custom dropdown arrow */
+  .dash-filter-wrapper::after {
+    content: "▼";
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* so it doesn't interfere with the click event of select */
+    color: #888;
+  }
 
 /* Mobile responsive view */
 @media (max-width: 1400px) {
   .dash-column {
     min-width: calc(50% - 20px); /* Switch to 2 columns */
-  }
-  .dash-use {
-    max-width: 112px !important;
   }
 }

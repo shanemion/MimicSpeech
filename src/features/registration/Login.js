@@ -41,7 +41,7 @@ const Login = () => {
     <div className="container">
       {width > 768 && (
         <div className="promo-section">
-          <h1>Welcome to MimicSpeech!</h1>
+          <h1>Welcome Back!</h1>
           <p>Unlock the world with our extensive language library.</p>
           <p>
             Customize your language learning journey with our AI-powered

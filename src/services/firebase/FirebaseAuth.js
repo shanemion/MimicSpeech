@@ -261,6 +261,18 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const getPromptById = async (responseId) => {
+    const responseRef = doc(db, "prompts");
+    const responseDoc = await getDoc(responseRef);
+    if (responseDoc.exists()) {
+      return { id: responseDoc.id, ...responseDoc.data() };
+    } else {
+      return null;
+    }
+  };
+
+
+
   const value = {
     currentUser,
     register,
@@ -290,7 +302,8 @@ export const AuthProvider = ({ children }) => {
     setGoogleSignInPending,
     getDoc,
     setDoc,
-    fetchSubscriptionId
+    fetchSubscriptionId,
+    getPromptById
   };
 
   return (

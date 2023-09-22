@@ -64,6 +64,7 @@ export const RecordedAudios = ({
       >
         <h3>No recordings yet!</h3>
         <p>Click "Save and Compare" to listen to your history.</p>
+        <div style={{height: "200px"}}></div>
       </div>
       </div>
     
@@ -116,6 +117,8 @@ export const RecordedAudios = ({
           <LoaderIcon type="bubbles" color="#000000" />
         )}
       </div>
+      <div style={{height: "200px"}}></div>
+
     </div>
   );
 };

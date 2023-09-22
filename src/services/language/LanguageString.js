@@ -8,7 +8,7 @@ const SelectedVoice = (selectedLanguage, selectedGender) => {
     return gender === "Man" ? "zh-CN-YunxiNeural" : "zh-CN-XiaoxiaoNeural";
   }
   if (language === "English") {
-    return gender === "Man" ? "en-GB-RyanNeural" : "en-US-JennyNeural";
+    return gender === "Man" ? "en-US-GuyNeural " : "en-US-JennyNeural";
   }
   if (language === "Japanese") {
     return gender === "Man" ? "ja-JP-KeitaNeural" : "ja-JP-NanamiNeural";

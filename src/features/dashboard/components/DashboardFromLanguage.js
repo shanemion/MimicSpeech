@@ -8,7 +8,8 @@ const DashboardFromLanguage = () => {
   const customStyles = {
     control: (base, state) => ({
       ...base,
-      backgroundColor: "#f4f4f4", // Lighter background for better readability
+      // backgroundColor: "#f4f4f4", 
+      backgroundColor: "#fff", // match the background color of the sidebar
       padding: "10px 20px",
       borderRadius: "12px", // Reduced for a more modern look
       boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth

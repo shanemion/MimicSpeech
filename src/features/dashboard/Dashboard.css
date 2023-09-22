@@ -167,6 +167,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 20px;
+  border: #00766E 3px solid;
+;
 }
 
 .ai-nav-button-inner {
@@ -197,8 +200,8 @@
 }
 
 .inner-button-text-text {
-  font-size: 38px !important;
-  font-weight: 600;
+  font-size: 42px !important;
+  font-weight: 500 !important;
   color: #fff !important;
 }
 
@@ -252,9 +255,10 @@
   right: 0;
   bottom: 0;
   background: linear-gradient(
-    rgba(58, 80, 107, 0.4),
-    /* Change the opacity as needed */ rgba(58, 80, 107, 0.4)
-  ); /* Apply the gradient overlay */
+    rgba(58, 80, 107, 0.35),
+     rgba(58, 80, 107, 0.35)
+  ); 
+  border-radius: 16px;
   z-index: 1; /* Make sure the gradient is above the image */
 }
 
@@ -266,7 +270,9 @@
 .ai-nav-button img {
   width: 100%;
   height: 100%;
+  scale: 1.02;
   position: relative;
+  border-radius: 8px;
   z-index: 0;
   object-fit: cover;
   transition: transform 0.7s;

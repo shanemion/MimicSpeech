@@ -78,20 +78,21 @@ const DashSavedPrompts = ({
 
   const captureFirstTwoSentences = (str) => {
     // This regular expression matches up to two sentences
-    const re = /(.+?[.。!?!？¡।॥،؛„“«»„“‘’“”]+)\s*(.*?[.。!?!？¡।॥،؛„“«»„“‘’“”]+)?/;
+    const re =
+      /(.+?[.。!?!？¡।॥،؛„“«»„“‘’“”]+)\s*(.*?[.。!?!？¡।॥،؛„“«»„“‘’“”]+)?/;
     const match = str.match(re);
-    
+
     if (match) {
       let result = match[1];
-      
+
       // Add the second sentence if it exists
       if (match[2]) {
         result += " " + match[2];
       }
-      
+
       return result;
     }
-    
+
     return "";
   };
 
@@ -102,27 +103,30 @@ const DashSavedPrompts = ({
   return (
     <div className="dash-container">
       <h1>Your Saved Topics</h1>
+      <h3>Select "Use Response" to practice your saved sentences!</h3>
       <div className="dash-filter-container">
         <div style={{ height: "6px" }}></div>
 
         <label className="dash-filter-label">Filter by Language: </label>
-        <select
-          className="dash-filter-select"
-          onChange={(e) => setFilterLanguage(e.target.value)}
-        >
-          <option value="">All</option>
-          <option value="Chinese">Chinese</option>
-          <option value="English">English</option>
-          <option value="French">French</option>
-          <option value="German">German</option>
-          <option value="Italian">Italian</option>
-          <option value="Japanese">Japanese</option>
-          <option value="Korean">Korean</option>
-          <option value="Portuguese">Portuguese</option>
-          <option value="Russian">Russian</option>
-          <option value="Spanish">Spanish</option>
-          <option value="Vietnamese">Vietnamese</option>
-        </select>
+        <div className="dash-filter-wrapper">
+          <select
+            className="dash-filter-select"
+            onChange={(e) => setFilterLanguage(e.target.value)}
+          >
+            <option value="">All</option>
+            <option value="Chinese">Chinese</option>
+            <option value="English">English</option>
+            <option value="French">French</option>
+            <option value="German">German</option>
+            <option value="Italian">Italian</option>
+            <option value="Japanese">Japanese</option>
+            <option value="Korean">Korean</option>
+            <option value="Portuguese">Portuguese</option>
+            <option value="Russian">Russian</option>
+            <option value="Spanish">Spanish</option>
+            <option value="Vietnamese">Vietnamese</option>
+          </select>
+        </div>
       </div>
       <div style={{ height: "20px" }}></div>
       {filteredResponses.length === 0 ? (
@@ -185,7 +189,7 @@ const DashSavedPrompts = ({
                         className="dash-use"
                         onClick={() => handleUseResponse(response)}
                       >
-                        Use this Response
+                        Use Response
                       </button>
                     </div>
                   );

@@ -36,7 +36,8 @@ const LandingHeader = ({
             src="/images/logov00.png"
             alt="Logo"
             style={{ width: 90, height: "auto", marginRight: 10 }}
-            ß
+            onClick={() => {navigate("/"); scrollToHome();}}
+
           />
           <h2 onClick={scrollToHome}>MimicSpeech</h2>
         </div>

@@ -234,6 +234,8 @@ const LandingPage = () => {
             className={`feature ${isPracticeVisible ? "fadeIn" : ""}`}
             ref={practiceRef}
           >
+                      <div style={{ height: 70 }}></div>
+
             <div className="feature-content">
               {width > 1000 && (
                 // <div>
