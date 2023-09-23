@@ -77,7 +77,7 @@ const Sidebar = () => {
                 }
           }
         >
-          AI Prompt Generator
+          AI Scenario Generator
         </button>
         <button onClick={() => navigate("/saved")}>Saved Responses</button>
         <button onClick={() => navigate("/how-to-use")}>How to Use</button>

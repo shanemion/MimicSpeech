@@ -232,6 +232,7 @@
 .how-to-button {
   background-color: #f9f9f9; /* A shade of informational blue */
   color: #333;
+  min-width: 120px;
 }
 
 .how-to-button:hover {

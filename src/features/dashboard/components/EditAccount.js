@@ -220,7 +220,7 @@ const EditAccount = () => {
           //       ? () => navigate("/generator")
           //       : () => {navigate("/dashboard"); alert("Please select languages to practice!")}
           //   }>
-          //       AI Prompt Generator
+          //       AI Scenario Generator
           //     </button>
           //     <button onClick={() => navigate("/saved")}>
           //       Saved Responses

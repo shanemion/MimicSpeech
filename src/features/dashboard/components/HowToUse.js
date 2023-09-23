@@ -37,18 +37,18 @@ const HowToUse = () => {
 
         <div>
           <h1 style={{ marginTop: "120px" }}>
-            How to use the AI Prompt Generator
+            How to use the AI Scenario Generator
           </h1>
           <h3>Overview</h3>
           <p>
             1. Select the language you want to practice from the left dropdown
-            menu.
+            menu in your Dashboard.
           </p>
           <p>
             2. Select the language you want to practice to from the right
             dropdown menu.
           </p>
-          <p>3. Click the "Go to AI Prompt Generator" button.</p>
+          <p>3. Click the "Start Learning" button to navigate to our generator.</p>
           <p>4. Type a topic of your choice to create a scene with!</p>
           <p>5. Select the desired length of your response.</p>
           <p>6. Click the "Generate Response" button.</p>

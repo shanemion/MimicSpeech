@@ -166,7 +166,7 @@ export const DashBurger = () => {
               }
         }
       >
-        AI Prompt Generator
+        AI Scenario Generator
       </Link>
 
       <Link to="/dashboard" className="link" onClick={closeMenu}>
