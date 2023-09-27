@@ -17,6 +17,8 @@ export const RecordedAudios = ({
   mainString,
   rates,
   speed,
+  uniquePracticeAudioID,
+  uniquePracticeSynthesizedPitchID
 }) => {
   const handleDelete = (audioId) => {
     deleteAudio(audioId);
@@ -33,6 +35,7 @@ export const RecordedAudios = ({
         practiceData[`${selectedPage}-${selectedSentenceIndex}`]
           .recordedPracticeAudios;
     }
+    console.log("sp=p, recordings:", recordings);
   } else {
     recordings = recordedAudios;
   }
@@ -43,32 +46,30 @@ export const RecordedAudios = ({
   if (recordings.length === 0) {
     return (
       <div>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "20px",
-        }}
-      >
-        <h2>Recorded Audios</h2>
-      </div>  
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-          marginTop: "20px",
-        }}
-      >
-        <h3>No recordings yet!</h3>
-        <p>Click "Save and Compare" to listen to your history.</p>
-        <div style={{height: "200px"}}></div>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "20px",
+          }}
+        >
+          <h2>Recorded Audios</h2>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            marginTop: "20px",
+          }}
+        >
+          <h3>No recordings yet!</h3>
+          <p>Click "Save and Compare" to listen to your history.</p>
+          <div style={{ height: "200px" }}></div>
+        </div>
       </div>
-      </div>
-    
-       
     );
   }
 
@@ -84,12 +85,19 @@ export const RecordedAudios = ({
       >
         <h2>Recorded Audios</h2>
       </div>
-      {recordings.map((audio, index) => (
+      {recordings.map((audio, index) => {
+        const associatedPitchData =
+          practiceData &&
+          practiceData[`${selectedPage}-${selectedSentenceIndex}`] &&
+          practiceData[
+            `${selectedPage}-${selectedSentenceIndex}`
+          ].recordedPracticePitchData.find((item) => item.id === audio.id);
+          return(
         <div key={audio.id} className="recorded-audio-item">
           <p>Recording {index + 1}:</p>
           <button
             className="styled-button"
-            onClick={() => playAudio(audio.url)}
+            onClick={() => {console.log("audio.id", audio.id); playAudio(audio.url)}}
           >
             Play
           </button>
@@ -103,22 +111,26 @@ export const RecordedAudios = ({
             practiceData={practiceData}
             synthesizedPitchData={synthesizedPitchData}
             recordedPitchData={recordedPitchData[index]}
+            // recordedPitchData={associatedPitchData}
             selectedPage={selectedPage}
             selectedSentenceIndex={selectedSentenceIndex}
             mainString={mainString}
             rates={rates}
             speed={speed}
+            uniquePracticeSynthesizedPitchID={uniquePracticeSynthesizedPitchID}
+            uniquePracticeAudioID={audio.id}
           />
         </div>
-      ))}
+      )
+      })}
+
 
       <div>
         {isRecordingListLoading && (
           <LoaderIcon type="bubbles" color="#000000" />
         )}
       </div>
-      <div style={{height: "200px"}}></div>
-
+      <div style={{ height: "200px" }}></div>
     </div>
   );
 };

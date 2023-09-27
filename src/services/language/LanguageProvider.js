@@ -12,10 +12,19 @@ const LanguageProvider = ({ children }) => {
     return storedLanguage ? JSON.parse(storedLanguage) : null;
   });
 
+  // const [selectedGender, setSelectedGender] = useState(() => {
+  //   const storedGender = localStorage.getItem("selectedGender");
+  //   return storedGender ? JSON.parse(storedGender) : null;
+  // });
   const [selectedGender, setSelectedGender] = useState(() => {
     const storedGender = localStorage.getItem("selectedGender");
     return storedGender ? JSON.parse(storedGender) : null;
-  });
+});
+
+useEffect(() => {
+    localStorage.setItem("selectedGender", JSON.stringify(selectedGender));
+}, [selectedGender]);
+
 
   useEffect(() => {
     if (selectedLanguage) {
@@ -29,11 +38,11 @@ const LanguageProvider = ({ children }) => {
     }
   }, [fromLanguage]);
 
-  useEffect(() => {
-    if (selectedGender) {
-      localStorage.setItem("selectedGender", JSON.stringify(selectedGender));
-    }
-  }, [selectedGender]);
+  // useEffect(() => {
+  //   if (selectedGender) {
+  //     localStorage.setItem("selectedGender", JSON.stringify(selectedGender));
+  //   }
+  // }, [selectedGender]);
 
   return (
     <LanguageContext.Provider

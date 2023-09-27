@@ -43,7 +43,7 @@ const CompletionGenerator = ({
     fetchFirstName,
     fetchLastName,
     deleteCredits,
-    fetchPlan
+    fetchPlan,
   } = useAuth();
   const { updateTTSwav } = useAuth();
 
@@ -91,7 +91,6 @@ const CompletionGenerator = ({
   const [numLanguages, setNumLanguages] = useState(2);
   const [plan, setPlan] = useState("");
 
-
   // State for audio recorder / analysis
   const [uniqueAudioID, setUniqueAudioID] = useState("");
   const [practiceData, setPracticeData] = useState({});
@@ -125,8 +124,6 @@ const CompletionGenerator = ({
 
     fetchUserPlan();
   }, [currentUser, fetchPlan]);
-
-
 
   const closePricingModal = () => {
     setPricingState(false);
@@ -168,20 +165,20 @@ const CompletionGenerator = ({
   const handleResponseLengthChange = (event) => {
     let newValue = parseInt(event.target.value, 10);
     if (plan === "free" || plan === "Pro") {
-    if (newValue > 3) {
-      newValue = 3;
+      if (newValue > 3) {
+        newValue = 3;
+      }
+      if (newValue < 2) {
+        newValue = 2;
+      }
+    } else {
+      if (newValue > 5) {
+        newValue = 5;
+      }
+      if (newValue < 2) {
+        newValue = 2;
+      }
     }
-    if (newValue < 2) {
-      newValue = 2;
-    }
-  } else {
-    if (newValue > 5) {
-      newValue = 5;
-    }
-    if (newValue < 2) {
-      newValue = 2;
-    }
-  }
 
     setResponseLength(newValue);
     localStorage.setItem("numSentences", newValue.toString());
@@ -344,6 +341,8 @@ const CompletionGenerator = ({
       alert("Please select a voice.");
       return;
     }
+    console.log("TTSselectedLanguage", selectedLanguage);
+    console.log("TTSselectedGender", selectedGender);
 
     const identifier = `${currentUser.uid}_${textToRead}-${selectedLanguage.value}-${selectedGender.value}-${rate}`;
     console.log("identifier", identifier);
@@ -378,6 +377,7 @@ const CompletionGenerator = ({
       // getDownloadURL will throw an error if the file doesn't exist, catch it here
       if (error.code === "storage/object-not-found") {
         console.log("Audio does not exist, generating...");
+        console.log("TTSselectedGender", selectedGender);
 
         // Step 2: Generate and upload the audio if it doesn't exist
         try {
@@ -398,7 +398,6 @@ const CompletionGenerator = ({
             console.log("practiceDataRetry", audioURL);
           }
           console.log("Audio generated and uploaded successfully!");
-
         } catch (error) {
           console.error("Error generating or uploading TTS:", error);
         }
@@ -416,23 +415,37 @@ const CompletionGenerator = ({
   };
 
   const deleteAudio = (audioId) => {
-    // Delete the audio from recordedAudios
-    setRecordedAudios((prev) => prev.filter((audio) => audio.id !== audioId));
-
-    // Delete the corresponding pitch data from recordedPitchData
-    setRecordedPitchData((prevData) =>
-      prevData.filter((item) => item.id !== audioId)
-    );
-    setPracticeData((prevData) => {
-      const updatedData = { ...prevData };
-      for (const key in updatedData) {
-        updatedData[key].recordedPracticeAudios = updatedData[
-          key
-        ].recordedPracticeAudios.filter((audio) => audio.id !== audioId);
-      }
-      return updatedData;
-    });
+    if (selectedPage !== "Practice") {
+      // For non-practice mode songs
+  
+      // Delete the audio from recordedAudios
+      setRecordedAudios((prev) =>
+        prev ? prev.filter((audio) => audio.id !== audioId) : []
+      );
+  
+      // Delete the corresponding pitch data from recordedPitchData
+      setRecordedPitchData((prevData) =>
+        prevData.filter((item) => item.id !== audioId)
+      );
+  
+    } else {
+      // For "Practice" mode
+  
+      setPracticeData((prevData) => {
+        const updatedData = { ...prevData };
+        for (const key in updatedData) {
+          if (updatedData[key].recordedPracticeAudios) {
+            updatedData[key].recordedPracticeAudios = updatedData[key].recordedPracticeAudios.filter((audio) => audio.id !== audioId);
+          }
+          if (updatedData[key].recordedPracticePitchData) {
+            updatedData[key].recordedPracticePitchData = updatedData[key].recordedPracticePitchData.filter((data) => data.id !== audioId);
+          }
+        }
+        return updatedData;
+      });
+    }
   };
+  
 
   async function sendToTTS() {
     let textToRead = "";
@@ -465,7 +478,12 @@ const CompletionGenerator = ({
       mainLanguage = mainLanguage[selectedSentenceIndex];
       newReadString = mainLanguage;
     } else {
-      newReadString = mainLanguage.join(" ");
+      // newReadString = mainLanguage.join(" ");
+      const selectedSentences = mainLanguage.slice(0, renderedSentencesCount); // Take the first 'numSentences'
+      newReadString = selectedSentences.join(". ");
+      if (selectedSentences.length > 0) {
+        newReadString += "."; // Append a period to the end if there's content
+      }
     }
     setMainString(newReadString);
     localStorage.setItem("mainString", newReadString);
@@ -478,7 +496,7 @@ const CompletionGenerator = ({
     selectedPage,
     numLanguages,
     selectedLanguage,
-    fromLanguage,
+    fromLanguage,    
   ]);
 
   const sentences = ResponseCleaner(
@@ -556,6 +574,7 @@ const CompletionGenerator = ({
             <TTSsettings
               sendToTTS={sendToTTS}
               isPlayButtonDisabled={isPlayButtonDisabled}
+              setIsPlayButtonDisabled={setIsPlayButtonDisabled}
               speed={speed}
               setSpeed={setSpeed}
             />
@@ -637,6 +656,9 @@ const CompletionGenerator = ({
                     mainString={mainString}
                     rates={rates}
                     speed={speed}
+                    uniquePracticeAudioID={uniquePracticeAudioID}
+
+                    uniquePracticeSynthesizedPitchID={uniquePracticeSynthesizedPitchID}
                   />
                 </div>
               </div>

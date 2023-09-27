@@ -5,6 +5,7 @@ const SelectedVoice = (selectedLanguage, selectedGender) => {
   const gender = selectedGender.value;
 
   if (language === "Chinese") {
+    console.log("gender",  gender)
     return gender === "Man" ? "zh-CN-YunxiNeural" : "zh-CN-XiaoxiaoNeural";
   }
   if (language === "English") {

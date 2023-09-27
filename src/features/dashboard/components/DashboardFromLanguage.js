@@ -19,7 +19,7 @@ const DashboardFromLanguage = () => {
       },
       width: "100%",
       height: "auto",
-      fontSize: "16px", // Increased font size for better readability
+      fontSize: "16px", // Increased font size for better readabilityß
     }),
 
     // Dropdown indicator icon

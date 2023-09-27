@@ -36,7 +36,7 @@ const AnalyzeButton = ({
     setRecordedPitchData([]);
     setRecordedAudios([]);
   }, [generatedResponse]);
-
+ 
   useEffect(() => {
     setIsAnalyzeButtonDisabled(true);
   }, [selectedPage]);

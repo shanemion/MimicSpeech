@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { useAuth } from "../services/firebase/FirebaseAuth";
 import LanguageContext from "../services/language/LanguageContext";
 
@@ -22,52 +22,65 @@ const PitchAccuracy = ({
   mainString,
   rates,
   speed,
+  uniquePracticeSynthesizedPitchID,
+  uniquePracticeAudioID,
 }) => {
   const { currentUser } = useAuth();
   const { selectedLanguage, selectedGender } = useContext(LanguageContext);
   let activePitchData = [];
   let activeRecordedPitchData = [];
+  let synthesizedDataArray = [];
 
+  useEffect(() => {
+    console.log("synthesizedPracticePitchData:", practiceData);
+  }, [practiceData]);
+
+  console.log("uniquePracticeAudioID:", uniquePracticeAudioID);
+  
   if (selectedPage === "Practice") {
-    const key = `${selectedPage}-${selectedSentenceIndex}`;
-    const synthesizedKey = `${currentUser.uid}_${mainString}-${selectedLanguage.value}-${selectedGender.value}-${rates[speed]}`;
-
-    if (practiceData && practiceData[key]) {
-      // Check if the object at `practiceData[key]` contains a field called `synthesizedPracticePitchData`
-      if (Array.isArray(practiceData[key].synthesizedPracticePitchData)) {
-        const entry = practiceData[key].synthesizedPracticePitchData.find(
-          (e) => e.id === synthesizedKey
-        );
-
-        // If the entry was found, retrieve its `data` field
-        if (entry) {
-          activePitchData = entry.data;
-        }
+      const key = `${selectedPage}-${selectedSentenceIndex}`;
+  
+      if (practiceData && practiceData[key]) {
+          const entryArray = practiceData[key].recordedPracticePitchData;
+          console.log("Entry Array:", entryArray);
+  
+          // Find the specific entry based on the uniquePracticeAudioID
+          const specificEntry = entryArray.find(entry => entry.id === uniquePracticeAudioID);
+  
+          if (specificEntry) {
+              activeRecordedPitchData = specificEntry.data;
+              console.log("Active Pitch Data using the ID match:", activeRecordedPitchData);
+          } else {
+              console.log("No matching ID found in the entry array.");
+          }
       }
 
-      // This line should work fine as you mentioned
-      activeRecordedPitchData =
-        practiceData[key].recordedPracticePitchData.flatMap((e) => e.data) ||
-        [];
+    const synthesizedDataObj =
+      practiceData[`${selectedPage}-${selectedSentenceIndex}`]
+        .synthesizedPracticePitchData;
+
+    if (synthesizedDataObj && synthesizedDataObj.length > 0) {
+      synthesizedDataArray = synthesizedDataObj[0].data;
     }
+    console.log("Synthesized Data Array:", synthesizedDataArray)
   } else {
-    activePitchData = synthesizedPitchData || [];
+    synthesizedDataArray = synthesizedPitchData || [];
     activeRecordedPitchData = recordedPitchData.data || [];
+    console.log(synthesizedDataArray)
+    console.log(activeRecordedPitchData)
   }
 
-  console.log("Active Pitch Data:", activePitchData);
+  console.log("Active Pitch Data Array:", synthesizedDataArray);
   console.log("Active Recorded Pitch Data:", activeRecordedPitchData);
 
-  if (!activePitchData) {
-    return <div>Loading...</div>;
-  }
-  if (!activeRecordedPitchData) {
+  if (!activeRecordedPitchData || activeRecordedPitchData.length === 0) {
     return <div>Loading....</div>;
   }
+
   // const recordedData = recordedPitchData.data;  //   const recordedData = synthesizedPitchData;
   // console.log("Recorded Pitch:", recordedData);
 
-  let filteredSynthesizedData = activePitchData.filter(
+  let filteredSynthesizedData = synthesizedDataArray.filter(
     (value) => typeof value === "number" && Math.abs(value) > 0.01
   );
 

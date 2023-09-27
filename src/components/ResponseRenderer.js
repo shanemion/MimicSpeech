@@ -28,7 +28,6 @@ const ResponseRenderer = ({
   const [selectedWord, setSelectedWord] = useState("");
 
   const handleSentenceClick = (index) => {
-    setSelectedGender("Man")
     setPreviousPage(selectedPage);
     setSelectedSentenceIndex(index);
     setSelectedPage("Practice");

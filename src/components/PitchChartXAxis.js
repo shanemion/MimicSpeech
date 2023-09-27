@@ -122,14 +122,14 @@ export const PitchChartXAxis = ({
     labels.push(" ");
   } else if (toLanguage === "Chinese") {
     labels = Array.from(mainString);
-    console.log(labels);
+    // console.log(labels);
     labels = filterPunctuation(labels, toLanguage);
-    console.log(labels);
-    labels.push(" ");
+    // console.log(labels);
+    // labels.push(" ");
   } else {
     labels = mainString.split(" ");
     labels = filterPunctuation(labels, toLanguage); // You can determine the actual language here
-    labels.push(" ");
+    // labels.push(" ");
   }
 
   return (

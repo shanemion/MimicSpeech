@@ -30,7 +30,7 @@ const SentencesHeader = ({
     Portuguese: ["Portuguese", "Portuguese"],
   };
 
-  console.log("selectedPage", selectedPage);
+  // console.log("selectedPage", selectedPage);
   // console.log("selectedLanguage", selectedLanguage);
   // console.log(buttonNames[language][0]);
 
