@@ -144,6 +144,19 @@ const HowToUse = () => {
           <p>
             20. Click the "Manage Plans" button to view our pricing plans and to choose the one best for you. Happy learning!
           </p>
+          <h3>Troubleshooting</h3>
+          <p>
+            21. Despite our best efforts to make sure the generated response is formatted correctly, sometimes it may not be. If this happens, try slightly changing the prompt and generating a new response. If the problem persists and you are unhappy with the product, please contact us at smion@stanford.edu to be appropriately refunded.
+          </p>
+          <p>
+            22. If you are having trouble with our graphing feature, please try refreshing the page. If the problem persists, please contact us!"
+          </p>
+          <p>
+            23. View our FAQ page for more information on our product and commonly asked questions!
+          </p>
+          <p>
+            24. If you come across any other issues, please contact us at smion@stanford.edu so we can fix it!
+          </p>
           <div style={{ height: "100px" }}></div>
         </div>
       </div>

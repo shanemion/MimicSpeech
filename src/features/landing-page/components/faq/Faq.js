@@ -41,6 +41,11 @@ const Faq = () => {
         "Each group of sentences is worth 1 credit! So a 3 sentence response is 3 credits, the translated sentences do not use credits.",
     },
     {
+      question: "The generated response is not being formatted correctly, what should I do?",
+      answer:
+        "Despite our best efforts to make sure the generated response is formatted correctly, sometimes it may not be. If this happens, try slightly changing the prompt and generating a new response. If the problem persists and you are unhappy with the product, please contact us at smion@stanford.edu to be appropriately refunded.",
+    },
+    {
       question: "How do I upgrade my plan?",
       answer:
         "You can upgrade your plan at any time by going to your account settings.",
