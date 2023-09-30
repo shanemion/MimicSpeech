@@ -52,6 +52,12 @@ def extract_base64(data_uri):
     return data_uri.split(";base64,")[1]
 
 
+@app.route('/')
+def index():
+    return "Hello, World! The app API is running."
+
+
+
 @app.route('/analyze', methods=["POST"])
 def analyze_user_rec():
     try:
@@ -96,5 +102,7 @@ def analyze_user_rec():
 
 if __name__ == '__main__':
     if not os.path.exists('uploads'):
-        os.makedirs('uploads') # Create 'uploads' directory if it doesn't exist
-    app.run(debug=True)
+        os.makedirs('uploads')  # Create 'uploads' directory if it doesn't exist
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host='0.0.0.0', port=port, debug=False)
+

@@ -24,4 +24,7 @@ yarn-debug.log*
 yarn-error.log*
 
 /README.md
+
+__pycache__/
+
 ```
