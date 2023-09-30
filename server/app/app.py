@@ -1,7 +1,17 @@
+import psutil
+import os
+
+
+def log_memory_usage(label=""):
+    process = psutil.Process(os.getpid())
+    mem = process.memory_info().rss / (1024 ** 2)  # Convert to MB
+    print(f"[{label}] Current memory usage: {mem:.2f}MB")
+
+log_memory_usage("Start")
+
 from flask import Flask, request, jsonify
 import parselmouth
 from io import BytesIO
-import os
 import base64
 import tempfile
 import requests
@@ -9,7 +19,13 @@ from urllib.parse import unquote
 from traceback import print_exc
 from flask_cors import CORS
 
+log_memory_usage("After imports")
+
+
 app = Flask(__name__)
+
+log_memory_usage("After app initialization")
+
 
 # Set up CORS with specific options
 CORS(app, resources={
@@ -103,6 +119,6 @@ def analyze_user_rec():
 if __name__ == '__main__':
     if not os.path.exists('uploads'):
         os.makedirs('uploads')  # Create 'uploads' directory if it doesn't exist
-    port = int(os.environ.get("PORT", 5000))
+    port = int(os.environ.get("PORT", 5001))
     app.run(host='0.0.0.0', port=port, debug=False)
 
