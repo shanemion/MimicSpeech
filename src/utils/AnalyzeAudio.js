@@ -1,6 +1,5 @@
-import { select } from "d3";
 
-const analyzeAudio = async (selectedPage, practiceData, pracSynKey) => {
+const analyzeAudio = async (selectedPage, practiceData, pracSynKey, idToken) => {
   let synthesizedAudioURL;
   if (selectedPage !== "Practice") {
     synthesizedAudioURL = localStorage.getItem("TTS_audio");
@@ -33,13 +32,15 @@ const analyzeAudio = async (selectedPage, practiceData, pracSynKey) => {
   console.log("Data:", data);
 
   try {
-    const response = await fetch("http://127.0.0.1:5000/analyze", {
+    const response = await fetch("http://127.0.0.1:5001/analyze", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Authorization": `Bearer ${idToken}`
       },
       body: JSON.stringify(data),
     });
+    
     const responseData = await response.json();
     if (responseData.error) {
       console.error("Server error:", responseData.error);

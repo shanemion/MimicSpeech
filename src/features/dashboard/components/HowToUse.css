@@ -6,6 +6,18 @@
     margin-left: 330px;
 }
 
+
+.account-popup {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    /* width: 900px; You can change this */
+    z-index: 1001; /* higher than other z-index values in your layout */
+  
+  
+  }
+  
+
 @media screen and (max-width: 1000px) {
     .how-to-use-main {
         margin-left: 20px;

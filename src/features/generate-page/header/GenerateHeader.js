@@ -1,13 +1,9 @@
 import React from "react";
 import { Title } from "../../../components/Title";
-import { Selectors } from "../../../components/Selectors";
-import { Burger } from "../../../components/Burger";
 import AuthButtons from "../../../components/AuthButtons";
-import useWindowSize from "../../../utils/WindowSize";
 import PopupMenu from "../../dashboard/components/popup-menu/PopupMenu";
 
 const GenerateHeader = ({ typeResponse, setTypeResponse }) => {
-  const { width } = useWindowSize();
   return (
     <div className="titleContainer">
       <div className="subTitleContainer">

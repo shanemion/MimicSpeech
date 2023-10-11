@@ -9,7 +9,7 @@ export const Navigator = ({ typeResponse, setTypeResponse, userPrompt, setUserPr
   if (!selectedLanguage) {
     return null; // or return a loading spinner
   }
-  const language = selectedLanguage.value;
+  // const language = selectedLanguage.value;
 
   return (
     <>

@@ -1,24 +1,22 @@
 import React, { useState, useEffect, useContext } from "react";
 import { useAuth } from "../../../services/firebase/FirebaseAuth";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import PricingContext from "../../../services/pricing/PricingContext";
 import PopupMenu from "../components/popup-menu/PopupMenu";
 import { DashBurger } from "../components/DashBurger";
 import PricingModal from "./PricingModal";
 import useWindowSize from "../../../utils/WindowSize";
-import LanguageContext from "../../../services/language/LanguageContext";
 import { getDoc, doc } from "firebase/firestore";
 import Sidebar from "../../../components/Sidebar";
 import LoaderIcon from "react-loader-icon";
-
+import { getAuth, getIdToken } from "firebase/auth";
 import "./ManagePlan.css";
 
 const ManagePlan = () => {
   const {
     currentUser,
     fetchPlan,
-    deleteCredits,
     fetchSubscriptionId,
     fetchCredits,
     db,
@@ -62,7 +60,6 @@ const ManagePlan = () => {
   const navigate = useNavigate();
 
   const { width } = useWindowSize();
-  const { fromLanguage, selectedLanguage } = useContext(LanguageContext);
 
   useEffect(() => {
     const fetchUserPlan = async () => {
@@ -99,20 +96,20 @@ const ManagePlan = () => {
 
     try {
       // Call your backend to cancel the Stripe subscription
-      const response = await fetch(
-        "http://127.0.0.1:4242//cancel-subscription",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          // body: JSON.stringify({ subscription_id: subscriptionId, user_id: currentUser.uid }),
-          body: JSON.stringify({
-            subscriptionId: subscriptionId,
-            user_id: currentUser.uid,
-          }),
-        }
-      );
+      const auth = getAuth();
+      const idToken = await getIdToken(auth.currentUser, true);
+      const response = await fetch("http://127.0.0.1:5001/cancel-subscription", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`
+        },
+        body: JSON.stringify({
+          subscriptionId: subscriptionId,
+          user_id: currentUser.uid,
+        }),
+      });
+      
 
       const data = await response.json();
       if (response.ok) {

@@ -1,3 +1,27 @@
+.account-main-container {
+    display: flex;
+    margin-left: 330px;
+}
+
+.account-dashboard-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;    
+  }
+
+
+.account-popup {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    /* width: 900px; You can change this */
+    z-index: 1001; /* higher than other z-index values in your layout */
+  
+  
+  }
+  
+
 .manage-container {
     display: flex;
     flex-direction: column;
@@ -6,7 +30,6 @@
     max-width: 600px;
     font-family: Arial, sans-serif;
     margin-top: 80px;
-    /* margin-left: 330px; */
 }
 
 @media screen and (max-width: 1000px) {

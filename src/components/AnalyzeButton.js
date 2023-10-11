@@ -3,6 +3,7 @@ import analyzeAudio from "../utils/AnalyzeAudio";
 import LanguageContext from "../services/language/LanguageContext";
 import { useAuth } from "../services/firebase/FirebaseAuth";
 import "./AnalyzeButton.css";
+import { getAuth, getIdToken } from "firebase/auth";
 
 const AnalyzeButton = ({
   practiceData,
@@ -44,7 +45,9 @@ const AnalyzeButton = ({
   const handleAnalyzeAudio = async () => {
     const pracSynKey = `${currentUser.uid}_${mainString}-${selectedLanguage.value}-${selectedGender.value}-${rates[speed]}`;
     // console.log("pracSynKey:", pracSynKey);
-    const data = await analyzeAudio(selectedPage, practiceData, pracSynKey);
+    const auth = getAuth();
+    const idToken = await getIdToken(auth.currentUser, true);
+    const data = await analyzeAudio(selectedPage, practiceData, pracSynKey, idToken);
     if (data) {
       if (selectedPage === "Practice") {
         const key = `${selectedPage}-${selectedSentenceIndex}`;

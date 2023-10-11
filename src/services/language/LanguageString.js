@@ -1,4 +1,3 @@
-import React from "react";
 
 const SelectedVoice = (selectedLanguage, selectedGender) => {
   const language = selectedLanguage.value;

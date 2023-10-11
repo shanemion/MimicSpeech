@@ -4,7 +4,6 @@ import ResponseRenderer from "../../../components/ResponseRenderer";
 import { ResponseCleaner } from "../../../utils/ResponseCleaner";
 import AudioRecorder from "../../../components/AudioRecorder";
 import LanguageContext from "../../../services/language/LanguageContext";
-import Bookmark from "../../../components/Bookmark";
 import SentencesHeader from "../../../components/SentencesHeader";
 import AnalyzeButton from "../../../components/AnalyzeButton";
 import { TTSsettings } from "../../../components/TTSsettings";
@@ -12,9 +11,7 @@ import PitchChart from "../../../components/PitchChart";
 import { RecordedAudios } from "../../../components/RecordedAudios";
 import SpeakText from "../../../utils/SpeakTTS";
 import LoaderIcon from "react-loader-icon";
-import GenerateHeader from "../header/GenerateHeader";
 import useWindowSize from "../../../utils/WindowSize";
-import { Selectors } from "../../../components/Selectors";
 import "../../../../src/styles.css";
 import { useTypedResponse } from "../../../services/type-response/TypedResponseContext";
 import OpenAI from "openai";
@@ -35,7 +32,6 @@ const CompletionGenerator = ({
   setResponseLength,
 }) => {
   // Utils
-  const { width } = useWindowSize();
   const { ref, storage, deleteObject, uploadBytes, getDownloadURL } = useAuth();
   const {
     currentUser,
@@ -45,7 +41,6 @@ const CompletionGenerator = ({
     deleteCredits,
     fetchPlan,
   } = useAuth();
-  const { updateTTSwav } = useAuth();
 
   // Contexts
   const { selectedLanguage, selectedGender, fromLanguage } =

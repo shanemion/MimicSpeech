@@ -61,6 +61,6 @@
   },
   "devDependencies": {
     "source-map-explorer": "^2.5.3",
-    "web-vitals": "^3.4.0"
+    "web-vitals": "^3.5.0"
   }
 }

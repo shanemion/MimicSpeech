@@ -3,6 +3,7 @@ import { useNavigate, Link, useLocation } from "react-router-dom";
 import { useAuth } from "../../services/firebase/FirebaseAuth";
 import useWindowSize from "../../utils/WindowSize";
 import { usePricing } from "../../services/pricing/PricingContext";
+import "./registration.css"; // Import the CSS
 
 const Register = () => {
   const {

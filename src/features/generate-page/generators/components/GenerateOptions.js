@@ -21,7 +21,6 @@ const GenerateOptions = ({
   credits,
   isGPTLoading,
 }) => {
-  const { width } = useWindowSize();
   const { typedResponse } = useContext(LanguageContext);
   const [isExpanded, setIsExpanded] = useState(true); // State for expanded/collapsed settings
   const [showPlaceholder, setShowPlaceholder] = useState(true);

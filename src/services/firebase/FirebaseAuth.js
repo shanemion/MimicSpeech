@@ -18,8 +18,6 @@ import {
   collection,
   addDoc,
   getDocs,
-  query,
-  where,
   deleteDoc,
 } from "firebase/firestore";
 import {
@@ -29,7 +27,6 @@ import {
   getDownloadURL,
   deleteObject,
 } from "firebase/storage";
-import { local } from "d3";
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,

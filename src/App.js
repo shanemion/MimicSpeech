@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, lazy, Suspense } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -7,22 +7,34 @@ import {
 } from "react-router-dom";
 import { Navigator } from "./infrastructure/navigation/GeneratorNavigator";
 import LanguageProvider from "./services/language/LanguageProvider";
-import Login from "./features/registration/Login";
-import Register from "./features/registration/Register";
+import LoaderIcon from "react-loader-icon";
 import { AuthProvider } from "./services/firebase/FirebaseAuth";
-import SavedResponses from "./features/saved-responses/SavedResponses";
 import { SavedResponseProvider } from "./services/saved/SavedContext";
 import { SavedAudioProvider } from "./services/saved/SavedAudioContext";
 import LandingPage from "./features/landing-page/LandingPage";
-import PricingPage from "./features/landing-page/components/pricing/PricingPage";
-import PaymentSuccessPage from "./features/landing-page/components/pricing/PaymentSuccessPage";
 import { PricingProvider } from "./services/pricing/PricingContext";
-import Dashboard from "./features/dashboard/Dashboard";
-import EditAccount from "./features/dashboard/components/EditAccount";
-import ManagePlan from "./features/dashboard/pricing/ManagePlan";
-import SubscriptionCanceled from "./features/dashboard/pricing/SubscriptionCanceled";
 import { TypedResponseProvider } from "./services/type-response/TypedResponseContext";
-import HowToUse from "./features/dashboard/components/HowToUse";
+
+// Lazy loaded components
+const Login = lazy(() => import("./features/registration/Login"));
+const Register = lazy(() => import("./features/registration/Register"));
+const SavedResponses = lazy(() =>
+  import("./features/saved-responses/SavedResponses")
+);
+const Dashboard = lazy(() => import("./features/dashboard/Dashboard"));
+const PaymentSuccessPage = lazy(() =>
+  import("./features/landing-page/components/pricing/PaymentSuccessPage")
+);
+const EditAccount = lazy(() =>
+  import("./features/dashboard/components/EditAccount")
+);
+const ManagePlan = lazy(() =>
+  import("./features/dashboard/pricing/ManagePlan")
+);
+const SubscriptionCanceled = lazy(() =>
+  import("./features/dashboard/pricing/SubscriptionCanceled")
+);
+const HowToUse = lazy(() => import("./features/dashboard/components/HowToUse"));
 
 function App() {
   const [typeResponse, setTypeResponse] = useState(false);
@@ -44,61 +56,77 @@ function App() {
                   <TypedResponseProvider>
                     <div className="App">
                       <div className="content">
-                        <Routes>
-                          <Route path="/" element={<LandingPage />} />
-                          <Route path="/login" element={<Login />} />
-                          <Route path="/signup" element={<Register />} />
-                          {/* <Route path="/pricing" element={<PricingPage />} /> */}
-                          <Route
-                            path="/dashboard"
-                            element={
-                              <Dashboard
-                                userPrompt={userPrompt}
-                                setUserPrompt={setUserPrompt}
-                                responseLength={responseLength}
-                            setResponseLength={setResponseLength}
-                              />
-                            }
-                            
-                          />
-                          <Route
-                            path="/payment-success"
-                            element={<PaymentSuccessPage />}
-                          />
-                          <Route
-                            path="/generator"
-                            element={
-                              <div>
-                                <Navigator
-                                  typeResponse={typeResponse}
-                                  setTypeResponse={setTypeResponse}
+                        <Suspense
+                          fallback={
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: "100vh",
+                              }}
+                            >
+                              <LoaderIcon type={"spin"} />
+                            </div>
+                          }
+                        >
+                          <Routes>
+                            <Route path="/" element={<LandingPage />} />
+                            <Route path="/login" element={<Login />} />
+                            <Route path="/signup" element={<Register />} />
+                            <Route
+                              path="/dashboard"
+                              element={
+                                <Dashboard
                                   userPrompt={userPrompt}
                                   setUserPrompt={setUserPrompt}
                                   responseLength={responseLength}
                                   setResponseLength={setResponseLength}
                                 />
-                              </div>
-                            }
-                          />
-                          <Route
-                            path="/saved"
-                            element={
-                              <SavedResponses
-                                userPrompt={userPrompt}
-                                setUserPrompt={setUserPrompt}
-                                responseLength={responseLength}
-                                setResponseLength={setResponseLength}
-                              />
-                            }
-                          />
-                          <Route path="/account" element={<EditAccount />} />
-                          <Route path="/manage-plan" element={<ManagePlan />} />
-                          <Route
-                            path="/subscription-canceled"
-                            element={<SubscriptionCanceled />}
-                          />
-                          <Route path="/how-to-use" element={<HowToUse />} />
-                        </Routes>
+                              }
+                            />
+                            <Route
+                              path="/payment-success"
+                              element={<PaymentSuccessPage />}
+                            />
+                            <Route
+                              path="/generator"
+                              element={
+                                <div>
+                                  <Navigator
+                                    typeResponse={typeResponse}
+                                    setTypeResponse={setTypeResponse}
+                                    userPrompt={userPrompt}
+                                    setUserPrompt={setUserPrompt}
+                                    responseLength={responseLength}
+                                    setResponseLength={setResponseLength}
+                                  />
+                                </div>
+                              }
+                            />
+                            <Route
+                              path="/saved"
+                              element={
+                                <SavedResponses
+                                  userPrompt={userPrompt}
+                                  setUserPrompt={setUserPrompt}
+                                  responseLength={responseLength}
+                                  setResponseLength={setResponseLength}
+                                />
+                              }
+                            />
+                            <Route path="/account" element={<EditAccount />} />
+                            <Route
+                              path="/manage-plan"
+                              element={<ManagePlan />}
+                            />
+                            <Route
+                              path="/subscription-canceled"
+                              element={<SubscriptionCanceled />}
+                            />
+                            <Route path="/how-to-use" element={<HowToUse />} />
+                          </Routes>
+                        </Suspense>
                       </div>
                     </div>
                   </TypedResponseProvider>

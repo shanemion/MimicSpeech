@@ -7,13 +7,12 @@ import { usePricing } from "../../services/pricing/PricingContext";
 import { useAuth } from "../../services/firebase/FirebaseAuth";
 
 const Login = () => {
-  const { login, signInWithGoogle, signInWithGitHub } = useAuth();
+  const { login, signInWithGoogle } = useAuth();
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { width } = useWindowSize();
-  const location = useLocation();
   const { pricingState, setPricingState } = usePricing();
 
 
@@ -33,7 +32,7 @@ const Login = () => {
   };
 
   const closeMenu = () => setIsOpen(false);
-  const handleStateChange = (state) => setIsOpen(state.isOpen);
+  // const handleStateChange = (state) => setIsOpen(state.isOpen);
 
   const canProceed = email !== "" && password !== "";
 

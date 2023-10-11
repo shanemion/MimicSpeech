@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import Pricing from "../../../dashboard/pricing/Pricing";
+import React from "react";
 import { useAuth } from "../../../../services/firebase/FirebaseAuth";
-import LandingHeader from "../header/LandingHeader";
 import { useNavigate } from "react-router-dom";
 import { usePricing } from "../../../../services/pricing/PricingContext";
 import checkmark from './icons8-checkmark-501.png'

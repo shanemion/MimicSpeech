@@ -1,14 +1,19 @@
-from flask import Flask, jsonify, request
 import os
+import parselmouth
+import base64
+import tempfile
+import requests
+from io import BytesIO
+from flask import Flask, jsonify, request
 from dotenv import load_dotenv
 import stripe
 from flask_cors import CORS
 from google.cloud import firestore
-from celery import Celery
-from datetime import datetime
+from traceback import print_exc
+import firebase_admin
+from firebase_admin import auth, credentials
+from functools import wraps
 
-# Initialize Firestore
-db = firestore.Client()
 
 load_dotenv()
 
@@ -17,7 +22,6 @@ stripe.api_key = stripe_sk
 stripe_webhook_secret = os.getenv('REACT_APP_STRIPE_WEBHOOK_SECRET')
 
 app = Flask(__name__)
-# Set up CORS with specific options
 CORS(app, resources={
     r"/*": {
         "origins": "http://localhost:3000",
@@ -25,25 +29,126 @@ CORS(app, resources={
     }
 })
 
+# Initialize Firebase Admin SDK
+# cred = credentials.Certificate('mimicspeech-97598c7b85ca.json')
+cred = credentials.Certificate('mimicspeech-firebase-adminsdk-015fy-f9b7431afe.json')
+firebase_admin.initialize_app(cred)
 
-# Map plan names to Stripe Price IDs
+
+def authenticate_request(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        id_token = request.headers.get('Authorization')
+        if not id_token or 'Bearer ' not in id_token:
+            return jsonify({"error": "Authorization header missing or not in expected format"}), 403
+
+        id_token = id_token.split('Bearer ')[1]
+        try:
+            decoded_token = auth.verify_id_token(id_token)
+            request.user = decoded_token
+            print(f"Authenticated user: {decoded_token}")
+        except Exception as e:  # You can narrow down the exception if you know what exceptions are possible
+            return jsonify({"error": "Authentication failed", "details": str(e)}), 403
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+
+
+def after_request(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE')
+    return response
+
+
+def analyze_pitch(base64_audio):
+    # Decode the base64 audio data
+    audio_data = base64.b64decode(base64_audio)
+
+    # Create a temporary file and write the audio data to it
+    with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as temp_file:
+        temp_file.write(audio_data)
+        temp_file_path = temp_file.name
+
+    # Read the audio data from the temporary file
+    sound = parselmouth.Sound(temp_file_path)
+    pitch = sound.to_pitch()
+    pitch_values = pitch.selected_array['frequency']
+
+    # Delete the temporary file
+    os.remove(temp_file_path)
+
+    return pitch_values.tolist()
+
+
+
+def extract_base64(data_uri):
+    if data_uri is None or ";base64," not in data_uri:
+        return None
+    return data_uri.split(";base64,")[1]
+
+
+@app.route('/')
+def index():
+    return "Hello, World! The api is running."
+
+
+
+@app.route('/analyze', methods=["POST"])
+@authenticate_request
+def analyze_user_rec():
+    try:
+        synthesized_audio_url = request.json['synthesized_audio_url']
+        recorded_audio_url = request.json['recorded_audio_url']
+
+        print("Received Synthesized Audio URL:", synthesized_audio_url)
+        print("Received Recorded Audio URL:", recorded_audio_url)
+
+        # Check if the URLs are None
+        if not synthesized_audio_url or not recorded_audio_url:
+            return jsonify(error="No valid audio URLs provided"), 400
+
+        # Handle synthesized audio data retrieval
+        if synthesized_audio_url.startswith("data:audio/wav;base64,"):
+            audio_data = base64.b64decode(synthesized_audio_url.split(",")[1])
+            synthesized_audio_data = BytesIO(audio_data).getvalue()  # Convert BytesIO to bytes
+        else:
+            # Download the synthesized audio if it's a direct link
+            synthesized_audio_data = requests.get(synthesized_audio_url).content
+
+        # Handle recorded audio data retrieval
+        if recorded_audio_url.startswith("data:audio/wav;base64,"):
+            audio_data = base64.b64decode(recorded_audio_url.split(",")[1])
+            recorded_audio_data = BytesIO(audio_data).getvalue()  # Convert BytesIO to bytes
+        else:
+            # Download the recorded audio if it's a direct link
+            recorded_audio_data = requests.get(recorded_audio_url).content
+
+        # Convert the audio data to base64
+        synthesized_base64 = base64.b64encode(synthesized_audio_data).decode('utf-8')
+        recorded_base64 = base64.b64encode(recorded_audio_data).decode('utf-8')
+
+        synthesized_pitch_data = analyze_pitch(synthesized_base64)
+        recorded_pitch_data = analyze_pitch(recorded_base64)
+
+        return jsonify(synthesized_pitch_data=synthesized_pitch_data, recorded_pitch_data=recorded_pitch_data)
+    except Exception as e:
+        print_exc() # Print the traceback
+        return jsonify(error=str(e)), 500
+
+
+db = firestore.Client()
+
+
 price_ids = {
     'Pro': 'price_1NkOHeK0jBG5Bpil2Kew0nhx',
     'Unlimited': 'price_1NseXeK0jBG5Bpilgy7wo3BS'
 }
 
-# test Stripe Price IDs
-# price_ids = {
-#     'Pro': 'price_1NkcTLK0jBG5BpilYyTCm9lA',
-#     'Unlimited': 'price_1NkcTZK0jBG5Bpil1EJBSW0w'
-# }
-
-@app.route('/')
-def index():
-    return "Hello, World! The payment API is running."
-
 
 @app.route('/create-checkout-session', methods=['POST'])
+@authenticate_request
 def create_checkout_session():
     try:
         user_id = request.json['user_id']
@@ -76,6 +181,7 @@ def create_checkout_session():
     
 
 @app.route('/cancel-subscription', methods=['POST'])
+@authenticate_request
 def cancel_subscription():
     try:
         user_id = request.json['user_id']
@@ -195,7 +301,9 @@ def stripe_webhook():
     return 'Success', 200
 
 
-if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 4242))
-    app.run(host='0.0.0.0', port=port)
 
+if __name__ == '__main__':
+    if not os.path.exists('uploads'):
+        os.makedirs('uploads')  # Create 'uploads' directory if it doesn't exist
+    port = int(os.environ.get("PORT", 5001))  # Make sure to choose a suitable default port
+    app.run(host='0.0.0.0', port=port, debug=False)

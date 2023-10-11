@@ -22,9 +22,7 @@ const SavedResponses = ({
 
   const navigate = useNavigate();
   const {
-    fromLanguage,
     setFromLanguage,
-    selectedLanguage,
     setSelectedLanguage,
   } = useContext(LanguageContext);
   const [filterLanguage, setFilterLanguage] = useState("");

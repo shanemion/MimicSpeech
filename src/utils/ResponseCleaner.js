@@ -1,80 +1,207 @@
 const isChinese = (str) => {
-  const re = /^[\u4e00-\u9fa5.,:;!?'"()。、・！？：；「」『』（）]+$/; // Added the English period (.) and colon (:)
-  return re.test(str);
+  const re = /^[\u4e00-\u9fa5.,:;!?'"“”()。、，・！？：；「」『』（）《》0-9·]+$/;
+
+  let matchingChars = 0;
+  
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+
+  // Calculate percentage of matching characters
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
-// English
+
+
 const isEnglish = (str) => {
-  const re = /^[a-zA-Z .,:;!?'"()]+$/;
-  return re.test(str);
+  const re = /^[a-zA-Z .,:;!?'"()0-9\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+
+  let matchingChars = 0;
+  
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+
+  // Calculate percentage of matching characters
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
+
 
 // Spanish
 const isSpanish = (str) => {
-  const re = /^[a-zA-Záéíóúñ .,:;!?'"()¿¡]+$/;
-  return re.test(str);
+  const re = /^[a-zA-ZáéíóúñüÁÉÍÓÚÑÜ .,:;!?'"()¿¡\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+
+  let matchingChars = 0;
+  
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+
+  // Calculate percentage of matching characters
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
+
 
 // Japanese
 const isJapanese = (str) => {
-  const re =
-    /^[\u3040-\u309F\u30A0-\u30FF\uFF00-\uFFEF\u4E00-\u9FAF .,:;!?'"()。、・！？：；「」『』（）]+$/;
-  return re.test(str);
+  const re = /^[\u3040-\u309F\u30A0-\u30FF\uFF00-\uFFEF\u4E00-\u9FAF .,:;!?'"()。、，《》0-9・！？：；「」『』（）·\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+
+  let matchingChars = 0;
+  
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+
+  // Calculate percentage of matching characters
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
+
 
 // Vietnamese
 const isVietnamese = (str) => {
-  const re =
-    /^[a-zA-ZàảãáạăằẳẵắặâầẩẫấậđèéẻẽẹêềểễếệìíỉĩịòóỏõọôồốổỗộơờởỡớợùúủũụưừứửữựỳýỷỹỵÁÀẢÃẠĂẰẲẴẮẶÂẦẨẪẤẬĐÈÉẺẼẸÊỀỂỄẾỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỞỠỚỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴ.,;:?!'\"()“”]+$/;
-  return re.test(str);
+  const re = /^[a-zA-ZàảãáạăằẳẵắặâầẩẫấậđèéẻẽẹêềểễếệìíỉĩịòóỏõọôồốổỗộơờởỡớợùúủũụưừứửữựỳýỷỹỵÁÀẢÃẠĂẰẲẴẮẶÂẦẨẪẤẬĐÈÉẺẼẸÊỀỂỄẾỆÌÍỈĨỊÒÓỎÕỌÔỒỐỔỖỘƠỜỞỠỚỢÙÚỦŨỤƯỪỨỬỮỰỲÝỶỸỴ.,;:?!'\"()“”。，《》0-9·\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+
+  let matchingChars = 0;
+  
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+
+  // Calculate percentage of matching characters
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
+
 
 // Korean
 const isKorean = (str) => {
-  const re = /^[\uAC00-\uD7A3 .,:;!?'"()]+$/;
-  return re.test(str);
+  const re = /^[\uAC00-\uD7A3 .,:;!?'"()、。《》0-9·\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+
+  let matchingChars = 0;
+  
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+
+  // Calculate percentage of matching characters
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
 
 // French
 const isFrench = (str) => {
-  const re = /^[a-zA-Zàâçéèêëîïôûùüÿœæ .,:;!?'"()«»]+$/;
-  return re.test(str);
+  const re = /^[a-zA-Zàâçéèêëîïôûùüÿœæ .,:;!?'"()«»、。《》0-9·\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+  
+  let matchingChars = 0;
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
 
 // German
 const isGerman = (str) => {
-  const re = /^[a-zA-Zäöüß .,:;!?'"()„“]+$/;
-  return re.test(str);
+  const re = /^[a-zA-Zäöüß .,:;!?'"()„“、。《》0-9·\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+  
+  let matchingChars = 0;
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
 
 // Italian
 const isItalian = (str) => {
-  const re = /^[a-zA-Zàèéìíòóùú .,:;!?'"()]+$/;
-  return re.test(str);
+  const re = /^[a-zA-Zàèéìíòóùú .,:;!?'"()、。《》0-9·\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+  
+  let matchingChars = 0;
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
+
 
 // Russian
 const isRussian = (str) => {
-  const re = /^[а-яА-ЯёЁ .,:;!?'"()]+$/;
-  return re.test(str);
+  const re = /^[а-яА-ЯёЁ .,:;!?'"()、。《》0-9·\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+
+  let matchingChars = 0;
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
 
 // Arabic
 const isArabic = (str) => {
-  const re = /^[\u0600-\u06FF .,:;!?'"()،؛؟]+$/;
-  return re.test(str);
+  const re = /^[\u0600-\u06FF .,:;!?'"()،؛؟、。《》0-9·\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+
+  let matchingChars = 0;
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
 
 // Hindi
 const isHindi = (str) => {
-  const re = /^[\u0900-\u097F .,:;!?'"()।॥]+$/;
-  return re.test(str);
+  const re = /^[\u0900-\u097F .,:;!?'"()।॥、。《》0-9·\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+
+  let matchingChars = 0;
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
 
 // Portuguese
 const isPortuguese = (str) => {
-  const re = /^[a-zA-Záâãàçéêíóôõóúü .,:;!?'"()]+$/;
-  return re.test(str);
+  const re = /^[a-zA-Záâãàçéêíóôõóúü .,:;!?'"()、。《》0-9·\-_@#$%^&*+=[\]{}|<>\\/]+$/;
+
+  let matchingChars = 0;
+  for (let char of str) {
+    if (re.test(char)) {
+      matchingChars++;
+    }
+  }
+  const percentage = (matchingChars / str.length) * 100;
+  return percentage >= 90;
 };
+
 
 export const ResponseCleaner = (
   response,
@@ -146,48 +273,49 @@ export const ResponseCleaner = (
   // console.log("real", realLength);
 
   sentencesWithPeriod = sentencesWithPeriod.slice(0, realLength);
-  // console.log("sentencez", sentencesWithPeriod);
+  console.log("realLength", realLength);
+  console.log("sentencez", sentencesWithPeriod);
   const allChinese = sentencesWithPeriod
-    .slice(0, numSentences)
+    .slice(0, realLength / 3)
     .every(isChinese);
     console.log("allChinese", allChinese);
 
   const allEnglish = sentencesWithPeriod
-    .slice(0, numSentences)
-    .every(isEnglish);
+  .slice(0, realLength / 3)
+  .every(isEnglish);
 
   const allJapanese = sentencesWithPeriod
-    .slice(0, numSentences)
-    .every(isJapanese);
+  .slice(0, realLength / 3)
+  .every(isJapanese);
 
-  const allKorean = sentencesWithPeriod.slice(0, numSentences).every(isKorean);
+  const allKorean = sentencesWithPeriod.slice(0, realLength / 3).every(isKorean);
 
   const allRussian = sentencesWithPeriod
     .slice(0, numSentences)
     .every(isRussian);
 
-  const allArabic = sentencesWithPeriod.slice(0, numSentences).every(isArabic);
+  const allArabic = sentencesWithPeriod.slice(0, realLength / 3).every(isArabic);
 
-  const allHindi = sentencesWithPeriod.slice(0, numSentences).every(isHindi);
+  const allHindi = sentencesWithPeriod.slice(0, realLength / 3).every(isHindi);
 
   const allPortuguese = sentencesWithPeriod
-    .slice(0, numSentences)
+    .slice(0, realLength / 3)
     .every(isPortuguese);
 
-  const allFrench = sentencesWithPeriod.slice(0, numSentences).every(isFrench);
+  const allFrench = sentencesWithPeriod.slice(0, realLength / 3).every(isFrench);
 
-  const allGerman = sentencesWithPeriod.slice(0, numSentences).every(isGerman);
+  const allGerman = sentencesWithPeriod.slice(0, realLength / 3).every(isGerman);
 
   const allItalian = sentencesWithPeriod
-    .slice(0, numSentences)
+    .slice(0, realLength / 3)
     .every(isItalian);
 
   const allSpanish = sentencesWithPeriod
-    .slice(0, numSentences)
+    .slice(0, realLength / 3)
     .every(isSpanish);
 
   const allVietnamese = sentencesWithPeriod
-    .slice(0, numSentences)
+    .slice(0, realLength / 3)
     .every(isVietnamese);
 
   const removeCommas = (sentence) => {
@@ -243,7 +371,7 @@ export const ResponseCleaner = (
     allVietnamese
   ) {
     // Expected format
-    const groupedSentences = [];
+    // const groupedSentences = [];
 
     if (
       toLanguage === "Chinese" ||

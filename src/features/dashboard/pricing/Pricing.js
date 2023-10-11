@@ -32,16 +32,16 @@ const Pricing = () => {
   useStripe();
   const navigate = useNavigate();
   // actual
-  // const stripe_pk = "pk_live_51NkFpwK0jBG5BpilI2pUBCSMePDdEE0ms7LlJjtMjpqHp4w36FcdvJhX1Wl4fZLMeIFkXnnlTHU4CMPkyzQUVxXG00bf7ixAir"
+  const stripe_pk = "pk_live_51NkFpwK0jBG5BpilI2pUBCSMePDdEE0ms7LlJjtMjpqHp4w36FcdvJhX1Wl4fZLMeIFkXnnlTHU4CMPkyzQUVxXG00bf7ixAir"
 
   // test
-  const stripe_pk =
-    "pk_test_51NkFpwK0jBG5BpilGRgnZGO0Ps2T6lQuUFbY98sOET2vW3vUyLxR52ZVAtHFhOA2ztsu5hsGeQTllGYXI60p9azX00zkyfFtYW";
+  // const stripe_pk =
+  //   "pk_test_51NkFpwK0jBG5BpilGRgnZGO0Ps2T6lQuUFbY98sOET2vW3vUyLxR52ZVAtHFhOA2ztsu5hsGeQTllGYXI60p9azX00zkyfFtYW";
 
   const handleCheckout = async (plan) => {
     console.log("Sending user_id:", currentUser.uid); // Debug line
     const response = await fetch(
-      "http://127.0.0.1:4242/create-checkout-session",
+      "http://127.0.0.1:5001/create-checkout-session",
       {
         method: "POST",
         headers: {

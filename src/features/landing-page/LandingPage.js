@@ -1,9 +1,7 @@
-import React, { useRef, useEffect, useContext } from "react";
+import React, { useRef, useEffect } from "react";
 import "./LandingPage.css";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Burger } from "../../components/Burger";
 import { useIntersectionObserver } from "./utils/Intersection";
-import Pricing from "../dashboard/pricing/Pricing";
 import Faq from "./components/faq/Faq";
 import Language from "./components/language/Language";
 import useWindowSize from "../../../src/utils/WindowSize";
@@ -13,8 +11,6 @@ import PricingPage from "./components/pricing/PricingPage";
 
 const LandingPage = () => {
   const navigate = useNavigate();
-  const myRef = useRef();
-  const location = useLocation();
   const { width } = useWindowSize();
 
   const featureRef = useRef(null);
@@ -38,7 +34,6 @@ const LandingPage = () => {
   const isPracticeVisible = useIntersectionObserver(practiceRef);
   const isFaqVisible = useIntersectionObserver(faqRef);
   const isLanguageVisible = useIntersectionObserver(languageRef);
-  const isContactVisible = useIntersectionObserver(contactRef);
   const isWordVisible = useIntersectionObserver(wordRef);
 
   const heroRef = useRef();
