@@ -1,3 +1,5 @@
+View it here! https://mimicspeech.web.app/
+
 Personal project designed to help improve accent and listening ability for foreign languages by recording themselves speak over a natural sounding, AI Text to Speech, presenting visual and calculated feedback. 
 
 Utilizing: OPENAI API, Azure, GCP / Firestore, Flask, React.js, Stripe, p5.js, Parselmouth/PRATT, AudioRecorder.js, responsive design, and other libraries.
