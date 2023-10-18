@@ -343,7 +343,7 @@ const LandingPage = () => {
           <p className="landing-footer-text">
             For inquiries or questions contact smion@stanford.edu
           </p>
-          {/* <p className="landing-footer-text">Made from Create React App</p> */}
+          {/* <p className="landing-footer-text">Made from Create React App</p>np */}
 
           <p className="landing-footer-text">© 2023 MimicSpeech</p>
         </div>

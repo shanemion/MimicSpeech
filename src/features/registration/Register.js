@@ -47,7 +47,7 @@ const Register = () => {
   
       // Register the user and get the user object
       const user = await register(email, password, additionalData);
-      console.log("user", user)
+      // console.log("user", user)
   
       if (pricingState && pricingState.fromPricingPage) {
         navigate("/dashboard");
@@ -57,7 +57,7 @@ const Register = () => {
       }
     } catch (error) {
       alert(error);
-      console.log("tree")
+      // console.log("tree")
     }
   };
   

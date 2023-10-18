@@ -171,13 +171,13 @@ const Modal = ({ show, onHide, word }) => {
     try {
       const audioURL = await getDownloadURL(storageRef);
       // If we get here, it means the audio already exists.
-      console.log("Audio exists, playing from storage...");
+      // console.log("Audio exists, playing from storage...");
       const audio = new Audio(audioURL);
       audio.play();
     } catch (error) {
       // getDownloadURL will throw an error if the file doesn't exist, catch it here
       if (error.code === "storage/object-not-found") {
-        console.log("Audio does not exist, generating...");
+        // console.log("Audio does not exist, generating...");
 
         // Step 2: Generate and upload the audio if it doesn't exist
         try {

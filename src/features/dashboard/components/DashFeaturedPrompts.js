@@ -52,10 +52,10 @@ const DashFeaturedPrompts = ({ userPrompt, setUserPrompt }) => {
   };
 
   const handleUsePrompt = (response) => {
-    console.log("Response", response);
-    console.log("Response Popularity", response.popularity);
+    // console.log("Response", response);
+    // console.log("Response Popularity", response.popularity);
     const newPopularity = response.popularity + 1;
-    console.log("New Popularity", newPopularity);
+    // console.log("New Popularity", newPopularity);
     setUserPrompt(response.prompt);
     navigate("/generator");
     setPopularity(newPopularity);
@@ -65,11 +65,11 @@ const DashFeaturedPrompts = ({ userPrompt, setUserPrompt }) => {
 
   const handleUpdate = async (promptId, newPopularity) => {
     const promptRef = doc(db, "prompts", promptId);
-    console.log("PromptRef", promptRef);
+    // console.log("PromptRef", promptRef);
     try {
       await updateDoc(promptRef, { popularity: newPopularity });
     } catch (error) {
-      console.log("Error updating document:", error.message);
+      // console.log("Error updating document:", error.message);
     }
   };
 

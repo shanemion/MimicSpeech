@@ -56,17 +56,17 @@ const Bookmark = ({
   const handleClick = async () => {
     // console.log("isSaved:", isSaved, "setIsSaved:", setIsSaved);
     let currResponse = localStorage.getItem("responseId")
-    console.log("Before handleClick: ", { isSaved, currResponse });
+    // console.log("Before handleClick: ", { isSaved, currResponse });
 
     if (currentUser) {
       if (isSaved) {
         if (currResponse !== null) {
-          console.log("DelresponseId:", currResponse);
+          // console.log("DelresponseId:", currResponse);
           await deleteSavedResponse(currentUser.uid, currResponse);
-          console.log("delted responseId:", currResponse);
+          // console.log("delted responseId:", currResponse);
           setIsSaved(false);
           localStorage.removeItem("responseId");
-          console.log("isSaved After handleClick: ", { isSaved, currResponse });
+          // console.log("isSaved After handleClick: ", { isSaved, currResponse });
         }
 
       } else {

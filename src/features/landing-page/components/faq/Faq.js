@@ -38,7 +38,7 @@ const Faq = () => {
     {
       question: "How do credits work?",
       answer:
-        "Each group of sentences is worth 1 credit! So a 3 sentence response is 3 credits, the translated sentences do not use credits.",
+        "Each group of sentences is worth 1 credit! A group of sentences is the same sentence in different languages. So a 3 group response is 3 credits, the translated sentences do not use credits.",
     },
     {
       question: "The generated response is not being formatted correctly, what should I do?",

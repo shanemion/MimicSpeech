@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./Pricing.css";
 import checkmark from "./icons8-checkmark-48.png"; // adjust the filename if needed
 import { useAuth } from "../../../services/firebase/FirebaseAuth";
+import { getAuth, getIdToken } from "firebase/auth";
 
 const useStripe = () => {
   useEffect(() => {
@@ -39,13 +40,16 @@ const Pricing = () => {
   //   "pk_test_51NkFpwK0jBG5BpilGRgnZGO0Ps2T6lQuUFbY98sOET2vW3vUyLxR52ZVAtHFhOA2ztsu5hsGeQTllGYXI60p9azX00zkyfFtYW";
 
   const handleCheckout = async (plan) => {
-    console.log("Sending user_id:", currentUser.uid); // Debug line
+    // console.log("Sending user_id:", currentUser.uid); // Debug line
+    const auth = getAuth();
+    const idToken = await getIdToken(auth.currentUser, true);
     const response = await fetch(
-      "http://127.0.0.1:5001/create-checkout-session",
+      "/mimicspeech/create-checkout-session",
       {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          "Authorization": `Bearer ${idToken}`
         },
         body: JSON.stringify({ plan, user_id: currentUser.uid }), // Include user ID
       }

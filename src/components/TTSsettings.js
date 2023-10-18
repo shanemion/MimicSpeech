@@ -8,7 +8,7 @@ const GenderSelector = () => {
   const { selectedGender, setSelectedGender } = useContext(LanguageContext);
 
   useEffect(() => {
-    console.log("useEffect", selectedGender);
+    // console.log("useEffect", selectedGender);
   }, [selectedGender]);
 
   const genderOptions = [
@@ -17,9 +17,9 @@ const GenderSelector = () => {
   ];
 
   const handleChange = (selectedOption) => {
-    console.log("Selected Option:", selectedOption)
+    // console.log("Selected Option:", selectedOption)
     setSelectedGender(selectedOption);
-    console.log("Selected Gender:", selectedOption);
+    // console.log("Selected Gender:", selectedOption);
   };
 
   return (

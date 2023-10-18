@@ -163,15 +163,15 @@ const CompletionGenerator = ({
       if (newValue > 3) {
         newValue = 3;
       }
-      if (newValue < 2) {
-        newValue = 2;
+      if (newValue < 3) {
+        newValue = 3;
       }
     } else {
       if (newValue > 5) {
         newValue = 5;
       }
-      if (newValue < 2) {
-        newValue = 2;
+      if (newValue < 3) {
+        newValue = 3;
       }
     }
 
@@ -204,7 +204,7 @@ const CompletionGenerator = ({
     }
     setIsGPTLoading(true);
 
-    console.log("selectedLanguage", selectedLanguage);
+    // console.log("selectedLanguage", selectedLanguage);
 
     const prompt = GeneratePrompt({
       fromLanguage: fromLanguage,
@@ -213,7 +213,7 @@ const CompletionGenerator = ({
       responseLength: responseLength,
     });
 
-    console.log(prompt);
+    // console.log(prompt);
 
     const openai = new OpenAI({
       apiKey: process.env.REACT_APP_OPENAI_KEY,
@@ -235,7 +235,7 @@ const CompletionGenerator = ({
         setGeneratedResponse(responseText);
         setInitialLoader(false);
         localStorage.setItem("generatedResponse", responseText);
-        console.log("Response from API:", response.choices[0].text);
+        // console.log("Response from API:", response.choices[0].text);
 
         const handleDeleteCredits = async () => {
           const userId = currentUser.uid;
@@ -243,7 +243,7 @@ const CompletionGenerator = ({
 
           const newCredits = await deleteCredits(userId, amount);
           if (newCredits !== null) {
-            console.log(`New credits: ${newCredits}`);
+            // console.log(`New credits: ${newCredits}`);
           }
 
           setCredits(newCredits);
@@ -258,7 +258,7 @@ const CompletionGenerator = ({
     } catch (error) {
       console.error("Error generating response:", error);
       if (error.response && error.response.body) {
-        console.log("Error Response from API:", error.response.body);
+        // console.log("Error Response from API:", error.response.body);
         setGeneratedResponse(
           "Error generating response. Try a shorter prompt!"
         );
@@ -267,21 +267,21 @@ const CompletionGenerator = ({
     setIsGPTLoading(false);
 
     const deletePromises = recordedAudios.map(async (audio) => {
-      console.log("Deleting audio:", audio.id);
+      // console.log("Deleting audio:", audio.id);
       const audioRef = ref(
         storage,
         `recordedAudios/${currentUser.uid}/${audio.id}.wav`
       );
-      console.log(
-        "Attempting to delete:",
-        `recordedAudios/${currentUser.uid}/${audio.id}.wav`
-      );
+      // console.log(
+        // "Attempting to delete:",
+        // `recordedAudios/${currentUser.uid}/${audio.id}.wav`
+      // );
       try {
         await deleteObject(audioRef);
-        console.log(
-          "Successfully deleted:",
-          `recordedAudios/${currentUser.uid}/${audio.id}.wav`
-        );
+        // console.log(
+          // "Successfully deleted:",
+          // `recordedAudios/${currentUser.uid}/${audio.id}.wav`
+        // );
       } catch (error) {
         console.error("Error deleting object: ", error);
       }
@@ -289,10 +289,10 @@ const CompletionGenerator = ({
 
     Promise.all(deletePromises)
       .then(() => {
-        console.log("All delete operations completed.");
+        // console.log("All delete operations completed.");
       })
       .catch((error) => {
-        console.error("Some delete operations failed:", error);
+        // console.error("Some delete operations failed:", error);
       });
 
     const deleteUnsavedAudios = async (userId) => {
@@ -316,7 +316,7 @@ const CompletionGenerator = ({
   };
 
   const docId = localStorage.getItem("responseId");
-  console.log("docIda", docId);
+  // console.log("docIda", docId);
 
   const handleTTS = async (
     textToRead,
@@ -336,12 +336,12 @@ const CompletionGenerator = ({
       alert("Please select a voice.");
       return;
     }
-    console.log("TTSselectedLanguage", selectedLanguage);
-    console.log("TTSselectedGender", selectedGender);
+    // console.log("TTSselectedLanguage", selectedLanguage);
+    // console.log("TTSselectedGender", selectedGender);
 
     const identifier = `${currentUser.uid}_${textToRead}-${selectedLanguage.value}-${selectedGender.value}-${rate}`;
-    console.log("identifier", identifier);
-    console.log("docId", docId);
+    // console.log("identifier", identifier);
+    // console.log("docId", docId);
     let storageRef;
     if (isSaved) {
       storageRef = ref(
@@ -365,14 +365,14 @@ const CompletionGenerator = ({
       }
       // setTTSAudio(audioURL);
       // If we get here, it means the audio already exists.
-      console.log("Audio exists, playing from storage...");
+      // console.log("Audio exists, playing from storage...");
       const audio = new Audio(audioURL);
       audio.play();
     } catch (error) {
       // getDownloadURL will throw an error if the file doesn't exist, catch it here
       if (error.code === "storage/object-not-found") {
-        console.log("Audio does not exist, generating...");
-        console.log("TTSselectedGender", selectedGender);
+        // console.log("Audio does not exist, generating...");
+        // console.log("TTSselectedGender", selectedGender);
 
         // Step 2: Generate and upload the audio if it doesn't exist
         try {
@@ -390,9 +390,9 @@ const CompletionGenerator = ({
             localStorage.setItem("TTS_audio", audioURL);
           } else {
             setPracticeData({ ...practiceData, [identifier]: audioURL });
-            console.log("practiceDataRetry", audioURL);
+            // console.log("practiceDataRetry", audioURL);
           }
-          console.log("Audio generated and uploaded successfully!");
+          // console.log("Audio generated and uploaded successfully!");
         } catch (error) {
           console.error("Error generating or uploading TTS:", error);
         }
@@ -455,7 +455,7 @@ const CompletionGenerator = ({
       return;
     }
 
-    console.log("textToRead:", textToRead);
+    // console.log("textToRead:", textToRead);
     await handleTTS(textToRead, selectedLanguage, selectedGender, rates[speed]);
   }
 

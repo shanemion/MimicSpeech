@@ -273,12 +273,12 @@ export const ResponseCleaner = (
   // console.log("real", realLength);
 
   sentencesWithPeriod = sentencesWithPeriod.slice(0, realLength);
-  console.log("realLength", realLength);
-  console.log("sentencez", sentencesWithPeriod);
+  // console.log("realLength", realLength);
+  // console.log("sentencez", sentencesWithPeriod);
   const allChinese = sentencesWithPeriod
     .slice(0, realLength / 3)
     .every(isChinese);
-    console.log("allChinese", allChinese);
+    // console.log("allChinese", allChinese);
 
   const allEnglish = sentencesWithPeriod
   .slice(0, realLength / 3)

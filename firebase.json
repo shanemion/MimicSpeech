@@ -8,6 +8,14 @@
     ],
     "rewrites": [
       {
+        "source": "/mimicspeech/:path*",
+        "run": {
+          "serviceId": "mimicspeech",
+          "region": "us-west1",
+          "path": "/:path"
+        }
+      },
+      {
         "source": "**",
         "destination": "/index.html"
       }

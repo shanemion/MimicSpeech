@@ -1,8 +1,6 @@
 # Configuration and environment files
 .env
 cors.json
-mimicspeech-97598c7b85ca.json
-mimicspeech-firebase-adminsdk-015fy-f9b7431afe.json
 
 # Version control
 .git/
@@ -14,3 +12,6 @@ README.md
 # Node/npm files (These will be handled by the Docker COPY instruction for frontend specifically)
 node_modules/
 npm-debug.log
+
+#other
+openapi-run.yaml

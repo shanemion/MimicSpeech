@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../services/firebase/FirebaseAuth";
 import "../styles.css";
 
-export default function AuthButtons() {
+export default function SavedAuthButtons() {
   const navigate = useNavigate();
   const { currentUser } = useAuth();  
 
@@ -11,8 +11,7 @@ export default function AuthButtons() {
     <div className="auth-buttons">
       {currentUser ? (
         <>
-          <button className="authButton" onClick={() => navigate("/saved")}>Saved</button>
-          {/* <button className="authButton" onClick={handleLogout}>Logout</button> */}
+          <button className="authButton" onClick={() => navigate("/dashboard")}>Dash</button>
         </>
       ) : (
         <>

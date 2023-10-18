@@ -20,7 +20,7 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
 
     const handleChange = (selectedOption) => {
       setTypeResponse(selectedOption.value);
-      console.log("Selected Mode:", selectedOption);
+      // console.log("Selected Mode:", selectedOption);
     };
 
     const selectedMode = modeOptions.find(
@@ -57,7 +57,7 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
 
     const handleChange = (selectedOption) => {
       setFromLanguage(selectedOption);
-      console.log("From Language:", selectedOption);
+      // console.log("From Language:", selectedOption);
     };
 
     return (
@@ -90,7 +90,7 @@ export const Selectors = ({ typeResponse, setTypeResponse }) => {
 
     const handleChange = (selectedOption) => {
       setSelectedLanguage(selectedOption);
-      console.log("Selected Language:", selectedOption);
+      // console.log("Selected Language:", selectedOption);
     };
 
     return (

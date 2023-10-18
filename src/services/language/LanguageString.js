@@ -4,7 +4,7 @@ const SelectedVoice = (selectedLanguage, selectedGender) => {
   const gender = selectedGender.value;
 
   if (language === "Chinese") {
-    console.log("gender",  gender)
+    // console.log("gender",  gender)
     return gender === "Man" ? "zh-CN-YunxiNeural" : "zh-CN-XiaoxiaoNeural";
   }
   if (language === "English") {
@@ -44,7 +44,7 @@ const SelectedVoice = (selectedLanguage, selectedGender) => {
     return gender === "Man" ? "pt-BR-FranciscoNeural" : "pt-BR-FranciscaNeural";
   }
   
-  console.log("None");
+  // console.log("None");
   return null;
 };
 

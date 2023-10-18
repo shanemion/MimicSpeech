@@ -143,7 +143,7 @@ export const Burger = () => {
           Dashboard
         </Link>
       )}
-      <Link
+      {/* <Link
         id="pricing"
         className="menu-item"
         to="/pricing"
@@ -151,7 +151,7 @@ export const Burger = () => {
         style={linkStyle}
       >
         Pricing Plans
-      </Link>
+      </Link> */}
       <div styles={{ height: "100px" }}></div>
       {currentUser && (
         <>

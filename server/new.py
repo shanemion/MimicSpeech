@@ -21,18 +21,51 @@ stripe_sk = os.getenv('REACT_APP_STRIPE_SK')
 stripe.api_key = stripe_sk
 stripe_webhook_secret = os.getenv('REACT_APP_STRIPE_WEBHOOK_SECRET')
 
+# Initialize Firebase Admin SDK
+# cred_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+# cred = credentials.Certificate(cred_path)
+# firebase_admin.initialize_app(cred)
+import firebase_admin
+from firebase_admin import credentials
+
+# Fetch environment variables
+type = os.environ['TYPE']
+project_id = os.environ['PROJECT_ID']
+private_key_id = os.environ['PRIVATE_KEY_ID']
+private_key = os.environ['PRIVATE_KEY'].replace('\\n', '\n')
+client_email = os.environ['CLIENT_EMAIL']
+client_id = os.environ['CLIENT_ID']
+auth_uri = os.environ['AUTH_URI']
+token_uri = os.environ['TOKEN_URI']
+auth_provider_x509_cert_url = os.environ['AUTH_PROVIDER_X509_CERT_URL']
+client_x509_cert_url = os.environ['CLIENT_X509_CERT_URL']
+universe_domain = os.environ['UNIVERSE_DOMAIN']
+
+# Construct the credentials object
+cred_dict = {
+    'type': 'service_account',
+    'project_id': project_id,
+    'private_key_id': private_key_id,
+    'private_key': private_key,
+    'client_email': client_email,
+    'client_id': client_id,
+    'auth_uri': auth_uri,
+    'token_uri': token_uri,
+    'auth_provider_x509_cert_url': auth_provider_x509_cert_url,
+    'client_x509_cert_url': client_x509_cert_url,
+    'universe_domain': universe_domain
+}
+cred = credentials.Certificate(cred_dict)
+firebase_admin.initialize_app(cred)
+
+
 app = Flask(__name__)
 CORS(app, resources={
     r"/*": {
-        "origins": "http://localhost:3000",
+        "origins": ["http://localhost:3000", "https://mimicspeech.com", "https://mimicspeech.web.app"],
         "supports_credentials": True
     }
 })
-
-# Initialize Firebase Admin SDK
-# cred = credentials.Certificate('mimicspeech-97598c7b85ca.json')
-cred = credentials.Certificate('mimicspeech-firebase-adminsdk-015fy-f9b7431afe.json')
-firebase_admin.initialize_app(cred)
 
 
 def authenticate_request(f):
@@ -40,14 +73,17 @@ def authenticate_request(f):
     def decorated_function(*args, **kwargs):
         id_token = request.headers.get('Authorization')
         if not id_token or 'Bearer ' not in id_token:
+            print("top auth error")
             return jsonify({"error": "Authorization header missing or not in expected format"}), 403
-
+            
         id_token = id_token.split('Bearer ')[1]
         try:
             decoded_token = auth.verify_id_token(id_token)
             request.user = decoded_token
             print(f"Authenticated user: {decoded_token}")
+            print("i think you did it")
         except Exception as e:  # You can narrow down the exception if you know what exceptions are possible
+            print("other auth error")
             return jsonify({"error": "Authentication failed", "details": str(e)}), 403
         return f(*args, **kwargs)
     return decorated_function
@@ -95,7 +131,7 @@ def index():
 
 
 
-@app.route('/analyze', methods=["POST"])
+@app.route('/mimicspeech/analyze', methods=["POST"])
 @authenticate_request
 def analyze_user_rec():
     try:
@@ -147,7 +183,7 @@ price_ids = {
 }
 
 
-@app.route('/create-checkout-session', methods=['POST'])
+@app.route('/mimicspeech/create-checkout-session', methods=['POST'])
 @authenticate_request
 def create_checkout_session():
     try:
@@ -172,15 +208,17 @@ def create_checkout_session():
                 'plan': plan  # Add plan to metadata
             },
             mode='subscription',
-            success_url='http://localhost:3000/payment-success?plan={}'.format(plan),
-            cancel_url='http://localhost:3000/dashboard',
+            # success_url='http://localhost:3000/payment-success?plan={}'.format(plan),
+            # cancel_url='http://localhost:3000/dashboard',
+            success_url='https://mimicspeech.web.app/payment-success?plan={}'.format(plan),
+            cancel_url='https://mimicspeech.web.app/dashboard',
         )
         return jsonify({'id': checkout_session.id})
     except Exception as e:
         return jsonify({'error': str(e)}), 403
     
 
-@app.route('/cancel-subscription', methods=['POST'])
+@app.route('/mimicspeech/cancel-subscription', methods=['POST'])
 @authenticate_request
 def cancel_subscription():
     try:
@@ -305,5 +343,5 @@ def stripe_webhook():
 if __name__ == '__main__':
     if not os.path.exists('uploads'):
         os.makedirs('uploads')  # Create 'uploads' directory if it doesn't exist
-    port = int(os.environ.get("PORT", 5001))  # Make sure to choose a suitable default port
+    port = int(os.environ.get("PORT", 8080))
     app.run(host='0.0.0.0', port=port, debug=False)

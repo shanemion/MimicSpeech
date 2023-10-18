@@ -102,7 +102,7 @@ const EditAccount = () => {
       return;
     }
     try {
-      console.log("Current User:", currentUser);
+      // console.log("Current User:", currentUser);
 
       // Update Firestore logic
       const userRef = doc(db, "users", currentUser.uid);
@@ -136,7 +136,7 @@ const EditAccount = () => {
       if (newPassword) {
         await updatePassword(currentUser, newPassword); // Using the modular function
       } else {
-        console.log("New password is empty. Not updating password.");
+        // console.log("New password is empty. Not updating password.");
       }
 
       navigate("/dashboard");

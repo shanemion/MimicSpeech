@@ -3,14 +3,14 @@ const analyzeAudio = async (selectedPage, practiceData, pracSynKey, idToken) => 
   let synthesizedAudioURL;
   if (selectedPage !== "Practice") {
     synthesizedAudioURL = localStorage.getItem("TTS_audio");
-    console.log("If Audio URL:", synthesizedAudioURL);
+    // console.log("If Audio URL:", synthesizedAudioURL);
   } else {
     synthesizedAudioURL = practiceData[pracSynKey];
-    console.log("Else Audio URL:", synthesizedAudioURL);
+    // console.log("Else Audio URL:", synthesizedAudioURL);
   }
   const recordedAudioURL = localStorage.getItem("user_audio_url");
-  console.log("Synthesized Audio URL:", synthesizedAudioURL);
-  console.log("Recorded Audio URL:", recordedAudioURL);
+  // console.log("Synthesized Audio URL:", synthesizedAudioURL);
+  // console.log("Recorded Audio URL:", recordedAudioURL);
 
   if (!synthesizedAudioURL || !recordedAudioURL) {
     console.error("Missing audio URLs");
@@ -29,10 +29,10 @@ const analyzeAudio = async (selectedPage, practiceData, pracSynKey, idToken) => 
       recorded_audio_url: recordedAudioURL,
     };
   }
-  console.log("Data:", data);
+  // console.log("Data:", data);
 
   try {
-    const response = await fetch("http://127.0.0.1:5001/analyze", {
+    const response = await fetch("/mimicspeech/analyze", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -47,11 +47,11 @@ const analyzeAudio = async (selectedPage, practiceData, pracSynKey, idToken) => 
       return null; // Return null or some error indication if there's an error
     } else {
       // Handle the pitch data here
-      console.log(
-        "Synthesized Pitch Data:",
-        responseData.synthesized_pitch_data
-      );
-      console.log("Recorded Pitch Data:", responseData.recorded_pitch_data);
+      // console.log(
+        // "Synthesized Pitch Data:",
+        // responseData.synthesized_pitch_data
+      // );
+      // console.log("Recorded Pitch Data:", responseData.recorded_pitch_data);
       return responseData; // Return the responseData so it can be used in AnalyzeButton
     }
   } catch (error) {

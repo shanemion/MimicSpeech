@@ -68,7 +68,7 @@ const ManagePlan = () => {
     };
 
     fetchUserPlan();
-    console.log("plan", plan);
+    // console.log("plan", plan);
 
     const fetchUserCredits = async () => {
       const userCredits = await fetchCredits(currentUser.uid);
@@ -76,7 +76,7 @@ const ManagePlan = () => {
     };
 
     fetchUserCredits();
-    console.log("credits", credits);
+    // console.log("credits", credits);
 
     const fetchUserSubscriptionId = async () => {
       const subscriptionId = await fetchSubscriptionId(currentUser.uid);
@@ -84,21 +84,21 @@ const ManagePlan = () => {
     };
 
     fetchUserSubscriptionId();
-    console.log("currentSubscriptionId", currentSubscriptionId);
+    // console.log("currentSubscriptionId", currentSubscriptionId);
   }, [currentUser, plan, credits, currentSubscriptionId]);
 
   const handleCancelSubscription = async () => {
-    console.log("currentSubscriptionId1", currentSubscriptionId);
+    // console.log("currentSubscriptionId1", currentSubscriptionId);
 
     const subscriptionId = currentSubscriptionId;
 
-    console.log("subscriptionId", subscriptionId);
+    // console.log("subscriptionId", subscriptionId);
 
     try {
       // Call your backend to cancel the Stripe subscription
       const auth = getAuth();
       const idToken = await getIdToken(auth.currentUser, true);
-      const response = await fetch("http://127.0.0.1:5001/cancel-subscription", {
+      const response = await fetch("/mimicspeech/cancel-subscription", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

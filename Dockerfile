@@ -19,6 +19,9 @@ RUN pip3 install --no-cache-dir -r requirements.txt
 # Copy the backend code
 COPY server/ .
 
+# Copy the firebase admin sdk
+# COPY mimicspeech-firebase-adminsdk-015fy-f9b7431afe.json /app/
+
 # Build frontend
 FROM node:16 as frontend
 

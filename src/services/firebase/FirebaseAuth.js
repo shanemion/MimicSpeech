@@ -63,7 +63,7 @@ export const AuthProvider = ({ children }) => {
       email,
       password,
     );
-    console.log("userCredential", userCredential)
+    // console.log("userCredential", userCredential)
     await setDoc(doc(db, "users", userCredential.user.uid), {
       ...additionalData,
       credits: 10,  
@@ -197,7 +197,7 @@ export const AuthProvider = ({ children }) => {
       });
     
       localStorage.setItem("responseId", docRef.id);
-      console.log("Document written with ID: ", docRef.id);
+      // console.log("Document written with ID: ", docRef.id);
 
       return docRef.id;
     } catch (error) {
@@ -221,7 +221,7 @@ export const AuthProvider = ({ children }) => {
     const docRef = doc(db, "users", userId, "responses", docId);
     await deleteDoc(docRef);
     localStorage.removeItem("responseId");
-    console.log("Document successfully deleted!");
+    // console.log("Document successfully deleted!");
   };
 
   const updateTTSwav = async (userId, responseId, ttsAudioBase64) => {

@@ -1,9 +1,9 @@
 import React from "react";
 import { Title } from "../../../components/Title";
-import AuthButtons from "../../../components/AuthButtons";
+import SavedAuthButtons from "../../../components/SavedAuthButtons";
 import PopupMenu from "../../dashboard/components/popup-menu/PopupMenu";
 
-const GenerateHeader = ({ typeResponse, setTypeResponse }) => {
+const SavedHeader = ({ typeResponse, setTypeResponse }) => {
   return (
     <div className="titleContainer">
       <div className="subTitleContainer">
@@ -12,10 +12,10 @@ const GenerateHeader = ({ typeResponse, setTypeResponse }) => {
         </div>
       </div>
       <div style={{display: "flex", gap: "8px"}}>
-       <AuthButtons /> <PopupMenu />
+       <SavedAuthButtons /> <PopupMenu />
        </div>
     </div>
   );
 };
 
-export default GenerateHeader;
+export default SavedHeader;

@@ -11,10 +11,10 @@ const PricingPage = () => {
   const { setPricingState } = usePricing();
 
   const handleButtonClick = (plan) => {
-    console.log("Navigating with state: ", {
-      fromPricingPage: true,
-      selectedPlan: plan,
-    });
+    // console.log("Navigating with state: ", {
+      // fromPricingPage: true,
+      // selectedPlan: plan,
+    // });
 
     if (currentUser) {
       // User is logged in, navigate to dashboard

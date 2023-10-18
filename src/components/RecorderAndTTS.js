@@ -69,7 +69,8 @@ export const BothRecordAndTTS = ({
       <button className={tempAudioURL ? "playback-button" : "disabled-button"} onClick={tempAudioURL ? playBackBoth : () => alert('Make sure to record your voice first!')}>
         Playback alongside TTS!
       </button>
-      {showCountdown && <Countdown seconds={seconds} setSeconds={setSeconds} />}
+      {/* {showCountdown && <Countdown seconds={seconds} setSeconds={setSeconds} />} */}
+      {showCountdown && <Countdown />}
     </div>
   );
 };

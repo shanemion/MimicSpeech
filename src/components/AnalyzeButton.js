@@ -75,7 +75,7 @@ const AnalyzeButton = ({
           },
         };
         setPracticeData(newPracticeData);
-        console.log("Practice Data:", newPracticeData);
+        // console.log("Practice Data:", newPracticeData);
       } else {
         setSynthesizedPitchData(data.synthesized_pitch_data);
         setRecordedPitchData((prevData) => [

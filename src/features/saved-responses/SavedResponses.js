@@ -7,6 +7,7 @@ import LanguageContext from "../../services/language/LanguageContext";
 import "./SavedResponses.css";
 import { listAll } from "@firebase/storage";
 import LoaderIcon from "react-loader-icon";
+import SavedHeader from "../generate-page/header/SavedHeader";
 
 const SavedResponses = ({
   userPrompt,
@@ -21,10 +22,7 @@ const SavedResponses = ({
   const [isLoading, setIsLoading] = useState(true);
 
   const navigate = useNavigate();
-  const {
-    setFromLanguage,
-    setSelectedLanguage,
-  } = useContext(LanguageContext);
+  const { setFromLanguage, setSelectedLanguage } = useContext(LanguageContext);
   const [filterLanguage, setFilterLanguage] = useState("");
 
   useEffect(() => {
@@ -74,17 +72,17 @@ const SavedResponses = ({
   };
 
   const handleUseResponse = (response) => {
-    console.log("response", response);
+    // console.log("response", response);
     localStorage.setItem("responseId", response.id);
     localStorage.setItem("generatedResponse", response.text);
-    console.log("generatedResponse", response.text);
+    // console.log("generatedResponse", response.text);
     localStorage.setItem("responseLanguage", response.language);
     localStorage.setItem("numSentences", response.numSentences);
     setFromLanguage(response.fromLanguage);
     setSelectedLanguage(response.selectedLanguage);
     setUserPrompt(response.userPrompt);
-    console.log(response.userPrompt);
-    console.log("1", userPrompt);
+    // console.log(response.userPrompt);
+    // console.log("1", userPrompt);
     setResponseLength(response.responseLength);
     navigate("/generator");
     setIsSaved(true);
@@ -103,61 +101,69 @@ const SavedResponses = ({
   }
 
   return (
-    <div className="sr-container">
-      <h1 className="sr-title">Saved Responses</h1>
-      {filteredResponses.length === 0 ? (
-        <div>
-          <p className="sr-no-responses">
-            You have no saved responses yet. Press the bookmark icon on
-            scenarios you like to save them and reuse them at any time!
-          </p>
-        </div>
-      ) : (
-        <>
-          <div className="sr-filter-container">
-            <label className="sr-filter-label">
-              Filter by Completion Language:{" "}
-            </label>
-            <select
-              className="sr-filter-select"
-              onChange={(e) => setFilterLanguage(e.target.value)}
-            >
-              <option value="">All</option>
-              <option value="Chinese">Chinese</option>
-              <option value="English">English</option>
-              <option value="French">French</option>
-              <option value="German">German</option>
-              <option value="Italian">Italian</option>
-              <option value="Japanese">Japanese</option>
-              <option value="Korean">Korean</option>
-              <option value="Portuguese">Portuguese</option>
-              <option value="Russian">Russian</option>
-              <option value="Spanish">Spanish</option>
-              <option value="Vietnamese">Vietnamese</option>
-            </select>
+    <div>
+      <div style={{}}>
+        <SavedHeader typeResponse={null} setTypeResponse={null} />
+      </div>
+      <div className="sr-container">
+        {/* write div to take up width of screen*/}
+
+        <div style={{ height: "15px" }}></div>
+        <h1 className="sr-title">Saved Responses</h1>
+        {filteredResponses.length === 0 ? (
+          <div>
+            <p className="sr-no-responses">
+              You have no saved responses yet. Press the bookmark icon on
+              scenarios you like to save them and reuse them at any time!
+            </p>
           </div>
-          {filteredResponses.map((response, index) => (
-            <div key={index} className="sr-response">
-              <h2 className="sr-response-title">
-                {response.userPrompt || `Unnamed Response`}
-              </h2>
-              <p className="sr-response-text">{response.text}</p>
-              <button
-                className="sr-button sr-button-delete"
-                onClick={() => handleDelete(response.id)}
+        ) : (
+          <>
+            <div className="sr-filter-container">
+              <label className="sr-filter-label">
+                Filter by Completion Language:{" "}
+              </label>
+              <select
+                className="sr-filter-select"
+                onChange={(e) => setFilterLanguage(e.target.value)}
               >
-                Delete
-              </button>
-              <button
-                className="sr-button"
-                onClick={() => handleUseResponse(response)}
-              >
-                Use this Response
-              </button>
+                <option value="">All</option>
+                <option value="Chinese">Chinese</option>
+                <option value="English">English</option>
+                <option value="French">French</option>
+                <option value="German">German</option>
+                <option value="Italian">Italian</option>
+                <option value="Japanese">Japanese</option>
+                <option value="Korean">Korean</option>
+                <option value="Portuguese">Portuguese</option>
+                <option value="Russian">Russian</option>
+                <option value="Spanish">Spanish</option>
+                <option value="Vietnamese">Vietnamese</option>
+              </select>
             </div>
-          ))}
-        </>
-      )}
+            {filteredResponses.map((response, index) => (
+              <div key={index} className="sr-response">
+                <h2 className="sr-response-title">
+                  {response.userPrompt || `Unnamed Response`}
+                </h2>
+                <p className="sr-response-text">{response.text}</p>
+                <button
+                  className="sr-button sr-button-delete"
+                  onClick={() => handleDelete(response.id)}
+                >
+                  Delete
+                </button>
+                <button
+                  className="sr-button"
+                  onClick={() => handleUseResponse(response)}
+                >
+                  Use this Response
+                </button>
+              </div>
+            ))}
+          </>
+        )}
+      </div>
     </div>
   );
 };

@@ -3,6 +3,12 @@
     margin-left: 330px;
 }
 
+@media screen and (max-width: 1000px) {
+    .account-main-container {
+        margin-left: 0;
+    }
+}
+
 .account-dashboard-header {
     display: flex;
     flex-direction: row;
@@ -37,6 +43,16 @@
         margin-left: 0;
     }
 }
+
+@media (max-width: 1000px) {
+    .sidebar {
+      display: none;
+    }
+    .sidebar-wrapper {
+      display: none;
+    }
+}
+
 
 .manage-title {
     font-size: 2rem;
@@ -79,3 +95,67 @@
 .manage-cancel-button:hover {
     background-color: #cc0000;
 }
+
+
+.account-sidebar-wrapper {
+    flex: 1;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* height: 100vh; */
+    background-color: #f4f4f4;
+    padding: 40px;
+    max-width: 290px;  /* Prevent it from getting too big */
+    z-index: 1000; /* Optional: to ensure it stays on top of other content */
+    box-shadow: #ffffff 0px 0px 10px 0px;
+  }
+  
+  .sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: #f4f4f4;
+  }
+  
+  .sidebar-with-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(183, 214, 214);
+    height: 100vh;
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  
+  .sidebar-footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    background-color: rgb(18, 18, 18);
+    padding: 20px;
+    color: #fff;
+    border-radius: 25px;
+  }
+  
+  @media (max-width: 1000px) {
+    .sidebar {
+      display: none;
+    }
+    .sidebar-wrapper {
+      display: none;
+    }}
+
+
+.sidebar button {
+    width: 100%;
+    padding-top: 40px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }

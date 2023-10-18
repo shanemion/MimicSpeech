@@ -66,10 +66,10 @@ const AudioRecorder = ({
             `recordedAudios/${currentUser.uid}/${identifier}.wav`
           );
         }
-        console.log("storageRef", storageRef);
+        // console.log("storageRef", storageRef);
         await uploadBytes(storageRef, blob);
         recorder.stream.getTracks().forEach((track) => track.stop());
-        console.log(tempAudioURL);
+        // console.log(tempAudioURL);
         // Get the download URL and store it in local storage
         const audioURL = await getDownloadURL(storageRef);
         setUniqueAudioID(identifier)
@@ -77,8 +77,8 @@ const AudioRecorder = ({
         setIsAnalyzeButtonLoading(false);
         setTempAudioURL(audioURL);
         localStorage.setItem("user_audio_url", audioURL);
-        console.log("audioURL", audioURL);
-        console.log(localStorage.getItem("user_audio_url"))
+        // console.log("audioURL", audioURL);
+        // console.log(localStorage.getItem("user_audio_url"))
       });
       setIsRecording(false);
       setIsAnalyzeButtonDisabled(false);

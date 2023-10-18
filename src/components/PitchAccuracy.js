@@ -32,26 +32,26 @@ const PitchAccuracy = ({
   let synthesizedDataArray = [];
 
   useEffect(() => {
-    console.log("synthesizedPracticePitchData:", practiceData);
+    // console.log("synthesizedPracticePitchData:", practiceData);
   }, [practiceData]);
 
-  console.log("uniquePracticeAudioID:", uniquePracticeAudioID);
+  // console.log("uniquePracticeAudioID:", uniquePracticeAudioID);
   
   if (selectedPage === "Practice") {
       const key = `${selectedPage}-${selectedSentenceIndex}`;
   
       if (practiceData && practiceData[key]) {
           const entryArray = practiceData[key].recordedPracticePitchData;
-          console.log("Entry Array:", entryArray);
+          // console.log("Entry Array:", entryArray);
   
           // Find the specific entry based on the uniquePracticeAudioID
           const specificEntry = entryArray.find(entry => entry.id === uniquePracticeAudioID);
   
           if (specificEntry) {
               activeRecordedPitchData = specificEntry.data;
-              console.log("Active Pitch Data using the ID match:", activeRecordedPitchData);
+              // console.log("Active Pitch Data using the ID match:", activeRecordedPitchData);
           } else {
-              console.log("No matching ID found in the entry array.");
+              // console.log("No matching ID found in the entry array.");
           }
       }
 
@@ -62,16 +62,16 @@ const PitchAccuracy = ({
     if (synthesizedDataObj && synthesizedDataObj.length > 0) {
       synthesizedDataArray = synthesizedDataObj[0].data;
     }
-    console.log("Synthesized Data Array:", synthesizedDataArray)
+    // console.log("Synthesized Data Array:", synthesizedDataArray)
   } else {
     synthesizedDataArray = synthesizedPitchData || [];
     activeRecordedPitchData = recordedPitchData.data || [];
-    console.log(synthesizedDataArray)
-    console.log(activeRecordedPitchData)
+    // console.log(synthesizedDataArray)
+    // console.log(activeRecordedPitchData)
   }
 
-  console.log("Active Pitch Data Array:", synthesizedDataArray);
-  console.log("Active Recorded Pitch Data:", activeRecordedPitchData);
+  // console.log("Active Pitch Data Array:", synthesizedDataArray);
+  // console.log("Active Recorded Pitch Data:", activeRecordedPitchData);
 
   if (!activeRecordedPitchData || activeRecordedPitchData.length === 0) {
     return <div>Loading....</div>;

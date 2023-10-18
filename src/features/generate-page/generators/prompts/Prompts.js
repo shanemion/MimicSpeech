@@ -58,7 +58,7 @@ const GeneratePrompt = ({ fromLanguage, selectedLanguage, userPrompt, responseLe
           `;
       }
 
-      console.log("prompt", prompt)
+      // console.log("prompt", prompt)
   
       return prompt;
     };
@@ -66,7 +66,7 @@ const GeneratePrompt = ({ fromLanguage, selectedLanguage, userPrompt, responseLe
     // Generate the prompt
     const prompt = generatePrompt();
 
-    console.log("prompt", prompt)
+    // console.log("prompt", prompt)
   
     // You can either return the prompt directly or use it in your component logic
     return prompt;
