@@ -1,4 +1,4 @@
-View it here! https://mimicspeech.web.app/
+View it here! https://mimicspeech.com/
 
 Personal project designed to help improve accent and listening ability for foreign languages by recording themselves speak over a natural sounding, AI Text to Speech, presenting visual and calculated feedback. 
 
@@ -36,6 +36,6 @@ Created to learn React, databases, servers, and putting a project together from 
 
 Up next to implement: (optional) Incorporate / utilize Microsoft Speech to Text analysis tools to return per word accuracy rating and mouth visual of speech.
 
-not yet launched: currently, to run version on your own localhost you would need your own REACT_APP_OPENAI_KEY, REACT_APP_SPEECH_REGION, and REACT_APP_SPEECH_KEY, as well as your own firebase config. Currently working on launching, exploring hosting options. 
+launched (https://mimicspeech.com/): currently, to run version on your own localhost you would need your own REACT_APP_OPENAI_KEY, REACT_APP_SPEECH_REGION, and REACT_APP_SPEECH_KEY, as well as your own firebase config. Currently working on launching, exploring hosting options. 
 
-feedback / tips VERY welcome
+feedback / tips welcome!
