@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import analyzeAudio from "../utils/AnalyzeAudio";
 import LanguageContext from "../services/language/LanguageContext";
 import { useAuth } from "../services/firebase/FirebaseAuth";
